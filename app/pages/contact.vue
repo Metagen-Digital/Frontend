@@ -19,7 +19,7 @@ const contactDetails = [
     icon: 'mdi:whatsapp',
     label: 'WhatsApp',
     value: 'Chat on WhatsApp →',
-    href: 'https://wa.me/8801XXXXXXXXX',
+    href: 'https://wa.me/8801970222573',
     color: 'orange',
     external: true,
   },

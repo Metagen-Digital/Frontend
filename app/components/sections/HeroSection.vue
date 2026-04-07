@@ -230,7 +230,7 @@ const floatingBubbles = [
             class="mb-8"
           >
             <a
-              href="https://wa.me/8801XXXXXXXXX"
+              href="https://wa.me/8801970222573"
               target="_blank"
               rel="noopener noreferrer"
               class="inline-flex items-center gap-2 text-sm text-brand-text-muted hover:text-[#25D366] transition-colors duration-200 group"

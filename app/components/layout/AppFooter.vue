@@ -21,10 +21,10 @@ const legal = [
 ]
 
 const socials = [
-  { icon: 'mdi:facebook',  href: '#', label: 'Facebook',   bg: 'hover:bg-[#4c76be]' },
-  { icon: 'mdi:instagram', href: '#', label: 'Instagram',  bg: 'hover:bg-pink-600' },
-  { icon: 'mdi:linkedin',  href: '#', label: 'LinkedIn',   bg: 'hover:bg-[#0b86ca]' },
-  { icon: 'mdi:youtube',   href: '#', label: 'YouTube',    bg: 'hover:bg-[#fd3832]' },
+  { icon: 'mdi:facebook',  href: 'https://www.facebook.com/MetagenDigital',         label: 'Facebook',  bg: 'hover:bg-[#4c76be]' },
+  { icon: 'mdi:instagram', href: 'https://www.instagram.com/MetagenDigital',        label: 'Instagram', bg: 'hover:bg-pink-600' },
+  { icon: 'mdi:linkedin',  href: 'https://www.linkedin.com/company/MetagenDigital', label: 'LinkedIn',  bg: 'hover:bg-[#0b86ca]' },
+  { icon: 'mdi:youtube',   href: 'https://www.youtube.com/@MetagenDigital',         label: 'YouTube',   bg: 'hover:bg-[#fd3832]' },
 ]
 
 const currentYear = new Date().getFullYear()
@@ -106,21 +106,25 @@ const currentYear = new Date().getFullYear()
         <h3 class="text-sm font-semibold text-white uppercase tracking-widest mb-5">Contact</h3>
         <ul class="space-y-3 text-sm" style="color: #E8E8E8;">
           <li class="flex items-start gap-2.5">
+            <Icon name="mdi:map-marker-outline" class="w-4 h-4 mt-0.5 text-brand-orange flex-shrink-0" aria-hidden="true" />
+            <span>Kamarpara, Uttara, Dhaka, Bangladesh</span>
+          </li>
+          <li class="flex items-start gap-2.5">
+            <Icon name="mdi:phone-outline" class="w-4 h-4 mt-0.5 text-brand-orange flex-shrink-0" aria-hidden="true" />
+            <a href="tel:+8801970222573" class="hover:text-brand-orange transition-colors duration-150">
+              +88 01970-222573
+            </a>
+          </li>
+          <li class="flex items-start gap-2.5">
             <Icon name="mdi:email-outline" class="w-4 h-4 mt-0.5 text-brand-orange flex-shrink-0" aria-hidden="true" />
             <a href="mailto:hello@metagendigital.com" class="hover:text-brand-orange transition-colors duration-150 break-all">
               hello@metagendigital.com
             </a>
           </li>
           <li class="flex items-start gap-2.5">
-            <Icon name="mdi:phone-outline" class="w-4 h-4 mt-0.5 text-brand-orange flex-shrink-0" aria-hidden="true" />
-            <a href="tel:+8801XXXXXXXXX" class="hover:text-brand-orange transition-colors duration-150">
-              +880 1XXX-XXXXXX
-            </a>
-          </li>
-          <li class="flex items-start gap-2.5">
             <Icon name="mdi:whatsapp" class="w-4 h-4 mt-0.5 text-brand-orange flex-shrink-0" aria-hidden="true" />
             <a
-              href="https://wa.me/8801XXXXXXXXX"
+              href="https://wa.me/8801970222573"
               target="_blank"
               rel="noopener noreferrer"
               class="hover:text-brand-orange transition-colors duration-150"
