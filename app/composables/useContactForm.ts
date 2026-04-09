@@ -4,8 +4,8 @@ import * as yup from 'yup'
 const schema = yup.object({
   name:    yup.string().required('Name is required').min(2, 'Minimum 2 characters'),
   email:   yup.string().required('Email is required').email('Invalid email address'),
+  phone:   yup.string().optional(),
   service: yup.string().required('Please select a service'),
-  budget:  yup.string().optional(),
   message: yup.string().required('Message is required').min(10, 'Please write at least 10 characters'),
 })
 
@@ -18,25 +18,15 @@ export const services = [
   'Other',
 ]
 
-export const budgets = [
-  'Under $500',
-  '$500 – $1,000',
-  '$1,000 – $3,000',
-  '$3,000 – $5,000',
-  '$5,000+',
-  'Custom / Not sure',
-]
-
 export function useContactForm() {
-  const { toast } = useNuxtApp().$toast ?? {}
   const { success, error } = useToast()
 
   const { handleSubmit, isSubmitting, resetForm } = useForm({ validationSchema: schema })
 
   const name    = useField<string>('name')
   const email   = useField<string>('email')
+  const phone   = useField<string>('phone')
   const service = useField<string>('service')
-  const budget  = useField<string>('budget')
   const message = useField<string>('message')
 
   const submit = handleSubmit(async (values) => {
@@ -54,10 +44,9 @@ export function useContactForm() {
   })
 
   return {
-    fields: { name, email, service, budget, message },
+    fields: { name, email, phone, service, message },
     isSubmitting,
     submit,
     services,
-    budgets,
   }
 }

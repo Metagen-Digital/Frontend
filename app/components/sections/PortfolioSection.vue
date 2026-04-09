@@ -11,7 +11,9 @@ const items = [
     category: 'Web Dev' as PortfolioCategory,
     thumbnail: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&q=80&auto=format&fit=crop',
     tagColor: 'orange' as const,
-    result: '+180% organic traffic',
+    result: '+180% traffic',
+    client: 'TechCorp BD',
+    year: 2024,
   },
   {
     slug: 'shopbd-social',
@@ -20,6 +22,8 @@ const items = [
     thumbnail: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&q=80&auto=format&fit=crop',
     tagColor: 'purple' as const,
     result: '+400% engagement',
+    client: 'ShopBD',
+    year: 2024,
   },
   {
     slug: 'greengrow-photos',
@@ -27,31 +31,39 @@ const items = [
     category: 'Photography' as PortfolioCategory,
     thumbnail: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&q=80&auto=format&fit=crop',
     tagColor: 'cyan' as const,
-    result: '+60% conversion rate',
+    result: '+60% conversion',
+    client: 'GreenGrow',
+    year: 2024,
   },
   {
-    slug: 'urbanEats-brand-film',
-    title: 'UrbanEats Brand Film',
+    slug: 'urbaneats-brand-film',
+    title: 'UrbanEats Cinematic Brand Film',
     category: 'Video' as PortfolioCategory,
     thumbnail: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=800&q=80&auto=format&fit=crop',
     tagColor: 'orange' as const,
-    result: '2M+ video views',
+    result: '2M+ views',
+    client: 'UrbanEats',
+    year: 2024,
   },
   {
     slug: 'stylehouse-store',
-    title: 'StyleHouse E-commerce Store',
+    title: 'StyleHouse E-commerce Platform',
     category: 'E-commerce' as PortfolioCategory,
     thumbnail: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80&auto=format&fit=crop',
     tagColor: 'purple' as const,
-    result: '3x revenue growth',
+    result: '3× revenue',
+    client: 'StyleHouse',
+    year: 2024,
   },
   {
-    slug: 'eduprime-campaign',
+    slug: 'eduprime-marketing',
     title: 'EduPrime Digital Marketing',
     category: 'Web Dev' as PortfolioCategory,
     thumbnail: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80&auto=format&fit=crop',
     tagColor: 'cyan' as const,
-    result: '5x ROI on ad spend',
+    result: '5× ROI',
+    client: 'EduPrime',
+    year: 2023,
   },
 ]
 
@@ -115,6 +127,8 @@ const filtered = computed(() =>
           :to="`/portfolio/${item.slug}`"
           :tag-color="item.tagColor"
           :result="item.result"
+          :client="item.client"
+          :year="item.year"
         />
       </TransitionGroup>
 

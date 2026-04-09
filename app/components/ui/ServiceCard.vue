@@ -15,77 +15,80 @@ const props = withDefaults(defineProps<Props>(), {
   color: 'orange',
 })
 
-const accent: Record<string, string> = {
-  orange: 'bg-brand-orange',
-  purple: 'bg-brand-purple',
-  cyan:   'bg-brand-cyan',
+const cardConfig = {
+  orange: {
+    gradient:  'from-[#FF6B35] to-[#FF9A5C]',
+    glow:      'hover:shadow-[0_24px_60px_-8px_rgba(255,107,53,0.40)]',
+    border:    'hover:border-brand-orange/40',
+    text:      'text-brand-orange',
+    badge:     'bg-orange-50 text-orange-600 border-orange-200',
+    dot:       'bg-brand-orange',
+    arrow:     'bg-brand-orange hover:bg-orange-600',
+    featureBg: 'bg-orange-50/60',
+  },
+  purple: {
+    gradient:  'from-[#7C3AED] to-[#9D5CF5]',
+    glow:      'hover:shadow-[0_24px_60px_-8px_rgba(124,58,237,0.40)]',
+    border:    'hover:border-brand-purple/40',
+    text:      'text-brand-purple',
+    badge:     'bg-violet-50 text-violet-600 border-violet-200',
+    dot:       'bg-brand-purple',
+    arrow:     'bg-brand-purple hover:bg-violet-700',
+    featureBg: 'bg-violet-50/60',
+  },
+  cyan: {
+    gradient:  'from-[#0EA5E9] to-[#38BDF8]',
+    glow:      'hover:shadow-[0_24px_60px_-8px_rgba(14,165,233,0.40)]',
+    border:    'hover:border-brand-cyan/40',
+    text:      'text-brand-cyan',
+    badge:     'bg-sky-50 text-sky-600 border-sky-200',
+    dot:       'bg-brand-cyan',
+    arrow:     'bg-brand-cyan hover:bg-sky-600',
+    featureBg: 'bg-sky-50/60',
+  },
 }
 
-const iconGradient: Record<string, string> = {
-  orange: 'from-brand-orange/20 to-brand-orange/5 text-brand-orange',
-  purple: 'from-brand-purple/20 to-brand-purple/5 text-brand-purple',
-  cyan:   'from-brand-cyan/20 to-brand-cyan/5 text-brand-cyan',
-}
-
-const taglinePill: Record<string, string> = {
-  orange: 'bg-brand-orange/10 text-brand-orange',
-  purple: 'bg-brand-purple/10 text-brand-purple',
-  cyan:   'bg-brand-cyan/10 text-brand-cyan',
-}
-
-const hoverGlow: Record<string, string> = {
-  orange: 'hover:shadow-glow-orange hover:border-brand-orange/30',
-  purple: 'hover:shadow-glow-purple hover:border-brand-purple/30',
-  cyan:   'hover:shadow-glow-cyan hover:border-brand-cyan/30',
-}
-
-const ctaColor: Record<string, string> = {
-  orange: 'text-brand-orange group-hover:bg-brand-orange',
-  purple: 'text-brand-purple group-hover:bg-brand-purple',
-  cyan:   'text-brand-cyan group-hover:bg-brand-cyan',
-}
-
-const featureDot: Record<string, string> = {
-  orange: 'bg-brand-orange',
-  purple: 'bg-brand-purple',
-  cyan:   'bg-brand-cyan',
-}
+const cfg = computed(() => cardConfig[props.color])
 </script>
 
 <template>
   <NuxtLink
     :to="to"
-    class="group relative flex flex-col overflow-hidden rounded-card border border-brand-border bg-white shadow-card transition-all duration-300 cursor-pointer"
-    :class="hoverGlow[color]"
+    class="group relative flex flex-col overflow-hidden rounded-2xl bg-white border border-brand-border shadow-card transition-all duration-300 cursor-pointer hover:-translate-y-2"
+    :class="[cfg.glow, cfg.border]"
   >
-    <!-- Top color accent bar -->
-    <div class="h-1 w-full flex-shrink-0" :class="accent[color]" />
+    <!-- Gradient hero top with floating icon -->
+    <div
+      class="relative h-44 flex items-center justify-center overflow-hidden bg-gradient-to-br"
+      :class="cfg.gradient"
+    >
+      <!-- Background decorative circles -->
+      <div class="absolute -right-10 -top-10 w-44 h-44 rounded-full bg-white/10 pointer-events-none" />
+      <div class="absolute -left-8 bottom-0 w-32 h-32 rounded-full bg-white/10 pointer-events-none" />
+      <div class="absolute right-8 bottom-5 w-14 h-14 rounded-full bg-white/10 pointer-events-none" />
+
+      <!-- Floating icon box -->
+      <div
+        class="relative z-10 w-20 h-20 flex items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm ring-1 ring-white/30 shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:bg-white/30"
+      >
+        <Icon :name="icon" class="w-10 h-10 text-white drop-shadow" aria-hidden="true" />
+      </div>
+    </div>
 
     <!-- Card body -->
     <div class="flex flex-col flex-1 p-6">
 
-      <!-- Icon + tagline row -->
-      <div class="flex items-start justify-between gap-3 mb-5">
-        <!-- Icon circle with gradient bg -->
-        <div
-          class="w-14 h-14 flex items-center justify-center rounded-2xl bg-gradient-to-br flex-shrink-0 shadow-sm transition-transform duration-300 group-hover:scale-110"
-          :class="iconGradient[color]"
-        >
-          <Icon :name="icon" class="w-7 h-7" aria-hidden="true" />
-        </div>
-
-        <!-- Tagline pill -->
-        <span
-          v-if="tagline"
-          class="mt-1 inline-block px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider flex-shrink-0"
-          :class="taglinePill[color]"
-        >
-          {{ tagline }}
-        </span>
-      </div>
+      <!-- Tagline pill -->
+      <span
+        v-if="tagline"
+        class="inline-block self-start mb-3 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border"
+        :class="cfg.badge"
+      >
+        {{ tagline }}
+      </span>
 
       <!-- Title -->
-      <h3 class="text-[17px] font-bold text-brand-text-primary mb-2.5 leading-snug">
+      <h3 class="text-[18px] font-bold text-brand-text-primary mb-2.5 leading-snug group-hover:text-brand-primary transition-colors duration-200">
         {{ title }}
       </h3>
 
@@ -95,34 +98,28 @@ const featureDot: Record<string, string> = {
       </p>
 
       <!-- Feature chips -->
-      <div v-if="features.length" class="flex flex-wrap gap-1.5 mb-6">
+      <div v-if="features.length" class="flex flex-wrap gap-1.5 mb-5">
         <span
           v-for="feature in features"
           :key="feature"
-          class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-brand-surface border border-brand-border text-[11px] font-medium text-brand-text-secondary"
+          class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-brand-border text-[11px] font-medium text-brand-text-secondary transition-colors duration-200 group-hover:border-brand-border/60"
+          :class="cfg.featureBg"
         >
-          <span class="w-1.5 h-1.5 rounded-full flex-shrink-0" :class="featureDot[color]" />
+          <span class="w-1.5 h-1.5 rounded-full flex-shrink-0" :class="cfg.dot" />
           {{ feature }}
         </span>
       </div>
 
       <!-- CTA row -->
       <div class="flex items-center justify-between pt-4 border-t border-brand-border">
-        <span
-          class="text-sm font-semibold transition-colors duration-200"
-          :class="ctaColor[color].split(' ')[0]"
-        >
-          Learn More
+        <span class="text-sm font-semibold transition-colors duration-200" :class="cfg.text">
+          View Details
         </span>
         <div
-          class="w-8 h-8 rounded-full border border-current flex items-center justify-center transition-all duration-250 group-hover:text-white group-hover:border-transparent"
-          :class="ctaColor[color]"
+          class="w-9 h-9 rounded-xl flex items-center justify-center text-white transition-all duration-250 group-hover:translate-x-1 group-hover:scale-110"
+          :class="cfg.arrow"
         >
-          <Icon
-            name="mdi:arrow-right"
-            class="w-4 h-4 transition-transform duration-250 group-hover:translate-x-0.5"
-            aria-hidden="true"
-          />
+          <Icon name="mdi:arrow-right" class="w-4 h-4" aria-hidden="true" />
         </div>
       </div>
 

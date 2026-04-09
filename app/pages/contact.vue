@@ -1,233 +1,564 @@
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Contact Us | MetaGenDigital',
-  description: 'Get in touch with MetaGenDigital. Let\'s discuss your project and how we can help grow your business online.',
-})
+  title: "Contact Us | MetaGenDigital",
+  description:
+    "Get in touch with MetaGenDigital. Let's discuss your project and how we can help grow your business online.",
+});
 
-const { fields, isSubmitting, submit, services, budgets } = useContactForm()
-const { name, email, service, budget, message } = fields
+const { fields, isSubmitting, submit, services } = useContactForm();
+const { name, email, phone, service, message } = fields;
 
-const contactDetails = [
+const contactCards = [
   {
-    icon: 'mdi:email-outline',
-    label: 'Email',
-    value: 'hello@metagendigital.com',
-    href: 'mailto:hello@metagendigital.com',
-    color: 'orange',
+    icon: "mdi:map-marker-outline",
+    label: "Our Office",
+    value: "Kamarpara, Uttara",
+    sub: "Dhaka, Bangladesh",
+    color: "orange",
   },
   {
-    icon: 'mdi:whatsapp',
-    label: 'WhatsApp',
-    value: 'Chat on WhatsApp →',
-    href: 'https://wa.me/8801970222573',
-    color: 'orange',
-    external: true,
+    icon: "mdi:phone-outline",
+    label: "Phone",
+    value: "+88 01970-222573",
+    sub: "Call or SMS anytime",
+    href: "tel:+8801970222573",
+    color: "purple",
   },
   {
-    icon: 'mdi:map-marker-outline',
-    label: 'Location',
-    value: 'Dhaka, Bangladesh',
-    color: 'orange',
+    icon: "mdi:email-outline",
+    label: "Email",
+    value: "hello@metagendigital.com",
+    sub: "We reply within 24 hrs",
+    href: "mailto:hello@metagendigital.com",
+    color: "cyan",
   },
-  {
-    icon: 'mdi:clock-outline',
-    label: 'Working Hours',
-    value: 'Sun – Thu, 9am – 6pm (BST)',
-    color: 'orange',
-  },
-]
+];
 
-const iconBg: Record<string, string> = {
-  orange: 'bg-brand-orange/10 text-brand-orange',
-  purple: 'bg-brand-purple/10 text-brand-purple',
-}
+const socials = [
+  {
+    icon: "mdi:facebook",
+    label: "Facebook",
+    handle: "@MetagenDigital",
+    href: "https://www.facebook.com/MetagenDigital",
+    color: "#1877F2",
+    bg: "bg-[#1877F2]/10",
+    border: "hover:border-[#1877F2]/40",
+    hoverText: "hover:text-[#1877F2]",
+  },
+  {
+    icon: "mdi:instagram",
+    label: "Instagram",
+    handle: "@MetagenDigital",
+    href: "https://www.instagram.com/MetagenDigital",
+    color: "#E1306C",
+    bg: "bg-[#E1306C]/10",
+    border: "hover:border-[#E1306C]/40",
+    hoverText: "hover:text-[#E1306C]",
+  },
+  {
+    icon: "mdi:linkedin",
+    label: "LinkedIn",
+    handle: "MetagenDigital",
+    href: "https://www.linkedin.com/company/MetagenDigital",
+    color: "#0A66C2",
+    bg: "bg-[#0A66C2]/10",
+    border: "hover:border-[#0A66C2]/40",
+    hoverText: "hover:text-[#0A66C2]",
+  },
+  {
+    icon: "mdi:youtube",
+    label: "YouTube",
+    handle: "@MetagenDigital",
+    href: "https://www.youtube.com/@MetagenDigital",
+    color: "#FF0000",
+    bg: "bg-[#FF0000]/10",
+    border: "hover:border-[#FF0000]/40",
+    hoverText: "hover:text-[#FF0000]",
+  },
+];
+
+const iconGradient: Record<string, string> = {
+  orange: "from-brand-orange/20 to-brand-orange/5 text-brand-orange",
+  purple: "from-brand-purple/20 to-brand-purple/5 text-brand-purple",
+  cyan: "from-brand-cyan/20   to-brand-cyan/5   text-brand-cyan",
+};
+
+const accentBar: Record<string, string> = {
+  orange: "bg-brand-orange",
+  purple: "bg-brand-purple",
+  cyan: "bg-brand-cyan",
+};
 </script>
 
 <template>
   <div>
-    <!-- Page hero -->
-    <section class="pt-32 pb-14 bg-brand-surface border-b border-brand-border overflow-hidden relative">
-      <div class="absolute inset-0 bg-grid-pattern bg-grid opacity-30 pointer-events-none" aria-hidden="true" />
+    <!-- ── HERO ───────────────────────────────────────────────── -->
+    <section
+      class="relative pt-32 pb-20 bg-brand-surface border-b border-brand-border overflow-hidden"
+    >
+      <div
+        class="absolute inset-0 bg-grid-pattern bg-grid opacity-30 pointer-events-none"
+        aria-hidden="true"
+      />
+      <div
+        class="absolute -left-32 top-1/3 w-96 h-96 rounded-full blur-3xl pointer-events-none"
+        style="background: rgba(48, 60, 142, 0.07)"
+        aria-hidden="true"
+      />
+      <div
+        class="absolute -right-20 bottom-0 w-80 h-80 rounded-full blur-3xl pointer-events-none"
+        style="background: rgba(124, 58, 237, 0.06)"
+        aria-hidden="true"
+      />
+
       <div class="container-content relative z-10">
         <AppBreadcrumb :crumbs="[{ label: 'Contact' }]" class="mb-6" />
         <div
           v-motion
           :initial="{ opacity: 0, y: 20 }"
           :enter="{ opacity: 1, y: 0, transition: { duration: 600 } }"
+          class="max-w-2xl"
         >
-          <SectionBadge icon="mdi:chat-outline" color="orange" class="mb-5">Get In Touch</SectionBadge>
-          <h1 class="text-brand-text-primary mb-4">
+          <SectionBadge icon="mdi:chat-outline" color="orange" class="mb-5"
+            >Get In Touch</SectionBadge
+          >
+          <h1 class="text-brand-text-primary mt-4 mb-4">
             Let's <span class="gradient-text">Work Together</span>
           </h1>
-          <p class="text-brand-text-secondary text-lg max-w-xl">
-            Tell us about your project and we'll get back to you within 24 hours.
+          <p class="text-brand-text-secondary text-lg leading-relaxed">
+            Have a project in mind? We'd love to hear about it. Fill in the form
+            or reach us directly — we usually respond within a few hours.
           </p>
+        </div>
+
+        <!-- Contact info cards row -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-12">
+          <div
+            v-for="(card, i) in contactCards"
+            :key="card.label"
+            v-motion
+            :initial="{ opacity: 0, y: 16 }"
+            :enter="{
+              opacity: 1,
+              y: 0,
+              transition: { delay: i * 80, duration: 500 },
+            }"
+            class="group relative overflow-hidden rounded-2xl border border-brand-border bg-white shadow-card hover:shadow-card-hover transition-all duration-300 p-4"
+            :class="{
+              'hover:border-brand-orange/30': card.color === 'orange',
+              'hover:border-brand-purple/30': card.color === 'purple',
+              'hover:border-brand-cyan/30': card.color === 'cyan',
+            }"
+          >
+            <div
+              class="h-0.5 absolute top-0 left-0 right-0"
+              :class="accentBar[card.color]"
+            />
+            <div
+              class="w-10 h-10 flex items-center justify-center rounded-xl bg-gradient-to-br mb-3 transition-transform duration-300 group-hover:scale-110"
+              :class="iconGradient[card.color]"
+            >
+              <Icon :name="card.icon" class="w-5 h-5" aria-hidden="true" />
+            </div>
+            <p
+              class="text-[10px] text-brand-text-muted uppercase tracking-widest font-semibold mb-0.5"
+            >
+              {{ card.label }}
+            </p>
+            <a
+              v-if="card.href"
+              :href="card.href"
+              class="block text-sm font-bold text-brand-text-primary hover:text-brand-primary transition-colors duration-150 truncate"
+            >
+              {{ card.value }}
+            </a>
+            <p v-else class="text-sm font-bold text-brand-text-primary">
+              {{ card.value }}
+            </p>
+            <p class="text-[11px] text-brand-text-muted mt-0.5">
+              {{ card.sub }}
+            </p>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Main content -->
+    <!-- ── MAIN: Form + Sidebar ──────────────────────────────── -->
     <section class="section-padding bg-white">
       <div class="container-content">
-        <div class="grid grid-cols-1 lg:grid-cols-5 gap-12">
-
-          <!-- Left: contact info -->
-          <div class="lg:col-span-2 space-y-8">
-            <div>
-              <h2 class="text-2xl font-bold text-brand-text-primary mb-2">Contact Information</h2>
-              <p class="text-brand-text-secondary text-sm mb-7">
-                Reach out through any channel and our team will respond promptly.
-              </p>
-
-              <ul class="space-y-5">
-                <li
-                  v-for="item in contactDetails"
-                  :key="item.label"
-                  class="flex items-start gap-4"
-                >
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-10 xl:gap-14">
+          <!-- ── LEFT SIDEBAR ────────────────────────────────── -->
+          <div class="lg:col-span-2 flex flex-col gap-8">
+            <!-- WhatsApp CTA card -->
+            <div
+              v-motion
+              :initial="{ opacity: 0, x: -20 }"
+              :visible-once="{
+                opacity: 1,
+                x: 0,
+                transition: { duration: 600 },
+              }"
+              class="relative overflow-hidden rounded-2xl bg-gradient-brand p-px"
+            >
+              <div class="relative rounded-[15px] bg-gradient-brand p-6">
+                <div
+                  class="absolute inset-0 bg-grid-pattern bg-grid opacity-10 rounded-[15px] pointer-events-none"
+                  aria-hidden="true"
+                />
+                <div class="relative z-10">
                   <div
-                    class="w-10 h-10 flex items-center justify-center rounded-xl flex-shrink-0"
-                    :class="iconBg[item.color]"
+                    class="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center mb-4"
                   >
-                    <Icon :name="item.icon" class="w-5 h-5" aria-hidden="true" />
+                    <Icon
+                      name="mdi:whatsapp"
+                      class="w-6 h-6 text-white"
+                      aria-hidden="true"
+                    />
                   </div>
-                  <div>
-                    <p class="text-xs text-brand-text-muted font-medium mb-0.5">{{ item.label }}</p>
-                    <a
-                      v-if="item.href"
-                      :href="item.href"
-                      :target="item.external ? '_blank' : undefined"
-                      :rel="item.external ? 'noopener noreferrer' : undefined"
-                      class="text-brand-text-primary font-medium hover:text-brand-orange transition-colors duration-150"
-                    >
-                      {{ item.value }}
-                    </a>
-                    <p v-else class="text-brand-text-primary font-medium">{{ item.value }}</p>
-                  </div>
-                </li>
-              </ul>
+                  <h3 class="text-white font-bold text-lg mb-1">
+                    Prefer WhatsApp?
+                  </h3>
+                  <p class="text-white/75 text-sm mb-5 leading-relaxed">
+                    Chat with us directly. We usually reply within 1 hour during
+                    working hours.
+                  </p>
+                  <a
+                    href="https://wa.me/8801970222573"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-2 px-5 py-2.5 bg-white rounded-btn text-brand-primary font-bold text-sm hover:bg-brand-surface transition-colors duration-200"
+                  >
+                    <Icon
+                      name="mdi:whatsapp"
+                      class="w-4 h-4 text-[#25D366]"
+                      aria-hidden="true"
+                    />
+                    Chat on WhatsApp
+                    <Icon
+                      name="mdi:arrow-right"
+                      class="w-4 h-4"
+                      aria-hidden="true"
+                    />
+                  </a>
+                </div>
+              </div>
             </div>
 
-            <!-- Social links -->
-            <div class="pt-6 border-t border-brand-border">
-              <p class="text-xs text-brand-text-muted uppercase tracking-widest font-medium mb-4">Follow Us</p>
-              <div class="flex gap-3">
+            <!-- Follow us -->
+            <div
+              v-motion
+              :initial="{ opacity: 0, x: -20 }"
+              :visible-once="{
+                opacity: 1,
+                x: 0,
+                transition: { delay: 100, duration: 600 },
+              }"
+              class="rounded-2xl border border-brand-border bg-white shadow-card p-6"
+            >
+              <h3 class="text-base font-bold text-brand-text-primary mb-1">
+                Follow Us
+              </h3>
+              <p class="text-sm text-brand-text-muted mb-5">
+                Stay updated with our latest work and insights.
+              </p>
+
+              <div class="space-y-3">
                 <a
-                  href="https://www.facebook.com/metagendigital"
+                  v-for="social in socials"
+                  :key="social.label"
+                  :href="social.href"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="w-10 h-10 flex items-center justify-center rounded-xl bg-brand-surface border border-brand-border text-brand-text-secondary hover:text-[#4c76be] hover:border-[#4c76be]/30 transition-all duration-150"
-                  aria-label="Facebook"
+                  class="flex items-center gap-3 p-3 rounded-xl border border-brand-border bg-brand-surface transition-all duration-200 group"
+                  :class="[social.border, social.hoverText]"
                 >
-                  <Icon name="mdi:facebook" class="w-5 h-5" aria-hidden="true" />
+                  <!-- Icon with brand background -->
+                  <div
+                    class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover:scale-110"
+                    :class="social.bg"
+                    :style="{ color: social.color }"
+                  >
+                    <Icon
+                      :name="social.icon"
+                      class="w-4.5 h-4.5"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <p
+                      class="text-[13px] font-bold text-brand-text-primary leading-none group-hover:text-current transition-colors duration-200"
+                    >
+                      {{ social.label }}
+                    </p>
+                    <p class="text-[11px] text-brand-text-muted mt-0.5">
+                      {{ social.handle }}
+                    </p>
+                  </div>
+                  <Icon
+                    name="mdi:arrow-right"
+                    class="w-4 h-4 text-brand-text-muted transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-current flex-shrink-0"
+                    aria-hidden="true"
+                  />
                 </a>
-                <a
-                  href="https://www.linkedin.com/company/metagendigital"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="w-10 h-10 flex items-center justify-center rounded-xl bg-brand-surface border border-brand-border text-brand-text-secondary hover:text-[#0b86ca] hover:border-[#0b86ca]/30 transition-all duration-150"
-                  aria-label="LinkedIn"
+              </div>
+            </div>
+
+            <!-- Quick info -->
+            <div
+              v-motion
+              :initial="{ opacity: 0, x: -20 }"
+              :visible-once="{
+                opacity: 1,
+                x: 0,
+                transition: { delay: 180, duration: 600 },
+              }"
+              class="rounded-2xl border border-brand-border bg-brand-surface p-5 space-y-3"
+            >
+              <div class="flex items-center gap-3">
+                <div
+                  class="w-8 h-8 rounded-lg bg-brand-success/10 flex items-center justify-center flex-shrink-0"
                 >
-                  <Icon name="mdi:linkedin" class="w-5 h-5" aria-hidden="true" />
-                </a>
-                <a
-                  href="https://www.instagram.com/metagendigital"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="w-10 h-10 flex items-center justify-center rounded-xl bg-brand-surface border border-brand-border text-brand-text-secondary hover:text-brand-orange hover:border-brand-orange/30 transition-all duration-150"
-                  aria-label="Instagram"
+                  <Icon
+                    name="mdi:check-circle-outline"
+                    class="w-4 h-4 text-brand-success"
+                    aria-hidden="true"
+                  />
+                </div>
+                <p class="text-sm text-brand-text-secondary">
+                  <span class="font-semibold text-brand-text-primary"
+                    >Free consultation</span
+                  >
+                  on every enquiry
+                </p>
+              </div>
+              <div class="flex items-center gap-3">
+                <div
+                  class="w-8 h-8 rounded-lg bg-brand-orange/10 flex items-center justify-center flex-shrink-0"
                 >
-                  <Icon name="mdi:instagram" class="w-5 h-5" aria-hidden="true" />
-                </a>
+                  <Icon
+                    name="mdi:clock-fast"
+                    class="w-4 h-4 text-brand-orange"
+                    aria-hidden="true"
+                  />
+                </div>
+                <p class="text-sm text-brand-text-secondary">
+                  <span class="font-semibold text-brand-text-primary"
+                    >Reply within 24 hours</span
+                  >
+                  — usually much faster
+                </p>
+              </div>
+              <div class="flex items-center gap-3">
+                <div
+                  class="w-8 h-8 rounded-lg bg-brand-primary/10 flex items-center justify-center flex-shrink-0"
+                >
+                  <Icon
+                    name="mdi:shield-lock-outline"
+                    class="w-4 h-4 text-brand-primary"
+                    aria-hidden="true"
+                  />
+                </div>
+                <p class="text-sm text-brand-text-secondary">
+                  <span class="font-semibold text-brand-text-primary"
+                    >Your info is private</span
+                  >
+                  — never shared
+                </p>
               </div>
             </div>
           </div>
 
-          <!-- Right: contact form -->
-          <div class="lg:col-span-3">
-            <div class="bg-white border border-brand-border rounded-card shadow-card p-7 md:p-9">
-              <h2 class="text-xl font-bold text-brand-text-primary mb-6">Send Us a Message</h2>
+          <!-- ── CONTACT FORM ────────────────────────────────── -->
+          <div
+            class="lg:col-span-3"
+            v-motion
+            :initial="{ opacity: 0, x: 24 }"
+            :visible-once="{
+              opacity: 1,
+              x: 0,
+              transition: { delay: 100, duration: 600 },
+            }"
+          >
+            <div
+              class="rounded-2xl border border-brand-border bg-white shadow-card overflow-hidden"
+            >
+              <!-- Form header -->
+              <div class="px-7 pt-7 pb-5 border-b border-brand-border">
+                <h2 class="text-xl font-bold text-brand-text-primary mb-1">
+                  Send Us a Message
+                </h2>
+                <p class="text-sm text-brand-text-muted">
+                  Fill in the details below and we'll be in touch shortly.
+                </p>
+              </div>
 
-              <form class="space-y-5" @submit.prevent="submit">
-
-                <!-- Name + Email -->
+              <form class="p-7 space-y-5" @submit.prevent="submit">
+                <!-- Name + Phone -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <!-- Name -->
                   <div>
-                    <label for="contact-name" class="block text-sm font-medium text-brand-text-primary mb-1.5">
+                    <label
+                      for="contact-name"
+                      class="block text-sm font-semibold text-brand-text-primary mb-1.5"
+                    >
                       Your Name <span class="text-brand-orange">*</span>
                     </label>
-                    <input
-                      id="contact-name"
-                      v-model="name.value.value"
-                      type="text"
-                      placeholder="e.g. Rafiq Ahmed"
-                      autocomplete="name"
-                      class="w-full px-4 py-2.5 rounded-xl border text-sm text-brand-text-primary placeholder:text-brand-text-muted bg-white transition-colors duration-150 outline-none"
-                      :class="name.errorMessage.value
-                        ? 'border-red-400 focus:border-red-400 focus:ring-2 focus:ring-red-100'
-                        : 'border-brand-border focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/10'"
-                    />
-                    <p v-if="name.errorMessage.value" class="mt-1 text-xs text-red-500">{{ name.errorMessage.value }}</p>
+                    <div class="relative">
+                      <Icon
+                        name="mdi:account-outline"
+                        class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-text-muted pointer-events-none"
+                        aria-hidden="true"
+                      />
+                      <input
+                        id="contact-name"
+                        v-model="name.value.value"
+                        type="text"
+                        placeholder="e.g. Mokammel Tanvir"
+                        autocomplete="name"
+                        class="w-full pl-10 pr-4 py-2.5 rounded-xl border text-sm text-brand-text-primary placeholder:text-brand-text-muted bg-white transition-all duration-150 outline-none"
+                        :class="
+                          name.errorMessage.value
+                            ? 'border-red-400 focus:border-red-400 focus:ring-2 focus:ring-red-100'
+                            : 'border-brand-border focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/10'
+                        "
+                      />
+                    </div>
+                    <p
+                      v-if="name.errorMessage.value"
+                      class="mt-1 text-xs text-red-500 flex items-center gap-1"
+                    >
+                      <Icon
+                        name="mdi:alert-circle-outline"
+                        class="w-3.5 h-3.5 flex-shrink-0"
+                      />
+                      {{ name.errorMessage.value }}
+                    </p>
                   </div>
 
-                  <!-- Email -->
                   <div>
-                    <label for="contact-email" class="block text-sm font-medium text-brand-text-primary mb-1.5">
-                      Email Address <span class="text-brand-orange">*</span>
+                    <label
+                      for="contact-phone"
+                      class="block text-sm font-semibold text-brand-text-primary mb-1.5"
+                    >
+                      Phone Number
+                      <span
+                        class="text-brand-text-muted font-normal text-xs ml-1"
+                        >(optional)</span
+                      >
                     </label>
+                    <div class="relative">
+                      <Icon
+                        name="mdi:phone-outline"
+                        class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-text-muted pointer-events-none"
+                        aria-hidden="true"
+                      />
+                      <input
+                        id="contact-phone"
+                        v-model="phone.value.value"
+                        type="tel"
+                        placeholder="+88 01XXX-XXXXXX"
+                        autocomplete="tel"
+                        class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-brand-border text-sm text-brand-text-primary placeholder:text-brand-text-muted bg-white transition-all duration-150 outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/10"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Email -->
+                <div>
+                  <label
+                    for="contact-email"
+                    class="block text-sm font-semibold text-brand-text-primary mb-1.5"
+                  >
+                    Email Address <span class="text-brand-orange">*</span>
+                  </label>
+                  <div class="relative">
+                    <Icon
+                      name="mdi:email-outline"
+                      class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-text-muted pointer-events-none"
+                      aria-hidden="true"
+                    />
                     <input
                       id="contact-email"
                       v-model="email.value.value"
                       type="email"
                       placeholder="you@example.com"
                       autocomplete="email"
-                      class="w-full px-4 py-2.5 rounded-xl border text-sm text-brand-text-primary placeholder:text-brand-text-muted bg-white transition-colors duration-150 outline-none"
-                      :class="email.errorMessage.value
-                        ? 'border-red-400 focus:border-red-400 focus:ring-2 focus:ring-red-100'
-                        : 'border-brand-border focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/10'"
+                      class="w-full pl-10 pr-4 py-2.5 rounded-xl border text-sm text-brand-text-primary placeholder:text-brand-text-muted bg-white transition-all duration-150 outline-none"
+                      :class="
+                        email.errorMessage.value
+                          ? 'border-red-400 focus:border-red-400 focus:ring-2 focus:ring-red-100'
+                          : 'border-brand-border focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/10'
+                      "
                     />
-                    <p v-if="email.errorMessage.value" class="mt-1 text-xs text-red-500">{{ email.errorMessage.value }}</p>
                   </div>
+                  <p
+                    v-if="email.errorMessage.value"
+                    class="mt-1 text-xs text-red-500 flex items-center gap-1"
+                  >
+                    <Icon
+                      name="mdi:alert-circle-outline"
+                      class="w-3.5 h-3.5 flex-shrink-0"
+                    />
+                    {{ email.errorMessage.value }}
+                  </p>
                 </div>
 
                 <!-- Service -->
                 <div>
-                  <label for="contact-service" class="block text-sm font-medium text-brand-text-primary mb-1.5">
-                    Service Interested In <span class="text-brand-orange">*</span>
-                  </label>
-                  <select
-                    id="contact-service"
-                    v-model="service.value.value"
-                    class="w-full px-4 py-2.5 rounded-xl border text-sm text-brand-text-primary bg-white transition-colors duration-150 outline-none appearance-none"
-                    :class="service.errorMessage.value
-                      ? 'border-red-400 focus:border-red-400 focus:ring-2 focus:ring-red-100'
-                      : 'border-brand-border focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/10'"
+                  <label
+                    for="contact-service"
+                    class="block text-sm font-semibold text-brand-text-primary mb-1.5"
                   >
-                    <option value="" disabled selected>Select a service…</option>
-                    <option v-for="svc in services" :key="svc" :value="svc">{{ svc }}</option>
-                  </select>
-                  <p v-if="service.errorMessage.value" class="mt-1 text-xs text-red-500">{{ service.errorMessage.value }}</p>
-                </div>
-
-                <!-- Budget -->
-                <div>
-                  <label for="contact-budget" class="block text-sm font-medium text-brand-text-primary mb-1.5">
-                    Budget Range <span class="text-brand-text-muted font-normal">(optional)</span>
+                    Service Interested In
+                    <span class="text-brand-orange">*</span>
                   </label>
-                  <select
-                    id="contact-budget"
-                    v-model="budget.value.value"
-                    class="w-full px-4 py-2.5 rounded-xl border border-brand-border text-sm text-brand-text-primary bg-white transition-colors duration-150 outline-none appearance-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/10"
+                  <div class="relative">
+                    <Icon
+                      name="mdi:lightning-bolt"
+                      class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-text-muted pointer-events-none"
+                      aria-hidden="true"
+                    />
+                    <select
+                      id="contact-service"
+                      v-model="service.value.value"
+                      class="w-full pl-10 pr-10 py-2.5 rounded-xl border text-sm text-brand-text-primary bg-white transition-all duration-150 outline-none appearance-none"
+                      :class="
+                        service.errorMessage.value
+                          ? 'border-red-400 focus:border-red-400 focus:ring-2 focus:ring-red-100'
+                          : 'border-brand-border focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/10'
+                      "
+                    >
+                      <option value="" disabled selected>
+                        Select a service…
+                      </option>
+                      <option v-for="svc in services" :key="svc" :value="svc">
+                        {{ svc }}
+                      </option>
+                    </select>
+                    <Icon
+                      name="mdi:chevron-down"
+                      class="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-text-muted pointer-events-none"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <p
+                    v-if="service.errorMessage.value"
+                    class="mt-1 text-xs text-red-500 flex items-center gap-1"
                   >
-                    <option value="">Select budget range…</option>
-                    <option v-for="b in budgets" :key="b" :value="b">{{ b }}</option>
-                  </select>
+                    <Icon
+                      name="mdi:alert-circle-outline"
+                      class="w-3.5 h-3.5 flex-shrink-0"
+                    />
+                    {{ service.errorMessage.value }}
+                  </p>
                 </div>
 
                 <!-- Message -->
                 <div>
-                  <label for="contact-message" class="block text-sm font-medium text-brand-text-primary mb-1.5">
+                  <label
+                    for="contact-message"
+                    class="block text-sm font-semibold text-brand-text-primary mb-1.5"
+                  >
                     Your Message <span class="text-brand-orange">*</span>
                   </label>
                   <textarea
@@ -235,12 +566,23 @@ const iconBg: Record<string, string> = {
                     v-model="message.value.value"
                     rows="5"
                     placeholder="Tell us about your project, goals, and timeline…"
-                    class="w-full px-4 py-2.5 rounded-xl border text-sm text-brand-text-primary placeholder:text-brand-text-muted bg-white transition-colors duration-150 outline-none resize-none"
-                    :class="message.errorMessage.value
-                      ? 'border-red-400 focus:border-red-400 focus:ring-2 focus:ring-red-100'
-                      : 'border-brand-border focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/10'"
+                    class="w-full px-4 py-3 rounded-xl border text-sm text-brand-text-primary placeholder:text-brand-text-muted bg-white transition-all duration-150 outline-none resize-none"
+                    :class="
+                      message.errorMessage.value
+                        ? 'border-red-400 focus:border-red-400 focus:ring-2 focus:ring-red-100'
+                        : 'border-brand-border focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/10'
+                    "
                   />
-                  <p v-if="message.errorMessage.value" class="mt-1 text-xs text-red-500">{{ message.errorMessage.value }}</p>
+                  <p
+                    v-if="message.errorMessage.value"
+                    class="mt-1 text-xs text-red-500 flex items-center gap-1"
+                  >
+                    <Icon
+                      name="mdi:alert-circle-outline"
+                      class="w-3.5 h-3.5 flex-shrink-0"
+                    />
+                    {{ message.errorMessage.value }}
+                  </p>
                 </div>
 
                 <!-- Submit -->
@@ -252,23 +594,30 @@ const iconBg: Record<string, string> = {
                   :disabled="isSubmitting"
                   class="w-full justify-center"
                 >
-                  {{ isSubmitting ? 'Sending…' : 'Send Message' }}
+                  {{ isSubmitting ? "Sending…" : "Send Message" }}
                 </GradientButton>
 
-                <p class="text-xs text-brand-text-muted text-center">
-                  We'll reply within 24 hours. Your information is kept private.
+                <p
+                  class="text-xs text-brand-text-muted text-center flex items-center justify-center gap-1.5"
+                >
+                  <Icon
+                    name="mdi:lock-outline"
+                    class="w-3.5 h-3.5"
+                    aria-hidden="true"
+                  />
+                  We'll reply within 24 hours. Your information is kept private
+                  and never shared.
                 </p>
               </form>
             </div>
           </div>
-
         </div>
       </div>
     </section>
 
     <CtaSection
       title="Not Sure Where to Start?"
-      subtitle="Book a free 30-minute strategy call and let's figure it out together."
+      subtitle="Book a free 30-minute strategy call and let's figure out the best plan for your business."
       primary-label="Book a Free Call"
       primary-to="/contact"
       secondary-label="View Our Services"
