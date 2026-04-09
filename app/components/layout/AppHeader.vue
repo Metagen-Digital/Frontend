@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const { y: scrollY } = useWindowScroll()
 const mobileMenuOpen = useState('mobileMenuOpen', () => false)
+const { locale, toggleLocale, localeLabel } = useLocale()
 
 const isScrolled = computed(() => scrollY.value > 50)
 
@@ -9,7 +10,6 @@ const navLinks = [
   { label: 'About',     to: '/about' },
   { label: 'Services',  to: '/services' },
   { label: 'Portfolio', to: '/portfolio' },
-  { label: 'Pricing',   to: '/pricing' },
   { label: 'Blog',      to: '/blog' },
   { label: 'Contact',   to: '/contact' },
 ]
@@ -62,8 +62,21 @@ function toggleMenu() {
         </NuxtLink>
       </nav>
 
-      <!-- CTA + mobile toggle -->
-      <div class="flex items-center gap-3">
+      <!-- CTA + Language Toggle + Mobile toggle -->
+      <div class="flex items-center gap-2">
+        <!-- Language Toggle -->
+        <button
+          class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-full border transition-all duration-200"
+          :class="locale === 'bn'
+            ? 'bg-brand-primary text-white border-brand-primary'
+            : 'bg-transparent text-brand-text-secondary border-brand-border hover:border-brand-primary hover:text-brand-primary'"
+          :aria-label="`Switch to ${locale === 'en' ? 'Bangla' : 'English'}`"
+          @click="toggleLocale"
+        >
+          <Icon name="mdi:translate" class="w-3.5 h-3.5" aria-hidden="true" />
+          <span>{{ localeLabel }}</span>
+        </button>
+
         <NuxtLink
           to="/contact"
           class="hidden md:inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-gradient-brand rounded-btn hover:shadow-glow-primary hover:scale-105 transition-all duration-250 ease-spring"
