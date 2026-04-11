@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { BlogApiDetail, BlogApiItem } from "~/types";
+
 const route = useRoute();
 
 type CategoryColor = "orange" | "purple" | "cyan";
@@ -518,9 +520,65 @@ const postMap: Record<string, PostData> = {
 };
 
 /* ─── Runtime ──────────────────────────────────────────────── */
-const post = computed(() => postMap[route.params.slug as string]);
+const { get } = useApi();
+const slug = route.params.slug as string;
+const { data: blogResponse, error: blogError } = await get<BlogApiDetail>(
+  `/blogs/${slug}`,
+);
+const { data: relatedResponse } = await get<BlogApiItem[]>(
+  `/blogs/${slug}/related`,
+);
+
+function categoryColor(category?: string | null): CategoryColor {
+  if (category === "Social Media") return "purple";
+  if (category === "Web Dev" || category === "Case Studies") return "cyan";
+  return "orange";
+}
+
+function extractToc(html: string): TocItem[] {
+  const items: TocItem[] = [];
+  const regex = /<h2\s+id="([^"]+)">([^<]+)<\/h2>/g;
+  let match: RegExpExecArray | null;
+
+  while ((match = regex.exec(html)) !== null) {
+    items.push({ id: match[1], title: match[2] });
+  }
+
+  return items;
+}
+
+const apiPost = computed<PostData | null>(() => {
+  const data = blogResponse.value?.data;
+  if (!data) return null;
+
+  return {
+    title: data.title,
+    category: data.category || "Marketing",
+    categoryColor: categoryColor(data.category),
+    date: data.publishedAt || new Date().toISOString().slice(0, 10),
+    readTime: data.readTimeText,
+    thumbnail:
+      data.featuredImage ||
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1400&q=85&auto=format&fit=crop",
+    author: {
+      name: data.authorName,
+      role: data.category || "Content Team",
+      bio: data.authorBio || "Content contributor at MetaGenDigital.",
+      avatar: data.authorName?.charAt(0) || "M",
+    },
+    tags: data.tags || [],
+    toc: extractToc(data.content || ""),
+    body: data.content || "",
+    relatedSlugs: (relatedResponse.value?.data || []).map((item) => item.slug),
+  };
+});
+
+const post = computed(() => apiPost.value || postMap[slug]);
 
 if (!post.value) {
+  if (blogError.value?.statusCode === 404) {
+    throw createError({ statusCode: 404, statusMessage: "Post not found" });
+  }
   throw createError({ statusCode: 404, statusMessage: "Post not found" });
 }
 
@@ -644,11 +702,27 @@ const allPosts = [
   },
 ];
 
-const relatedPosts = computed(() =>
-  (post.value?.relatedSlugs ?? [])
+const relatedPosts = computed(() => {
+  const apiRelated = relatedResponse.value?.data ?? [];
+
+  if (apiRelated.length) {
+    return apiRelated.map((item) => ({
+      slug: item.slug,
+      title: item.title,
+      thumbnail:
+        item.featuredImage ||
+        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&q=70",
+      category: item.category || "Marketing",
+      categoryColor: categoryColor(item.category),
+      date: item.publishedAt || new Date().toISOString().slice(0, 10),
+      readTime: item.readTimeText,
+    }));
+  }
+
+  return (post.value?.relatedSlugs ?? [])
     .map((s) => allPosts.find((p) => p.slug === s))
-    .filter(Boolean),
-);
+    .filter(Boolean);
+});
 
 function formatDate(d: string) {
   return new Date(d).toLocaleDateString("en-US", {

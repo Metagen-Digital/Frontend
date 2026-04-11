@@ -1,118 +1,184 @@
 <script setup lang="ts">
-import type { PortfolioCategory } from '~/types'
+import type { CaseStudyApiItem, PortfolioCategory } from "~/types";
 
 useSeoMeta({
-  title: 'Portfolio | MetaGenDigital',
-  description: 'Explore our work — web development, social media, photography, video, and e-commerce projects that deliver real results.',
-})
+  title: "Portfolio | MetaGenDigital",
+  description:
+    "Explore our work — web development, social media, photography, video, and e-commerce projects that deliver real results.",
+});
 
-type TagColor = 'orange' | 'purple' | 'cyan'
+type TagColor = "orange" | "purple" | "cyan";
 
 interface Item {
-  slug: string
-  title: string
-  category: PortfolioCategory
-  thumbnail: string
-  tagColor: TagColor
-  result: string
-  client: string
-  year: number
+  slug: string;
+  title: string;
+  category: PortfolioCategory;
+  thumbnail: string;
+  tagColor: TagColor;
+  result: string;
+  client: string;
+  year: number;
 }
 
-const categories: ('All' | PortfolioCategory)[] = ['All', 'Web Dev', 'Social Media', 'Photography', 'Video', 'E-commerce']
-const activeCategory = ref<'All' | PortfolioCategory>('All')
+const activeCategory = ref<"All" | PortfolioCategory>("All");
 
-const items: Item[] = [
+const fallbackItems: Item[] = [
   {
-    slug: 'techcorp-website',
-    title: 'TechCorp BD Website Redesign',
-    category: 'Web Dev',
-    thumbnail: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=900&q=80&auto=format&fit=crop',
-    tagColor: 'orange',
-    result: '+180% traffic',
-    client: 'TechCorp BD',
+    slug: "techcorp-website",
+    title: "TechCorp BD Website Redesign",
+    category: "Web Dev",
+    thumbnail:
+      "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=900&q=80&auto=format&fit=crop",
+    tagColor: "orange",
+    result: "+180% traffic",
+    client: "TechCorp BD",
     year: 2024,
   },
   {
-    slug: 'shopbd-social',
-    title: 'ShopBD Social Media Campaign',
-    category: 'Social Media',
-    thumbnail: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=900&q=80&auto=format&fit=crop',
-    tagColor: 'purple',
-    result: '+400% engagement',
-    client: 'ShopBD',
+    slug: "shopbd-social",
+    title: "ShopBD Social Media Campaign",
+    category: "Social Media",
+    thumbnail:
+      "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=900&q=80&auto=format&fit=crop",
+    tagColor: "purple",
+    result: "+400% engagement",
+    client: "ShopBD",
     year: 2024,
   },
   {
-    slug: 'greengrow-photos',
-    title: 'GreenGrow Product Photography',
-    category: 'Photography',
-    thumbnail: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=900&q=80&auto=format&fit=crop',
-    tagColor: 'cyan',
-    result: '+60% conversion',
-    client: 'GreenGrow',
+    slug: "greengrow-photos",
+    title: "GreenGrow Product Photography",
+    category: "Photography",
+    thumbnail:
+      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=900&q=80&auto=format&fit=crop",
+    tagColor: "cyan",
+    result: "+60% conversion",
+    client: "GreenGrow",
     year: 2024,
   },
   {
-    slug: 'urbaneats-brand-film',
-    title: 'UrbanEats Cinematic Brand Film',
-    category: 'Video',
-    thumbnail: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=900&q=80&auto=format&fit=crop',
-    tagColor: 'orange',
-    result: '2M+ views',
-    client: 'UrbanEats',
+    slug: "urbaneats-brand-film",
+    title: "UrbanEats Cinematic Brand Film",
+    category: "Video",
+    thumbnail:
+      "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=900&q=80&auto=format&fit=crop",
+    tagColor: "orange",
+    result: "2M+ views",
+    client: "UrbanEats",
     year: 2024,
   },
   {
-    slug: 'stylehouse-store',
-    title: 'StyleHouse E-commerce Platform',
-    category: 'E-commerce',
-    thumbnail: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=900&q=80&auto=format&fit=crop',
-    tagColor: 'purple',
-    result: '3× revenue',
-    client: 'StyleHouse',
+    slug: "stylehouse-store",
+    title: "StyleHouse E-commerce Platform",
+    category: "E-commerce",
+    thumbnail:
+      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=900&q=80&auto=format&fit=crop",
+    tagColor: "purple",
+    result: "3× revenue",
+    client: "StyleHouse",
     year: 2024,
   },
   {
-    slug: 'eduprime-marketing',
-    title: 'EduPrime Digital Marketing Campaign',
-    category: 'Web Dev',
-    thumbnail: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=80&auto=format&fit=crop',
-    tagColor: 'cyan',
-    result: '5× ROI',
-    client: 'EduPrime',
+    slug: "eduprime-marketing",
+    title: "EduPrime Digital Marketing Campaign",
+    category: "Web Dev",
+    thumbnail:
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=80&auto=format&fit=crop",
+    tagColor: "cyan",
+    result: "5× ROI",
+    client: "EduPrime",
     year: 2023,
   },
   {
-    slug: 'naturabd-photography',
-    title: 'NaturaBD Lifestyle Photography',
-    category: 'Photography',
-    thumbnail: 'https://images.unsplash.com/photo-1606787366850-de6330128bfc?w=900&q=80&auto=format&fit=crop',
-    tagColor: 'orange',
-    result: '+90% CTR',
-    client: 'NaturaBD',
+    slug: "naturabd-photography",
+    title: "NaturaBD Lifestyle Photography",
+    category: "Photography",
+    thumbnail:
+      "https://images.unsplash.com/photo-1606787366850-de6330128bfc?w=900&q=80&auto=format&fit=crop",
+    tagColor: "orange",
+    result: "+90% CTR",
+    client: "NaturaBD",
     year: 2023,
   },
   {
-    slug: 'nexatech-social',
-    title: 'NexaTech LinkedIn Growth Strategy',
-    category: 'Social Media',
-    thumbnail: 'https://images.unsplash.com/photo-1562577309-4932fdd64cd1?w=900&q=80&auto=format&fit=crop',
-    tagColor: 'purple',
-    result: '+5K followers',
-    client: 'NexaTech',
+    slug: "nexatech-social",
+    title: "NexaTech LinkedIn Growth Strategy",
+    category: "Social Media",
+    thumbnail:
+      "https://images.unsplash.com/photo-1562577309-4932fdd64cd1?w=900&q=80&auto=format&fit=crop",
+    tagColor: "purple",
+    result: "+5K followers",
+    client: "NexaTech",
     year: 2023,
   },
-]
+];
+
+const { get } = useApi();
+const { data: caseStudiesResponse } =
+  await get<CaseStudyApiItem[]>("/case-studies");
+
+function normalizeCategory(category?: string | null): PortfolioCategory {
+  const normalized = (category || "").toLowerCase();
+  if (normalized.includes("social")) return "Social Media";
+  if (normalized.includes("photo")) return "Photography";
+  if (normalized.includes("video")) return "Video";
+  if (normalized.includes("ecommerce") || normalized.includes("e-commerce"))
+    return "E-commerce";
+  return "Web Dev";
+}
+
+function toTagColor(category: PortfolioCategory): TagColor {
+  if (category === "Social Media" || category === "E-commerce") return "purple";
+  if (category === "Photography") return "cyan";
+  return "orange";
+}
+
+const items = computed<Item[]>(() => {
+  const apiItems = caseStudiesResponse.value?.data ?? [];
+  if (!apiItems.length) {
+    return fallbackItems;
+  }
+
+  return apiItems.map((item) => {
+    const category = normalizeCategory(item.category);
+    const metric = item.metrics?.[0];
+
+    return {
+      slug: item.slug,
+      title: item.title,
+      category,
+      thumbnail:
+        item.image ||
+        "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=900&q=80&auto=format&fit=crop",
+      tagColor: toTagColor(category),
+      result: metric
+        ? `${metric.value} ${metric.label}`
+        : item.type || "Project result",
+      client: item.clientName || "MetaGen Client",
+      year: item.createdAt
+        ? new Date(item.createdAt).getFullYear()
+        : new Date().getFullYear(),
+    };
+  });
+});
+
+const categories = computed<("All" | PortfolioCategory)[]>(() => {
+  const unique = Array.from(
+    new Set(items.value.map((item) => item.category)),
+  ) as PortfolioCategory[];
+  return ["All", ...unique];
+});
 
 const filtered = computed(() =>
-  activeCategory.value === 'All'
-    ? items
-    : items.filter(i => i.category === activeCategory.value)
-)
+  activeCategory.value === "All"
+    ? items.value
+    : items.value.filter((i) => i.category === activeCategory.value),
+);
 
-const categoryCount = (cat: 'All' | PortfolioCategory) =>
-  cat === 'All' ? items.length : items.filter(i => i.category === cat).length
+const categoryCount = (cat: "All" | PortfolioCategory) =>
+  cat === "All"
+    ? items.value.length
+    : items.value.filter((i) => i.category === cat).length;
 </script>
 
 <template>
@@ -122,30 +188,58 @@ const categoryCount = (cat: 'All' | PortfolioCategory) =>
     ══════════════════════════════════════════════════ -->
     <section class="relative pt-32 pb-20 overflow-hidden">
       <!-- Background -->
-      <div class="absolute inset-0 bg-gradient-to-br from-brand-surface via-white to-brand-surface pointer-events-none" />
-      <div class="absolute inset-0 bg-grid-pattern bg-grid opacity-40 pointer-events-none" aria-hidden="true" />
-      <div class="absolute top-0 right-0 w-[600px] h-[500px] rounded-full bg-brand-purple/5 blur-3xl pointer-events-none" aria-hidden="true" />
-      <div class="absolute bottom-0 left-0 w-96 h-96 rounded-full bg-brand-orange/5 blur-3xl pointer-events-none" aria-hidden="true" />
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-brand-surface via-white to-brand-surface pointer-events-none"
+      />
+      <div
+        class="absolute inset-0 bg-grid-pattern bg-grid opacity-40 pointer-events-none"
+        aria-hidden="true"
+      />
+      <div
+        class="absolute top-0 right-0 w-[600px] h-[500px] rounded-full bg-brand-purple/5 blur-3xl pointer-events-none"
+        aria-hidden="true"
+      />
+      <div
+        class="absolute bottom-0 left-0 w-96 h-96 rounded-full bg-brand-orange/5 blur-3xl pointer-events-none"
+        aria-hidden="true"
+      />
 
       <div class="container-content relative z-10">
         <AppBreadcrumb :crumbs="[{ label: 'Portfolio' }]" class="mb-6" />
-        <SectionBadge icon="mdi:briefcase-outline" class="mb-5">Our Work</SectionBadge>
+        <SectionBadge icon="mdi:briefcase-outline" class="mb-5"
+          >Our Work</SectionBadge
+        >
 
-        <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+        <div
+          class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6"
+        >
           <div>
             <h1 class="text-brand-text-primary mb-4 max-w-2xl">
               Projects That
               <span class="gradient-text"> Speak for Themselves</span>
             </h1>
-            <p class="text-brand-text-secondary text-lg max-w-xl leading-relaxed">
-              Real results for real businesses — explore our best work across web, social, photography, video, and e-commerce.
+            <p
+              class="text-brand-text-secondary text-lg max-w-xl leading-relaxed"
+            >
+              Real results for real businesses — explore our best work across
+              web, social, photography, video, and e-commerce.
             </p>
           </div>
 
           <!-- Stats row -->
           <div class="flex flex-wrap gap-6 lg:gap-8 flex-shrink-0">
-            <div v-for="s in [{ v: '50+', l: 'Projects' }, { v: '40+', l: 'Clients' }, { v: '5', l: 'Categories' }]" :key="s.l" class="text-center">
-              <div class="text-2xl font-black gradient-text font-display">{{ s.v }}</div>
+            <div
+              v-for="s in [
+                { v: '50+', l: 'Projects' },
+                { v: '40+', l: 'Clients' },
+                { v: '5', l: 'Categories' },
+              ]"
+              :key="s.l"
+              class="text-center"
+            >
+              <div class="text-2xl font-black gradient-text font-display">
+                {{ s.v }}
+              </div>
               <div class="text-xs text-brand-text-muted mt-0.5">{{ s.l }}</div>
             </div>
           </div>
@@ -158,16 +252,21 @@ const categoryCount = (cat: 'All' | PortfolioCategory) =>
     ══════════════════════════════════════════════════ -->
     <section class="pb-20 md:pb-28 bg-white">
       <div class="container-content">
-
         <!-- Filter tabs -->
-        <div class="flex flex-wrap gap-2 mb-10" role="tablist" aria-label="Filter by category">
+        <div
+          class="flex flex-wrap gap-2 mb-10"
+          role="tablist"
+          aria-label="Filter by category"
+        >
           <button
             v-for="cat in categories"
             :key="cat"
             class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 border"
-            :class="activeCategory === cat
-              ? 'bg-brand-primary border-brand-primary text-white shadow-glow-primary'
-              : 'bg-brand-surface border-brand-border text-brand-text-secondary hover:border-brand-primary/50 hover:text-brand-primary hover:bg-brand-surface'"
+            :class="
+              activeCategory === cat
+                ? 'bg-brand-primary border-brand-primary text-white shadow-glow-primary'
+                : 'bg-brand-surface border-brand-border text-brand-text-secondary hover:border-brand-primary/50 hover:text-brand-primary hover:bg-brand-surface'
+            "
             role="tab"
             :aria-selected="activeCategory === cat"
             @click="activeCategory = cat"
@@ -175,7 +274,11 @@ const categoryCount = (cat: 'All' | PortfolioCategory) =>
             {{ cat }}
             <span
               class="inline-flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-bold transition-colors duration-200"
-              :class="activeCategory === cat ? 'bg-white/20 text-white' : 'bg-brand-border text-brand-text-muted'"
+              :class="
+                activeCategory === cat
+                  ? 'bg-white/20 text-white'
+                  : 'bg-brand-border text-brand-text-muted'
+              "
             >
               {{ categoryCount(cat) }}
             </span>
@@ -211,13 +314,22 @@ const categoryCount = (cat: 'All' | PortfolioCategory) =>
           v-if="filtered.length === 0"
           class="col-span-full flex flex-col items-center justify-center py-24 text-center"
         >
-          <div class="w-16 h-16 rounded-2xl bg-brand-surface flex items-center justify-center mb-4">
-            <Icon name="mdi:folder-open-outline" class="w-8 h-8 text-brand-text-muted" aria-hidden="true" />
+          <div
+            class="w-16 h-16 rounded-2xl bg-brand-surface flex items-center justify-center mb-4"
+          >
+            <Icon
+              name="mdi:folder-open-outline"
+              class="w-8 h-8 text-brand-text-muted"
+              aria-hidden="true"
+            />
           </div>
-          <p class="text-brand-text-secondary font-medium mb-1">No projects in this category yet</p>
-          <p class="text-brand-text-muted text-sm">Check back soon — more work is being added.</p>
+          <p class="text-brand-text-secondary font-medium mb-1">
+            No projects in this category yet
+          </p>
+          <p class="text-brand-text-muted text-sm">
+            Check back soon — more work is being added.
+          </p>
         </div>
-
       </div>
     </section>
 
