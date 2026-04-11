@@ -1,29 +1,62 @@
 <script setup lang="ts">
-const mobileMenuOpen = useState('mobileMenuOpen', () => false)
+const mobileMenuOpen = useState("mobileMenuOpen", () => false);
 
 const navLinks = [
-  { label: 'Home',      to: '/' },
-  { label: 'About',     to: '/about' },
-  { label: 'Services',  to: '/services' },
-  { label: 'Portfolio', to: '/portfolio' },
-  { label: 'Pricing',   to: '/pricing' },
-  { label: 'Blog',      to: '/blog' },
-  { label: 'Contact',   to: '/contact' },
-]
+  { label: "Home", to: "/", icon: "mdi:home-outline" },
+  { label: "About", to: "/about", icon: "mdi:account-group-outline" },
+  { label: "Services", to: "/services", icon: "mdi:briefcase-outline" },
+  { label: "Portfolio", to: "/portfolio", icon: "mdi:folder-star-outline" },
+  { label: "Blog", to: "/blog", icon: "mdi:notebook-outline" },
+  { label: "Contact", to: "/contact", icon: "mdi:message-outline" },
+];
 
-const route = useRoute()
+const socialLinks = [
+  {
+    icon: "mdi:facebook",
+    href: "https://www.facebook.com/MetagenDigital",
+    label: "Facebook",
+    hoverClass: "hover:bg-[#4c76be]",
+  },
+  {
+    icon: "mdi:instagram",
+    href: "https://www.instagram.com/MetagenDigital",
+    label: "Instagram",
+    hoverClass: "hover:bg-pink-600",
+  },
+  {
+    icon: "mdi:linkedin",
+    href: "https://www.linkedin.com/company/MetagenDigital",
+    label: "LinkedIn",
+    hoverClass: "hover:bg-[#0b86ca]",
+  },
+  {
+    icon: "mdi:youtube",
+    href: "https://www.youtube.com/@MetagenDigital",
+    label: "YouTube",
+    hoverClass: "hover:bg-[#fd3832]",
+  },
+];
+
+const route = useRoute();
+const isActive = (path: string) => {
+  if (path === "/") return route.path === "/";
+  return route.path.startsWith(path);
+};
 
 // Close on route change
-watch(() => route.path, () => {
-  mobileMenuOpen.value = false
-})
+watch(
+  () => route.path,
+  () => {
+    mobileMenuOpen.value = false;
+  },
+);
 
 // Prevent body scroll when menu is open
 watch(mobileMenuOpen, (open) => {
   if (import.meta.client) {
-    document.body.style.overflow = open ? 'hidden' : ''
+    document.body.style.overflow = open ? "hidden" : "";
   }
-})
+});
 </script>
 
 <template>
@@ -57,8 +90,14 @@ watch(mobileMenuOpen, (open) => {
         aria-label="Mobile navigation"
       >
         <!-- Header -->
-        <div class="flex items-center justify-between px-6 h-16 border-b border-brand-border">
-          <img src="/images/MetaGen-Logo.svg" alt="MetaGenDigital" class="h-7 w-auto" />
+        <div
+          class="flex items-center justify-between px-6 h-16 border-b border-brand-border"
+        >
+          <img
+            src="/images/MetaGen-Logo.svg"
+            alt="MetaGenDigital"
+            class="h-7 w-auto"
+          />
           <button
             class="p-2 text-brand-text-secondary hover:text-white transition-colors duration-150 rounded-md"
             aria-label="Close navigation menu"
@@ -74,14 +113,76 @@ watch(mobileMenuOpen, (open) => {
             v-for="(link, i) in navLinks"
             :key="link.to"
             :to="link.to"
-            class="flex items-center gap-3 px-4 py-3 rounded-card text-base font-medium transition-all duration-150"
-            :class="$route.path === link.to || ($route.path.startsWith(link.to) && link.to !== '/')
-              ? 'bg-brand-card text-white border border-brand-orange/30'
-              : 'text-brand-text-secondary hover:bg-brand-card hover:text-white'"
+            class="group relative flex items-center gap-3 px-4 py-3 rounded-card text-base font-semibold border transition-all duration-200"
+            :class="
+              isActive(link.to)
+                ? 'bg-gradient-brand text-white border-brand-primary/40 shadow-card'
+                : 'text-brand-text-secondary border-transparent hover:bg-brand-surface hover:text-brand-primary hover:border-brand-border'
+            "
             :style="{ animationDelay: `${i * 50}ms` }"
           >
+            <span
+              class="absolute left-0 top-2 bottom-2 w-1 rounded-r-full bg-brand-orange transition-opacity duration-200"
+              :class="
+                isActive(link.to)
+                  ? 'opacity-100'
+                  : 'opacity-0 group-hover:opacity-70'
+              "
+              aria-hidden="true"
+            />
+            <Icon :name="link.icon" class="w-5 h-5" aria-hidden="true" />
             {{ link.label }}
           </NuxtLink>
+
+          <!-- Contact + social info -->
+          <div class="mt-6 pt-6 border-t border-brand-border">
+            <p
+              class="px-1 text-[11px] font-bold tracking-widest uppercase text-brand-text-muted"
+            >
+              Contact
+            </p>
+
+            <div class="mt-3 space-y-2.5">
+              <a
+                href="tel:+8801970222573"
+                class="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm text-brand-text-secondary hover:bg-brand-surface hover:text-brand-primary transition-colors duration-150"
+              >
+                <Icon
+                  name="mdi:phone-outline"
+                  class="w-4 h-4 text-brand-orange"
+                  aria-hidden="true"
+                />
+                +88 01970-222573
+              </a>
+
+              <a
+                href="mailto:hello@metagendigital.com"
+                class="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm text-brand-text-secondary hover:bg-brand-surface hover:text-brand-primary transition-colors duration-150"
+              >
+                <Icon
+                  name="mdi:email-outline"
+                  class="w-4 h-4 text-brand-orange"
+                  aria-hidden="true"
+                />
+                hello@metagendigital.com
+              </a>
+            </div>
+
+            <div class="mt-4 flex items-center gap-2 px-1">
+              <a
+                v-for="social in socialLinks"
+                :key="social.label"
+                :href="social.href"
+                target="_blank"
+                rel="noopener noreferrer"
+                :aria-label="social.label"
+                class="w-9 h-9 flex items-center justify-center rounded-btn bg-brand-surface text-brand-primary transition-all duration-150 hover:text-white"
+                :class="social.hoverClass"
+              >
+                <Icon :name="social.icon" class="w-4 h-4" aria-hidden="true" />
+              </a>
+            </div>
+          </div>
         </div>
 
         <!-- CTA -->
