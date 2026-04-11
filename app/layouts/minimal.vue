@@ -1,5 +1,7 @@
 <template>
   <div class="flex flex-col min-h-dvh bg-brand-bg">
+    <ScrollProgressBar />
+
     <a
       href="#main-content"
       class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[500] focus:px-4 focus:py-2 focus:bg-brand-orange focus:text-white focus:rounded-btn focus:font-semibold"
@@ -11,7 +13,11 @@
     <header class="border-b border-brand-border">
       <div class="container-content flex items-center justify-between h-16">
         <NuxtLink to="/" aria-label="MetaGenDigital home">
-          <img src="/images/MetaGen-Logo-w.svg" alt="MetaGenDigital" class="h-7 w-auto" />
+          <img
+            src="/images/MetaGen-Logo-w.svg"
+            alt="MetaGenDigital"
+            class="h-7 w-auto"
+          />
         </NuxtLink>
         <NuxtLink
           to="/"

@@ -1,5 +1,7 @@
 <template>
   <div class="flex flex-col min-h-dvh bg-brand-bg">
+    <ScrollProgressBar />
+
     <!-- Skip to content link for accessibility -->
     <a
       href="#main-content"
