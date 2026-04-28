@@ -39,7 +39,7 @@ const doubled = computed(() => [...logos.value, ...logos.value]);
     <p
       class="text-center text-xs text-brand-text-muted uppercase tracking-widest font-medium mb-6"
     >
-      Trusted by growing businesses across Bangladesh
+      {{ $t('trustedBy.tagline') }}
     </p>
 
     <div class="relative flex overflow-hidden">

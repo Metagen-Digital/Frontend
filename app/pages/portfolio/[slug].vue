@@ -1114,6 +1114,7 @@ const projectMap: Record<string, ProjectData> = {
   },
 };
 
+const { t } = useI18n()
 const { get } = useApi();
 const slug = route.params.slug as string;
 const { data: caseStudyResponse } = await get<CaseStudyApiDetail>(
@@ -1374,7 +1375,7 @@ const categoryIcon: Record<string, string> = {
         <div class="mb-8 opacity-75">
           <AppBreadcrumb
             :crumbs="[
-              { label: 'Portfolio', to: '/portfolio' },
+              { label: t('portfolioPage.breadcrumb'), to: '/portfolio' },
               { label: project.title },
             ]"
           />
@@ -1468,9 +1469,9 @@ const categoryIcon: Record<string, string> = {
           <span
             class="inline-block px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-widest mb-3"
             :class="cfg.badgeBg"
-            >Key Results</span
+            >{{ $t('portfolioDetail.keyResults') }}</span
           >
-          <h2 class="text-brand-text-primary">The Numbers That Matter</h2>
+          <h2 class="text-brand-text-primary">{{ $t('portfolioDetail.keyResults') }}</h2>
         </div>
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
           <div
@@ -1538,7 +1539,7 @@ const categoryIcon: Record<string, string> = {
                     />
                   </div>
                   <h3 class="text-[17px] font-bold text-brand-text-primary">
-                    The Challenge
+                    {{ $t('portfolioDetail.challenge') }}
                   </h3>
                 </div>
                 <p class="text-brand-text-secondary leading-relaxed">
@@ -1562,7 +1563,7 @@ const categoryIcon: Record<string, string> = {
                     />
                   </div>
                   <h3 class="text-[17px] font-bold text-brand-text-primary">
-                    Our Approach
+                    {{ $t('portfolioDetail.approach') }}
                   </h3>
                 </div>
                 <p class="text-brand-text-secondary leading-relaxed">
@@ -1586,7 +1587,7 @@ const categoryIcon: Record<string, string> = {
                     />
                   </div>
                   <h3 class="text-[17px] font-bold text-brand-text-primary">
-                    The Outcome
+                    {{ $t('portfolioDetail.outcome') }}
                   </h3>
                 </div>
                 <p class="text-brand-text-secondary leading-relaxed">
@@ -1733,7 +1734,7 @@ const categoryIcon: Record<string, string> = {
               <p
                 class="text-[11px] font-bold text-brand-text-muted uppercase tracking-widest mb-3"
               >
-                Deliverables
+                {{ $t('portfolioDetail.deliverables') }}
               </p>
               <ul class="space-y-2.5">
                 <li
@@ -1775,7 +1776,7 @@ const categoryIcon: Record<string, string> = {
             :class="cfg.badgeBg"
             >Transformation</span
           >
-          <h2 class="text-brand-text-primary">Before & After</h2>
+          <h2 class="text-brand-text-primary">{{ $t('portfolioDetail.beforeAfter') }}</h2>
           <p class="text-brand-text-secondary mt-2 max-w-xl mx-auto">
             The measurable difference MetaGenDigital made across key metrics.
           </p>
@@ -1869,7 +1870,7 @@ const categoryIcon: Record<string, string> = {
             :class="cfg.badgeBg"
             >Process</span
           >
-          <h2 class="text-brand-text-primary">Project Timeline & Phases</h2>
+          <h2 class="text-brand-text-primary">{{ $t('portfolioDetail.timeline') }}</h2>
           <p class="text-brand-text-secondary mt-2 max-w-xl mx-auto">
             How we structured this project from kickoff to delivery.
           </p>
@@ -2027,7 +2028,7 @@ const categoryIcon: Record<string, string> = {
           <span
             class="inline-block px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-widest mb-3"
             :class="cfg.badgeBg"
-            >Gallery</span
+            >{{ $t('portfolioDetail.gallery') }}</span
           >
           <h2 class="text-brand-text-primary">Project Visuals</h2>
         </div>
@@ -2100,7 +2101,7 @@ const categoryIcon: Record<string, string> = {
               <p
                 class="text-[10px] text-brand-text-muted font-semibold uppercase tracking-widest mb-0.5"
               >
-                Next Project
+                {{ $t('portfolioDetail.nextProject') }}
               </p>
               <p
                 class="text-sm font-bold text-brand-text-primary group-hover:text-brand-primary transition-colors duration-200"

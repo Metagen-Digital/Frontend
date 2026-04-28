@@ -1,0 +1,423 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "portfolio": "Portfolio",
+    "blog": "Blog",
+    "contact": "Contact",
+    "getQuote": "Get a Quote"
+  },
+  "hero": {
+    "badge": "Bangladesh's #1 Digital Agency",
+    "headline": "We {grow} Your\nBusiness {online}",
+    "headlineGrow": "Grow",
+    "headlineOnline": "Online",
+    "subheadline": "From digital marketing to stunning web experiences — we help Bangladesh businesses stand out, scale fast, and win online.",
+    "ctaServices": "View Our Services",
+    "ctaConsult": "Get Free Consultation",
+    "whatsapp": "Chat on WhatsApp — usually replies within 1 hour",
+    "stats": {
+      "clients": "Happy Clients",
+      "projects": "Projects Done",
+      "rating": "Client Rating",
+      "experience": "Years Experience"
+    },
+    "serviceChips": {
+      "digitalMarketing": "Digital Marketing",
+      "socialMedia": "Social Media",
+      "webDev": "Web Development",
+      "photography": "Photography"
+    },
+    "bubbles": {
+      "googleAds": "Google Ads",
+      "googleAdsSub": "Certified Partner",
+      "socialMedia": "Social Media",
+      "socialMediaSub": "4 Platforms",
+      "webDev": "Web Development",
+      "webDevSub": "E-commerce · Agency · Business",
+      "photoVideo": "Photo & Videography",
+      "photoVideoSub": "Product & Brand"
+    },
+    "available": "Available for projects",
+    "trafficGrowth": "Avg. Traffic Growth",
+    "clientsCount": "50+ Clients",
+    "clientsRegion": "Across Bangladesh",
+    "scroll": "Scroll"
+  },
+  "services": {
+    "badge": "Our Services",
+    "heading": "Everything You Need to",
+    "headingHighlight": "Win Online",
+    "subheading": "From strategy to execution — a full suite of services designed to grow your brand and drive measurable results.",
+    "viewAll": "View All Services"
+  },
+  "testimonials": {
+    "badge": "Testimonials",
+    "heading": "What Our Clients",
+    "headingHighlight": "Say About Us",
+    "subheading": "Don't take our word for it — hear from the businesses we've helped grow."
+  },
+  "trustedBy": {
+    "tagline": "Trusted by growing businesses across Bangladesh"
+  },
+  "process": {
+    "badge": "Our Process",
+    "heading": "How We",
+    "headingHighlight": "Work",
+    "subheading": "A clear, repeatable process that takes you from idea to measurable growth — with zero surprises.",
+    "steps": {
+      "discovery": {
+        "title": "Discovery",
+        "description": "We deep-dive into your business, goals, audience, and competitors to lay a solid foundation.",
+        "tag": "Research"
+      },
+      "strategy": {
+        "title": "Strategy",
+        "description": "We craft a tailored plan — channels, messaging, timelines, and KPIs — built around your objectives.",
+        "tag": "Planning"
+      },
+      "execute": {
+        "title": "Execute",
+        "description": "Our team brings the strategy to life with precision — design, development, content, and campaigns.",
+        "tag": "Build & Launch"
+      },
+      "grow": {
+        "title": "Grow",
+        "description": "We measure, optimise, and report — then keep iterating to accelerate your growth month after month.",
+        "tag": "Optimise"
+      }
+    }
+  },
+  "whyUs": {
+    "badge": "Why Choose Us",
+    "heading": "The Agency That",
+    "headingHighlight": "Gets Results",
+    "subheading": "We don't just deliver services — we build lasting partnerships that drive measurable growth.",
+    "stats": {
+      "clients": "Happy Clients",
+      "projects": "Projects Delivered",
+      "satisfaction": "Client Satisfaction",
+      "experience": "Years Experience"
+    },
+    "features": {
+      "results": {
+        "title": "Results-Driven Approach",
+        "description": "Every campaign is built around your KPIs — not vanity metrics."
+      },
+      "data": {
+        "title": "Data & Analytics First",
+        "description": "We track everything so you know exactly what's working and why."
+      },
+      "team": {
+        "title": "Dedicated Expert Team",
+        "description": "Specialists in marketing, design, development, and content — all under one roof."
+      },
+      "delivery": {
+        "title": "On-Time Delivery",
+        "description": "Deadlines matter. We plan carefully and execute on schedule, every time."
+      },
+      "communication": {
+        "title": "Responsive Communication",
+        "description": "Direct access to your team — no ticket queues, no waiting in the dark."
+      },
+      "pricing": {
+        "title": "Transparent Pricing",
+        "description": "No hidden fees. Clear deliverables and fair pricing from day one."
+      }
+    }
+  },
+  "blog": {
+    "badge": "Blog & Insights",
+    "heading": "Tips & Insights From",
+    "headingHighlight": "Our Team",
+    "subheading": "Stay ahead with the latest in digital marketing, web development, and growth strategies.",
+    "viewAll": "View All Posts"
+  },
+  "cta": {
+    "title": "Ready to Scale Your Business?",
+    "subtitle": "Let's build something great together. Tell us about your project and we'll get back to you within 24 hours.",
+    "primary": "Let's Talk",
+    "secondary": "View Our Work"
+  },
+  "footer": {
+    "tagline": "Your trusted growth partner for digital marketing, web development, and creative content. Based in Bangladesh, serving clients worldwide.",
+    "services": "Services",
+    "company": "Company",
+    "contact": "Contact",
+    "copyright": "All rights reserved.",
+    "newsletter": {
+      "title": "Stay Updated",
+      "subtitle": "Get weekly digital marketing tips and insights.",
+      "placeholder": "Your email address",
+      "subscribe": "Subscribe",
+      "subscribing": "Subscribing...",
+      "success": "You're subscribed! Check your inbox.",
+      "alreadySubscribed": "This email is already subscribed.",
+      "error": "Could not subscribe. Please try again."
+    },
+    "links": {
+      "digitalMarketing": "Digital Marketing",
+      "socialMedia": "Social Media Marketing",
+      "photography": "Photography & Videography",
+      "webDev": "Website Development",
+      "ecommerce": "E-commerce Development",
+      "about": "About Us",
+      "portfolio": "Portfolio",
+      "blog": "Blog",
+      "contact": "Contact",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Use",
+      "whatsapp": "WhatsApp Us",
+      "hours": "Sun–Thu: 9am – 6pm (BST)"
+    }
+  },
+  "mobile": {
+    "contact": "Contact",
+    "getQuote": "Get a Quote"
+  },
+  "servicesPage": {
+    "breadcrumb": "Services",
+    "badge": "What We Offer",
+    "heading": "Services That",
+    "headingHighlight": "Drive Real Results",
+    "subheading": "From strategy to execution — everything your business needs to grow online, all under one roof.",
+    "stats": {
+      "clients": "Happy Clients",
+      "projects": "Projects Delivered",
+      "experience": "Years Experience",
+      "coreServices": "Core Services"
+    }
+  },
+  "blogPage": {
+    "breadcrumb": "Blog",
+    "badge": "Blog & Insights",
+    "heading": "Ideas, Tips &",
+    "headingHighlight": "Industry Insights",
+    "subheading": "Digital marketing tips, web guides, social strategies, and industry news from the MetaGenDigital team.",
+    "featured": "Featured Article",
+    "allPosts": "All Posts",
+    "filterAll": "All"
+  },
+  "portfolioPage": {
+    "breadcrumb": "Portfolio",
+    "badge": "Our Work",
+    "heading": "Projects That",
+    "headingHighlight": "Speak for Themselves",
+    "subheading": "Real results for real clients — from web development to social media and creative campaigns.",
+    "filterAll": "All"
+  },
+  "contactPage": {
+    "breadcrumb": "Contact",
+    "badge": "Get In Touch",
+    "heading": "Let's",
+    "headingHighlight": "Work Together",
+    "subheading": "Have a project in mind? We'd love to hear about it. Fill in the form or reach us directly — we usually respond within a few hours.",
+    "formTitle": "Send Us a Message",
+    "formSubtitle": "Fill in the details below and we'll be in touch shortly.",
+    "labelName": "Your Name",
+    "labelPhone": "Phone Number",
+    "labelPhoneOptional": "(optional)",
+    "labelEmail": "Email Address",
+    "labelService": "Service Interested In",
+    "labelMessage": "Your Message",
+    "placeholderName": "e.g. Mokammel Tanvir",
+    "placeholderPhone": "+88 01XXX-XXXXXX",
+    "placeholderEmail": "you{'@'}example.com",
+    "placeholderService": "Select a service…",
+    "placeholderMessage": "Tell us about your project, goals, and timeline…",
+    "submit": "Send Message",
+    "submitting": "Sending…",
+    "privacy": "We'll reply within 24 hours. Your information is kept private and never shared.",
+    "whatsappTitle": "Prefer WhatsApp?",
+    "whatsappText": "Chat with us directly. We usually reply within 1 hour during working hours.",
+    "whatsappBtn": "Chat on WhatsApp",
+    "followTitle": "Follow Us",
+    "followText": "Stay updated with our latest work and insights.",
+    "freeConsult": "Free consultation",
+    "freeConsultSub": "on every enquiry",
+    "replyTime": "Reply within 24 hours",
+    "replyTimeSub": "— usually much faster",
+    "privateInfo": "Your info is private",
+    "privateInfoSub": "— never shared"
+  },
+  "portfolioDetail": {
+    "breadcrumb": "Portfolio",
+    "keyResults": "Key Results",
+    "challenge": "The Challenge",
+    "approach": "Our Approach",
+    "outcome": "The Outcome",
+    "deliverables": "Deliverables",
+    "beforeAfter": "Before & After",
+    "timeline": "Project Timeline & Phases",
+    "gallery": "Gallery",
+    "nextProject": "Next Project",
+    "backToPortfolio": "Back to Portfolio",
+    "team": "Team",
+    "services": "Services Used",
+    "technologies": "Technologies"
+  },
+  "blogDetail": {
+    "breadcrumb": "Blog",
+    "tags": "Tags",
+    "share": "Share this article:",
+    "copyLink": "Copy Link",
+    "copied": "Copied!",
+    "tableOfContents": "Table of Contents",
+    "readingTime": "Reading Time",
+    "relatedPosts": "Related Posts",
+    "backToBlog": "Back to Blog"
+  },
+  "aboutPage": {
+    "breadcrumb": "About Us",
+    "hero": {
+      "badge": "About Us",
+      "heading": "We Are",
+      "headingHighlight": "MetaGenDigital",
+      "description": "A passionate digital agency from Uttara, Dhaka — helping Bangladesh businesses grow online through creative marketing, stunning web experiences, and data-driven strategies.",
+      "cta1": "Our Services",
+      "cta2": "Get In Touch",
+      "basedIn": "Based in Dhaka",
+      "location": "Kamarpara, Uttara",
+      "est": "Est. 2021",
+      "yearsStrong": "3+ Years Strong"
+    },
+    "stats": {
+      "clients": "Happy Clients",
+      "projects": "Projects Delivered",
+      "satisfaction": "Client Satisfaction",
+      "experience": "Years Experience"
+    },
+    "story": {
+      "badge": "Our Story",
+      "heading": "Built to Help Brands",
+      "headingHighlight": "Win Online",
+      "subheading": "From a creative team in Uttara, Dhaka — to a full-service digital agency serving clients across Bangladesh and internationally.",
+      "globalReach": "Global Reach",
+      "globalReachSub": "Local roots · International clients",
+      "yearsExcellence": "3+ Years of Excellence",
+      "started": {
+        "title": "How We Started",
+        "text": "MetaGenDigital was founded in 2021 with one clear goal — to give businesses access to world-class digital marketing that actually delivers results. We started small in Kamarpara, Uttara, Dhaka, with a passionate team and a big vision."
+      },
+      "roots": {
+        "title": "Local Roots, Global Reach",
+        "text": "What started as a local agency has grown into a full-service team serving clients both across Bangladesh and internationally. From Dhaka startups to overseas brands — we bring the same dedication, creativity, and results-focus to every project."
+      },
+      "today": {
+        "title": "Where We Are Today",
+        "text": "Today we combine sharp strategy, creative execution, and performance analytics to help 50+ clients stand out in a competitive digital landscape — and achieve sustainable, measurable growth."
+      }
+    },
+    "mission": {
+      "title": "Our Mission",
+      "text": "To empower Bangladeshi businesses with world-class digital marketing, creative content, and technology solutions — enabling them to compete and win in the global digital economy. We build partnerships, not just campaigns."
+    },
+    "vision": {
+      "title": "Our Vision",
+      "text": "To become the most trusted and results-driven digital agency in Bangladesh — recognised for our creativity, integrity, and the measurable impact we create for every client we work with."
+    },
+    "values": {
+      "badge": "Our Values",
+      "heading": "What We",
+      "headingHighlight": "Believe In",
+      "subheading": "Our values shape every decision we make — from how we build campaigns to how we talk to clients.",
+      "results": { "title": "Results First", "description": "We measure everything. Every strategy we build is anchored to real KPIs — not vanity metrics." },
+      "partnership": { "title": "Client Partnership", "description": "We treat every client as a long-term partner, not just a project. Your growth is our growth." },
+      "creative": { "title": "Creative Excellence", "description": "Bold ideas, refined execution. We push creative boundaries while staying true to your brand." },
+      "trust": { "title": "Trust & Transparency", "description": "Clear reporting, honest pricing, and direct communication — no smoke and mirrors, ever." },
+      "data": { "title": "Data-Driven Decisions", "description": "Analytics guide every campaign. We use real data to optimise and scale what's already working." },
+      "time": { "title": "Always On Time", "description": "Deadlines are sacred. We plan meticulously and deliver on schedule — every single time." }
+    },
+    "team": {
+      "badge": "Our Team",
+      "heading": "The Experts Behind",
+      "headingHighlight": "Your Growth",
+      "subheading": "A tight-knit team of marketers, developers, designers, and creatives — all dedicated to your success.",
+      "m0": { "name": "MD. Tanvir Hossain", "role": "Founder & CEO", "bio": "Visionary leader with deep expertise in digital marketing strategy and brand growth across Bangladesh." },
+      "m1": { "name": "Nusrat Jahan", "role": "Head of Social Media", "bio": "Social media strategist who has grown brand communities to tens of thousands of engaged followers." },
+      "m2": { "name": "Arif Rahman", "role": "Lead Web Developer", "bio": "Full-stack developer specialising in high-performance websites and custom e-commerce solutions." },
+      "m3": { "name": "Sadia Islam", "role": "Creative Director", "bio": "Brand designer and photographer with an eye for visual storytelling that stops the scroll." }
+    },
+    "chips": {
+      "digitalMarketing": "Digital Marketing",
+      "socialMedia": "Social Media Marketing",
+      "photography": "Photography & Videography",
+      "webDev": "Website Development",
+      "ecommerce": "E-commerce Development",
+      "branding": "Branding & Graphic Design"
+    },
+    "contact": {
+      "badge": "Find Us",
+      "heading": "Get In",
+      "headingHighlight": "Touch",
+      "subheading": "We're based in Uttara, Dhaka and available Sunday to Thursday. Reach us through any channel below — we usually reply within a few hours.",
+      "followUs": "Follow Us",
+      "d0": { "label": "Address", "value": "Kamarpara, Uttara, Dhaka, Bangladesh" },
+      "d1": { "label": "Phone", "value": "+88 01970-222573" },
+      "d2": { "label": "Email", "value": "hello{'@'}metagendigital.com" },
+      "d3": { "label": "Alt Email", "value": "metagendigital{'@'}gmail.com" },
+      "d4": { "label": "Website", "value": "www.metagendigital.com" },
+      "d5": { "label": "Working Hours", "value": "Sunday – Thursday, 9am – 6pm (BST)" }
+    },
+    "cta": {
+      "title": "Ready to Grow Your Business?",
+      "subtitle": "Let's build something great together. Tell us about your project and we'll get back within 24 hours.",
+      "primary": "Start a Project",
+      "secondary": "View Our Work"
+    }
+  },
+  "pricingPage": {
+    "breadcrumb": "Pricing",
+    "badge": "Transparent Pricing",
+    "heading": "Simple,",
+    "headingHighlight": "Honest Pricing",
+    "subheading": "No hidden fees. Pick the plan that fits your goals.",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "save20": "Save 20%",
+    "note": "All prices in USD. Need something custom?",
+    "letsTalk": "Let's talk →",
+    "starter": {
+      "name": "Starter",
+      "description": "Perfect for small businesses getting started online.",
+      "f0": "Social Media Management (2 platforms)",
+      "f1": "8 Posts per month",
+      "f2": "Monthly Analytics Report",
+      "f3": "Email Support",
+      "f4": "Paid Ad Management",
+      "f5": "Website Development"
+    },
+    "growth": {
+      "name": "Growth",
+      "description": "For growing businesses that want to scale fast.",
+      "f0": "Social Media Management (4 platforms)",
+      "f1": "20 Posts per month",
+      "f2": "Paid Ad Management ($500 budget)",
+      "f3": "Weekly Analytics Report",
+      "f4": "Priority Support",
+      "f5": "Custom Website (1 page)"
+    },
+    "enterprise": {
+      "name": "Enterprise",
+      "description": "Full-service digital marketing for large teams.",
+      "f0": "All platforms, unlimited posts",
+      "f1": "Dedicated account manager",
+      "f2": "Paid Ads (unlimited budget)",
+      "f3": "Website + E-commerce setup",
+      "f4": "Photography & Videography",
+      "f5": "24/7 Priority Support",
+      "cta": "Contact Us"
+    }
+  },
+  "thankYouPage": {
+    "title": "Message Sent!",
+    "subtitle": "We'll get back to you within 24 hours.",
+    "back": "Back to Home"
+  },
+  "errorPage": {
+    "title": "Page Not Found",
+    "message": "The page you're looking for doesn't exist.",
+    "back": "Go Back Home"
+  }
+}

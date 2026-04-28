@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const { t } = useI18n()
+
 interface Crumb {
   label: string
   to?: string
@@ -17,7 +19,7 @@ defineProps<Props>()
       <li>
         <NuxtLink to="/" class="hover:text-brand-orange transition-colors duration-150 flex items-center gap-1">
           <Icon name="mdi:home" class="w-4 h-4" aria-hidden="true" />
-          <span>Home</span>
+          <span>{{ t('nav.home') }}</span>
         </NuxtLink>
       </li>
       <li v-for="(crumb, i) in crumbs" :key="i" class="flex items-center gap-2">

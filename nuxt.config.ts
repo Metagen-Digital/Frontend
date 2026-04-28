@@ -12,12 +12,12 @@ export default defineNuxtConfig({
     '@nuxtjs/sitemap',
     '@nuxtjs/robots',
     '@nuxt/content',
+    '@nuxtjs/i18n',
   ],
 
   css: ['~/assets/css/main.css'],
 
   // Register all components without directory prefix
-  // e.g. components/layout/AppHeader.vue → <AppHeader>, not <LayoutAppHeader>
   components: [
     { path: '~/components', pathPrefix: false },
   ],
@@ -27,15 +27,32 @@ export default defineNuxtConfig({
       Inter: [300, 400, 500, 600, 700],
       'Plus Jakarta Sans': [600, 700, 800],
       'Space Grotesk': [400, 500],
+      'Hind Siliguri': [300, 400, 500, 600, 700],
     },
     display: 'swap',
     preload: true,
   },
 
+  i18n: {
+    locales: [
+      { code: 'en', language: 'en-US', name: 'English', dir: 'ltr', file: 'en.json' },
+      { code: 'bn', language: 'bn-BD', name: 'বাংলা', dir: 'ltr', file: 'bn.json' },
+    ],
+    lazy: true,
+    langDir: 'locales',
+    defaultLocale: 'en',
+    strategy: 'prefix_except_default',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      redirectOn: 'root',
+    },
+    vueI18n: './i18n.config.ts',
+  },
+
   app: {
     pageTransition: { name: 'page', mode: 'out-in' },
     head: {
-      htmlAttrs: { lang: 'en' },
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
         { charset: 'utf-8' },

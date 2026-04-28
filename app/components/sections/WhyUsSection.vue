@@ -2,22 +2,23 @@
 import type { Stat } from '~/types'
 
 const { el, isVisible } = useScrollAnimation()
+const { t } = useI18n()
 
-const stats: Stat[] = [
-  { value: 50,  suffix: '+', label: 'Happy Clients',      prefix: '' },
-  { value: 100, suffix: '+', label: 'Projects Delivered', prefix: '' },
-  { value: 98,  suffix: '%', label: 'Client Satisfaction',prefix: '' },
-  { value: 3,   suffix: '+', label: 'Years Experience',   prefix: '' },
-]
+const stats = computed<Stat[]>(() => [
+  { value: 50,  suffix: '+', label: t('whyUs.stats.clients'),      prefix: '' },
+  { value: 100, suffix: '+', label: t('whyUs.stats.projects'),     prefix: '' },
+  { value: 98,  suffix: '%', label: t('whyUs.stats.satisfaction'), prefix: '' },
+  { value: 3,   suffix: '+', label: t('whyUs.stats.experience'),   prefix: '' },
+])
 
-const features = [
-  { icon: 'mdi:target',        title: 'Results-Driven Approach',  description: 'Every campaign is built around your KPIs — not vanity metrics.',                           color: 'orange' },
-  { icon: 'mdi:chart-line',    title: 'Data & Analytics First',   description: 'We track everything so you know exactly what\'s working and why.',                          color: 'purple' },
-  { icon: 'mdi:account-group', title: 'Dedicated Expert Team',    description: 'Specialists in marketing, design, development, and content — all under one roof.',          color: 'cyan' },
-  { icon: 'mdi:clock-fast',    title: 'On-Time Delivery',         description: 'Deadlines matter. We plan carefully and execute on schedule, every time.',                  color: 'orange' },
-  { icon: 'mdi:headset',       title: 'Responsive Communication', description: 'Direct access to your team — no ticket queues, no waiting in the dark.',                    color: 'purple' },
-  { icon: 'mdi:currency-usd',  title: 'Transparent Pricing',      description: 'No hidden fees. Clear deliverables and fair pricing from day one.',                         color: 'cyan' },
-]
+const features = computed(() => [
+  { icon: 'mdi:target',        titleKey: 'whyUs.features.results.title',       descKey: 'whyUs.features.results.description',       color: 'orange' },
+  { icon: 'mdi:chart-line',    titleKey: 'whyUs.features.data.title',          descKey: 'whyUs.features.data.description',          color: 'purple' },
+  { icon: 'mdi:account-group', titleKey: 'whyUs.features.team.title',          descKey: 'whyUs.features.team.description',          color: 'cyan' },
+  { icon: 'mdi:clock-fast',    titleKey: 'whyUs.features.delivery.title',      descKey: 'whyUs.features.delivery.description',      color: 'orange' },
+  { icon: 'mdi:headset',       titleKey: 'whyUs.features.communication.title', descKey: 'whyUs.features.communication.description', color: 'purple' },
+  { icon: 'mdi:currency-usd',  titleKey: 'whyUs.features.pricing.title',       descKey: 'whyUs.features.pricing.description',       color: 'cyan' },
+])
 
 const iconGradient: Record<string, string> = {
   orange: 'from-brand-orange/20 to-brand-orange/5 text-brand-orange',
@@ -38,13 +39,13 @@ const accentBar: Record<string, string> = {
 
       <!-- Heading -->
       <div class="text-center mb-14">
-        <SectionBadge icon="mdi:shield-star" color="purple" class="mb-4">Why Choose Us</SectionBadge>
+        <SectionBadge icon="mdi:shield-star" color="purple" class="mb-4">{{ $t('whyUs.badge') }}</SectionBadge>
         <h2 class="text-brand-text-primary mt-4 mb-4">
-          The Agency That
-          <span class="gradient-text"> Gets Results</span>
+          {{ $t('whyUs.heading') }}
+          <span class="gradient-text"> {{ $t('whyUs.headingHighlight') }}</span>
         </h2>
         <p class="text-brand-text-secondary max-w-xl mx-auto">
-          We don't just deliver services — we build lasting partnerships that drive measurable growth.
+          {{ $t('whyUs.subheading') }}
         </p>
       </div>
 
@@ -77,7 +78,7 @@ const accentBar: Record<string, string> = {
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         <div
           v-for="(feature, i) in features"
-          :key="feature.title"
+          :key="feature.titleKey"
           v-motion
           :initial="{ opacity: 0, y: 30 }"
           :visible-once="{ opacity: 1, y: 0, transition: { delay: i * 80, duration: 500 } }"
@@ -100,8 +101,8 @@ const accentBar: Record<string, string> = {
               <Icon :name="feature.icon" class="w-5 h-5" aria-hidden="true" />
             </div>
             <div>
-              <h3 class="text-[15px] font-bold text-brand-text-primary mb-1">{{ feature.title }}</h3>
-              <p class="text-sm text-brand-text-secondary leading-relaxed">{{ feature.description }}</p>
+              <h3 class="text-[15px] font-bold text-brand-text-primary mb-1">{{ t(feature.titleKey) }}</h3>
+              <p class="text-sm text-brand-text-secondary leading-relaxed">{{ t(feature.descKey) }}</p>
             </div>
           </div>
         </div>

@@ -20,6 +20,7 @@ export const services = [
 
 export function useContactForm() {
   const { success, error } = useToast()
+  const { post } = useApi()
 
   const { handleSubmit, isSubmitting, resetForm } = useForm({ validationSchema: schema })
 
@@ -31,15 +32,37 @@ export function useContactForm() {
 
   const submit = handleSubmit(async (values) => {
     try {
-      await $fetch('/api/contact', {
-        method: 'POST',
-        body: values,
+      // Split "Full Name" → first_name + last_name for Laravel API
+      const parts = values.name.trim().split(/\s+/)
+      const firstName = parts[0] ?? ''
+      const lastName  = parts.slice(1).join(' ') || firstName
+
+      const res = await post('/contact/submit', {
+        first_name: firstName,
+        last_name:  lastName,
+        email:      values.email,
+        phone:      values.phone || undefined,
+        service:    values.service,
+        message:    values.message,
+        subscribe_newsletter: false,
       })
-      success('Message sent!', "We'll reply within 24 hours.")
-      resetForm()
+
+      if (res.success) {
+        success('Message sent!', "We'll reply within 24 hours.")
+        resetForm()
+        await navigateTo('/thank-you')
+      }
     }
-    catch {
-      error('Something went wrong', 'Please try again or email us directly.')
+    catch (err: any) {
+      if (err?.status === 422) {
+        const errors = err?.data?.errors ?? {}
+        const first = Object.values(errors).flat()[0] as string
+        error('Validation error', first || 'Please check your input.')
+      } else if (err?.status === 429) {
+        error('Too many attempts', 'Please wait a while and try again.')
+      } else {
+        error('Something went wrong', 'Please try again or email us directly.')
+      }
     }
   })
 

@@ -615,6 +615,7 @@ const serviceMap: Record<string, ServiceData> = {
   },
 };
 
+const { t } = useI18n()
 const { get } = useApi();
 const slug = route.params.slug as string;
 const { data: serviceResponse } = await get<ServiceApiItem>(
@@ -806,7 +807,7 @@ const cfg = computed(() => colorConfig[service.value?.color ?? "orange"]);
         <div class="mb-8 opacity-80">
           <AppBreadcrumb
             :crumbs="[
-              { label: 'Services', to: '/services' },
+              { label: t('servicesPage.breadcrumb'), to: '/services' },
               { label: service.name },
             ]"
           />

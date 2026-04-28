@@ -2,22 +2,24 @@
 const { y: scrollY } = useWindowScroll()
 const mobileMenuOpen = useState('mobileMenuOpen', () => false)
 const { locale, toggleLocale, localeLabel } = useLocale()
+const localePath = useLocalePath()
+const { t } = useI18n()
 
 const isScrolled = computed(() => scrollY.value > 50)
 
-const navLinks = [
-  { label: 'Home',      to: '/' },
-  { label: 'About',     to: '/about' },
-  { label: 'Services',  to: '/services' },
-  { label: 'Portfolio', to: '/portfolio' },
-  { label: 'Blog',      to: '/blog' },
-  { label: 'Contact',   to: '/contact' },
-]
+const navLinks = computed(() => [
+  { labelKey: 'nav.home',      to: '/' },
+  { labelKey: 'nav.about',     to: '/about' },
+  { labelKey: 'nav.services',  to: '/services' },
+  { labelKey: 'nav.portfolio', to: '/portfolio' },
+  { labelKey: 'nav.blog',      to: '/blog' },
+  { labelKey: 'nav.contact',   to: '/contact' },
+])
 
 const route = useRoute()
 const isActive = (path: string) => {
-  if (path === '/') return route.path === '/'
-  return route.path.startsWith(path)
+  if (path === '/') return route.path === '/' || route.path === '/bn'
+  return route.path.startsWith(path) || route.path.startsWith('/bn' + path)
 }
 
 function toggleMenu() {
@@ -34,7 +36,7 @@ function toggleMenu() {
   >
     <div class="container-content flex items-center justify-between h-16 md:h-20">
       <!-- Logo — dark version for light bg -->
-      <NuxtLink to="/" class="flex items-center" aria-label="MetaGenDigital home">
+      <NuxtLink :to="localePath('/')" class="flex items-center" aria-label="MetaGenDigital home">
         <img
           src="/images/MetaGen-Logo.svg"
           alt="MetaGenDigital"
@@ -47,13 +49,13 @@ function toggleMenu() {
         <NuxtLink
           v-for="link in navLinks"
           :key="link.to"
-          :to="link.to"
+          :to="localePath(link.to)"
           class="relative px-3 py-2 text-sm font-medium transition-colors duration-150 rounded-md group"
           :class="isActive(link.to)
             ? 'text-brand-text-primary'
             : 'text-brand-text-secondary hover:text-brand-text-primary'"
         >
-          {{ link.label }}
+          {{ t(link.labelKey) }}
           <!-- Active/hover underline -->
           <span
             class="absolute bottom-0.5 left-3 right-3 h-0.5 bg-brand-primary rounded-full transition-all duration-250 origin-left"
@@ -78,10 +80,10 @@ function toggleMenu() {
         </button>
 
         <NuxtLink
-          to="/contact"
+          :to="localePath('/contact')"
           class="hidden md:inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-gradient-brand rounded-btn hover:shadow-glow-primary hover:scale-105 transition-all duration-250 ease-spring"
         >
-          Get a Quote
+          {{ $t('nav.getQuote') }}
           <Icon name="mdi:arrow-right" class="w-4 h-4" aria-hidden="true" />
         </NuxtLink>
 

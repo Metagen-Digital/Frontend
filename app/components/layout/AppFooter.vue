@@ -1,26 +1,27 @@
 <script setup lang="ts">
-const services = [
-  { label: "Digital Marketing", to: "/services/digital-marketing" },
-  { label: "Social Media Marketing", to: "/services/social-media-marketing" },
-  {
-    label: "Photography & Videography",
-    to: "/services/photography-videography",
-  },
-  { label: "Website Development", to: "/services/website-development" },
-  { label: "E-commerce Development", to: "/services/ecommerce-development" },
-];
+const { t } = useI18n()
+const { post } = useApi()
+const localePath = useLocalePath()
 
-const company = [
-  { label: "About Us", to: "/about" },
-  { label: "Portfolio", to: "/portfolio" },
-  { label: "Blog", to: "/blog" },
-  { label: "Contact", to: "/contact" },
-];
+const services = computed(() => [
+  { labelKey: "footer.links.digitalMarketing", to: "/services/digital-marketing" },
+  { labelKey: "footer.links.socialMedia",      to: "/services/social-media-marketing" },
+  { labelKey: "footer.links.photography",      to: "/services/photography-videography" },
+  { labelKey: "footer.links.webDev",           to: "/services/website-development" },
+  { labelKey: "footer.links.ecommerce",        to: "/services/ecommerce-development" },
+])
 
-const legal = [
-  { label: "Privacy Policy", to: "/privacy-policy" },
-  { label: "Terms of Use", to: "/terms" },
-];
+const company = computed(() => [
+  { labelKey: "footer.links.about",     to: "/about" },
+  { labelKey: "footer.links.portfolio", to: "/portfolio" },
+  { labelKey: "footer.links.blog",      to: "/blog" },
+  { labelKey: "footer.links.contact",   to: "/contact" },
+])
+
+const legal = computed(() => [
+  { labelKey: "footer.links.privacy", to: "/privacy-policy" },
+  { labelKey: "footer.links.terms",   to: "/terms" },
+])
 
 const socials = [
   {
@@ -47,9 +48,36 @@ const socials = [
     label: "YouTube",
     bg: "hover:bg-[#fd3832]",
   },
-];
+]
 
-const currentYear = new Date().getFullYear();
+const currentYear = new Date().getFullYear()
+
+// Newsletter subscribe
+const newsletterEmail    = ref('')
+const newsletterStatus   = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
+const newsletterMessage  = ref('')
+
+async function subscribeNewsletter() {
+  const email = newsletterEmail.value.trim()
+  if (!email) return
+  newsletterStatus.value = 'loading'
+  try {
+    const res = await post('/newsletter/subscribe', { email })
+    if (res.success) {
+      newsletterStatus.value = 'success'
+      newsletterMessage.value = t('footer.newsletter.success')
+      newsletterEmail.value = ''
+    }
+  } catch (err: any) {
+    if (err?.status === 400) {
+      newsletterStatus.value = 'error'
+      newsletterMessage.value = t('footer.newsletter.alreadySubscribed')
+    } else {
+      newsletterStatus.value = 'error'
+      newsletterMessage.value = t('footer.newsletter.error')
+    }
+  }
+}
 </script>
 
 <template>
@@ -62,7 +90,7 @@ const currentYear = new Date().getFullYear();
       <div class="lg:col-span-1">
         <!-- Real MetaGen logo -->
         <NuxtLink
-          to="/"
+          :to="localePath('/')"
           class="inline-block mb-5"
           aria-label="MetaGenDigital home"
         >
@@ -75,8 +103,7 @@ const currentYear = new Date().getFullYear();
         </NuxtLink>
 
         <p class="text-sm leading-relaxed mb-6" style="color: #e8e8e8">
-          Your trusted growth partner for digital marketing, web development,
-          and creative content. Based in Bangladesh, serving clients worldwide.
+          {{ $t('footer.tagline') }}
         </p>
 
         <!-- Social icons -->
@@ -101,16 +128,16 @@ const currentYear = new Date().getFullYear();
         <h3
           class="text-sm font-semibold text-white uppercase tracking-widest mb-5"
         >
-          Services
+          {{ $t('footer.services') }}
         </h3>
         <ul class="space-y-3">
           <li v-for="link in services" :key="link.to">
             <NuxtLink
-              :to="link.to"
+              :to="localePath(link.to)"
               class="text-sm transition-colors duration-150 hover:text-brand-orange"
               style="color: #e8e8e8"
             >
-              {{ link.label }}
+              {{ $t(link.labelKey) }}
             </NuxtLink>
           </li>
         </ul>
@@ -121,16 +148,16 @@ const currentYear = new Date().getFullYear();
         <h3
           class="text-sm font-semibold text-white uppercase tracking-widest mb-5"
         >
-          Company
+          {{ $t('footer.company') }}
         </h3>
         <ul class="space-y-3">
           <li v-for="link in company" :key="link.to">
             <NuxtLink
-              :to="link.to"
+              :to="localePath(link.to)"
               class="text-sm transition-colors duration-150 hover:text-brand-orange"
               style="color: #e8e8e8"
             >
-              {{ link.label }}
+              {{ $t(link.labelKey) }}
             </NuxtLink>
           </li>
         </ul>
@@ -141,7 +168,7 @@ const currentYear = new Date().getFullYear();
         <h3
           class="text-sm font-semibold text-white uppercase tracking-widest mb-5"
         >
-          Contact
+          {{ $t('footer.contact') }}
         </h3>
         <ul class="space-y-3 text-sm" style="color: #e8e8e8">
           <li class="flex items-start gap-2.5">
@@ -190,7 +217,7 @@ const currentYear = new Date().getFullYear();
               rel="noopener noreferrer"
               class="hover:text-brand-orange transition-colors duration-150"
             >
-              WhatsApp Us
+              {{ $t('footer.links.whatsapp') }}
             </a>
           </li>
           <li class="flex items-start gap-2.5">
@@ -199,29 +226,62 @@ const currentYear = new Date().getFullYear();
               class="w-4 h-4 mt-0.5 text-brand-orange flex-shrink-0"
               aria-hidden="true"
             />
-            <span>Sun–Thu: 9am – 6pm (BST)</span>
+            <span>{{ $t('footer.links.hours') }}</span>
           </li>
         </ul>
       </div>
     </div>
 
+    <!-- Newsletter band -->
+    <div style="border-top: 1px solid #504f59; border-bottom: 1px solid #504f59">
+      <div class="container-content py-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div>
+          <p class="text-white font-semibold text-sm mb-0.5">{{ $t('footer.newsletter.title') }}</p>
+          <p class="text-[13px]" style="color: #c7c6c6">{{ $t('footer.newsletter.subtitle') }}</p>
+        </div>
+        <div class="w-full sm:w-auto">
+          <div v-if="newsletterStatus === 'success'" class="flex items-center gap-2 text-sm text-green-400">
+            <Icon name="mdi:check-circle-outline" class="w-4 h-4 flex-shrink-0" />
+            {{ newsletterMessage }}
+          </div>
+          <form v-else class="flex gap-2" @submit.prevent="subscribeNewsletter">
+            <input
+              v-model="newsletterEmail"
+              type="email"
+              :placeholder="$t('footer.newsletter.placeholder')"
+              required
+              class="w-64 px-4 py-2 rounded-btn text-sm text-brand-text-primary bg-white/95 outline-none focus:ring-2 focus:ring-brand-orange/50 placeholder:text-brand-text-muted"
+            />
+            <button
+              type="submit"
+              :disabled="newsletterStatus === 'loading'"
+              class="px-4 py-2 rounded-btn bg-brand-orange text-white text-sm font-semibold hover:bg-brand-orange/90 transition-colors duration-150 disabled:opacity-60 whitespace-nowrap"
+            >
+              {{ newsletterStatus === 'loading' ? $t('footer.newsletter.subscribing') : $t('footer.newsletter.subscribe') }}
+            </button>
+          </form>
+          <p v-if="newsletterStatus === 'error'" class="mt-1.5 text-xs text-red-400">{{ newsletterMessage }}</p>
+        </div>
+      </div>
+    </div>
+
     <!-- Bottom bar -->
-    <div style="border-top: 1px solid #504f59">
+    <div>
       <div
         class="container-content flex flex-col sm:flex-row items-center justify-between gap-3 py-5"
       >
         <p class="text-xs" style="color: #c7c6c6">
-          &copy; {{ currentYear }} MetaGenDigital. All rights reserved.
+          &copy; {{ currentYear }} MetaGenDigital. {{ $t('footer.copyright') }}
         </p>
         <div class="flex items-center gap-4">
           <NuxtLink
             v-for="link in legal"
             :key="link.to"
-            :to="link.to"
+            :to="localePath(link.to)"
             class="text-xs hover:text-white transition-colors duration-150"
             style="color: #c7c6c6"
           >
-            {{ link.label }}
+            {{ $t(link.labelKey) }}
           </NuxtLink>
         </div>
       </div>

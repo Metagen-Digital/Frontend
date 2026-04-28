@@ -1,14 +1,16 @@
 <script setup lang="ts">
 const mobileMenuOpen = useState("mobileMenuOpen", () => false);
+const localePath = useLocalePath()
+const { t } = useI18n()
 
-const navLinks = [
-  { label: "Home", to: "/", icon: "mdi:home-outline" },
-  { label: "About", to: "/about", icon: "mdi:account-group-outline" },
-  { label: "Services", to: "/services", icon: "mdi:briefcase-outline" },
-  { label: "Portfolio", to: "/portfolio", icon: "mdi:folder-star-outline" },
-  { label: "Blog", to: "/blog", icon: "mdi:notebook-outline" },
-  { label: "Contact", to: "/contact", icon: "mdi:message-outline" },
-];
+const navLinks = computed(() => [
+  { labelKey: "nav.home",      to: "/",          icon: "mdi:home-outline" },
+  { labelKey: "nav.about",     to: "/about",     icon: "mdi:account-group-outline" },
+  { labelKey: "nav.services",  to: "/services",  icon: "mdi:briefcase-outline" },
+  { labelKey: "nav.portfolio", to: "/portfolio", icon: "mdi:folder-star-outline" },
+  { labelKey: "nav.blog",      to: "/blog",      icon: "mdi:notebook-outline" },
+  { labelKey: "nav.contact",   to: "/contact",   icon: "mdi:message-outline" },
+]);
 
 const socialLinks = [
   {
@@ -39,8 +41,8 @@ const socialLinks = [
 
 const route = useRoute();
 const isActive = (path: string) => {
-  if (path === "/") return route.path === "/";
-  return route.path.startsWith(path);
+  if (path === "/") return route.path === "/" || route.path === "/bn";
+  return route.path.startsWith(path) || route.path.startsWith("/bn" + path);
 };
 
 // Close on route change
@@ -112,7 +114,7 @@ watch(mobileMenuOpen, (open) => {
           <NuxtLink
             v-for="(link, i) in navLinks"
             :key="link.to"
-            :to="link.to"
+            :to="localePath(link.to)"
             class="group relative flex items-center gap-3 px-4 py-3 rounded-card text-base font-semibold border transition-all duration-200"
             :class="
               isActive(link.to)
@@ -131,7 +133,7 @@ watch(mobileMenuOpen, (open) => {
               aria-hidden="true"
             />
             <Icon :name="link.icon" class="w-5 h-5" aria-hidden="true" />
-            {{ link.label }}
+            {{ t(link.labelKey) }}
           </NuxtLink>
 
           <!-- Contact + social info -->
@@ -139,7 +141,7 @@ watch(mobileMenuOpen, (open) => {
             <p
               class="px-1 text-[11px] font-bold tracking-widest uppercase text-brand-text-muted"
             >
-              Contact
+              {{ $t('mobile.contact') }}
             </p>
 
             <div class="mt-3 space-y-2.5">
@@ -188,11 +190,11 @@ watch(mobileMenuOpen, (open) => {
         <!-- CTA -->
         <div class="px-4 py-6 border-t border-brand-border">
           <NuxtLink
-            to="/contact"
+            :to="localePath('/contact')"
             class="flex items-center justify-center gap-2 w-full px-5 py-3 text-sm font-semibold text-white bg-gradient-brand rounded-btn hover:shadow-glow-orange transition-all duration-250"
             @click="mobileMenuOpen = false"
           >
-            Get a Quote
+            {{ $t('mobile.getQuote') }}
             <Icon name="mdi:arrow-right" class="w-4 h-4" aria-hidden="true" />
           </NuxtLink>
         </div>

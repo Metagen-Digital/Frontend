@@ -1,104 +1,12 @@
 <script setup lang="ts">
 import type { Service, ServiceApiItem } from "~/types";
+const { t } = useI18n()
 
 useSeoMeta({
   title: "Our Services | MetaGenDigital",
   description:
     "Explore our full range of digital marketing, web development, photography, social media, and brand design services.",
 });
-
-const fallbackServices: Service[] = [
-  {
-    slug: "digital-marketing",
-    name: "Digital Marketing",
-    icon: "mdi:trending-up",
-    tagline: "ROI-focused campaigns",
-    description:
-      "Data-driven paid ads, SEO, and analytics strategies that maximize your return and scale your brand consistently.",
-    features: [
-      "Google & Meta Ads",
-      "SEO Optimization",
-      "Analytics & Reporting",
-      "Conversion Rate Optimization",
-    ],
-    color: "orange",
-  },
-  {
-    slug: "social-media-marketing",
-    name: "Social Media Marketing",
-    icon: "mdi:instagram",
-    tagline: "Build community & drive growth",
-    description:
-      "Creative content creation, daily community management, and growth strategies across all major social platforms.",
-    features: [
-      "Content Strategy",
-      "Community Management",
-      "Influencer Outreach",
-      "Performance Tracking",
-    ],
-    color: "purple",
-  },
-  {
-    slug: "photography-videography",
-    name: "Photography & Videography",
-    icon: "mdi:camera",
-    tagline: "Visual storytelling that converts",
-    description:
-      "Professional product photography, cinematic brand films, and scroll-stopping reels that make your brand unforgettable.",
-    features: [
-      "Product Photography",
-      "Brand Films",
-      "Social Media Reels",
-      "Photo & Video Editing",
-    ],
-    color: "cyan",
-  },
-  {
-    slug: "website-development",
-    name: "Website Development",
-    icon: "mdi:web",
-    tagline: "Fast, beautiful & SEO-ready",
-    description:
-      "Custom-designed, high-performance websites built with modern technologies and optimized for speed and conversions.",
-    features: [
-      "Custom Design",
-      "Mobile Responsive",
-      "SEO Architecture",
-      "CMS Integration",
-    ],
-    color: "orange",
-  },
-  {
-    slug: "ecommerce-development",
-    name: "E-commerce Development",
-    icon: "mdi:shopping",
-    tagline: "Stores that sell 24/7",
-    description:
-      "Full-featured e-commerce solutions on Shopify, WooCommerce, and custom platforms with seamless payment integration.",
-    features: [
-      "Shopify & WooCommerce",
-      "Payment Integration",
-      "Inventory Management",
-      "Launch & Support",
-    ],
-    color: "purple",
-  },
-  {
-    slug: "brand-design",
-    name: "Brand & Graphic Design",
-    icon: "mdi:palette",
-    tagline: "Identities people remember",
-    description:
-      "Logo design, brand guidelines, and complete visual identity systems that make you instantly recognizable and trusted.",
-    features: [
-      "Logo Design",
-      "Brand Guidelines",
-      "Marketing Materials",
-      "UI/UX Design",
-    ],
-    color: "cyan",
-  },
-];
 
 const { get } = useApi();
 const { data: servicesResponse } = await get<ServiceApiItem[]>("/services");
@@ -107,10 +15,6 @@ const colorPool: Array<Service["color"]> = ["orange", "purple", "cyan"];
 
 const services = computed<Service[]>(() => {
   const apiItems = servicesResponse.value?.data ?? [];
-  if (!apiItems.length) {
-    return fallbackServices;
-  }
-
   return apiItems.map((service, index) => ({
     slug: service.slug,
     name: service.title,
@@ -146,36 +50,29 @@ const services = computed<Service[]>(() => {
       />
 
       <div class="container-content relative z-10">
-        <AppBreadcrumb :crumbs="[{ label: 'Services' }]" class="mb-6" />
-        <SectionBadge icon="mdi:lightning-bolt" class="mb-5"
-          >What We Offer</SectionBadge
-        >
+        <AppBreadcrumb :crumbs="[{ label: $t('servicesPage.breadcrumb') }]" class="mb-6" />
+        <SectionBadge icon="mdi:lightning-bolt" class="mb-5">{{ $t('servicesPage.badge') }}</SectionBadge>
 
         <h1 class="text-brand-text-primary mb-4 max-w-2xl">
-          Services That <span class="gradient-text">Drive Real Results</span>
+          {{ $t('servicesPage.heading') }} <span class="gradient-text">{{ $t('servicesPage.headingHighlight') }}</span>
         </h1>
-        <p
-          class="text-brand-text-secondary text-lg max-w-2xl leading-relaxed mb-10"
-        >
-          From strategy to execution — everything your business needs to grow
-          online, all under one roof.
+        <p class="text-brand-text-secondary text-lg max-w-2xl leading-relaxed mb-10">
+          {{ $t('servicesPage.subheading') }}
         </p>
 
         <!-- Quick stats row -->
         <div class="flex flex-wrap items-center gap-8">
           <div
             v-for="s in [
-              { v: '50+', l: 'Happy Clients' },
-              { v: '200+', l: 'Projects Delivered' },
-              { v: '5+', l: 'Years Experience' },
-              { v: '6', l: 'Core Services' },
+              { v: '50+',  l: t('servicesPage.stats.clients') },
+              { v: '200+', l: t('servicesPage.stats.projects') },
+              { v: '5+',   l: t('servicesPage.stats.experience') },
+              { v: '6',    l: t('servicesPage.stats.coreServices') },
             ]"
             :key="s.l"
             class="flex items-baseline gap-2"
           >
-            <span class="text-2xl font-black gradient-text font-display">{{
-              s.v
-            }}</span>
+            <span class="text-2xl font-black gradient-text font-display">{{ s.v }}</span>
             <span class="text-sm text-brand-text-secondary">{{ s.l }}</span>
           </div>
         </div>

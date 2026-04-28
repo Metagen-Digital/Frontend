@@ -1,56 +1,58 @@
 <script setup lang="ts">
 import type { PricingPlan } from '~/types'
 
+const { t } = useI18n()
+
 useSeoMeta({
-  title: 'Pricing | MetaGenDigital',
-  description: 'Simple, transparent pricing for digital marketing, web development, and creative services.',
+  title: computed(() => `${t('pricingPage.breadcrumb')} | MetaGenDigital`),
+  description: computed(() => t('pricingPage.subheading')),
 })
 
 const billing = ref<'monthly' | 'yearly'>('monthly')
 
-const plans: PricingPlan[] = [
+const plans = computed<PricingPlan[]>(() => [
   {
-    name: 'Starter',
+    name: t('pricingPage.starter.name'),
     price: 299,
-    description: 'Perfect for small businesses getting started online.',
+    description: t('pricingPage.starter.description'),
     features: [
-      { text: 'Social Media Management (2 platforms)', included: true },
-      { text: '8 Posts per month', included: true },
-      { text: 'Monthly Analytics Report', included: true },
-      { text: 'Email Support', included: true },
-      { text: 'Paid Ad Management', included: false },
-      { text: 'Website Development', included: false },
+      { text: t('pricingPage.starter.f0'), included: true },
+      { text: t('pricingPage.starter.f1'), included: true },
+      { text: t('pricingPage.starter.f2'), included: true },
+      { text: t('pricingPage.starter.f3'), included: true },
+      { text: t('pricingPage.starter.f4'), included: false },
+      { text: t('pricingPage.starter.f5'), included: false },
     ],
   },
   {
-    name: 'Growth',
+    name: t('pricingPage.growth.name'),
     price: 699,
-    description: 'For growing businesses that want to scale fast.',
+    description: t('pricingPage.growth.description'),
     featured: true,
     features: [
-      { text: 'Social Media Management (4 platforms)', included: true },
-      { text: '20 Posts per month', included: true },
-      { text: 'Paid Ad Management ($500 budget)', included: true },
-      { text: 'Weekly Analytics Report', included: true },
-      { text: 'Priority Support', included: true },
-      { text: 'Custom Website (1 page)', included: false },
+      { text: t('pricingPage.growth.f0'), included: true },
+      { text: t('pricingPage.growth.f1'), included: true },
+      { text: t('pricingPage.growth.f2'), included: true },
+      { text: t('pricingPage.growth.f3'), included: true },
+      { text: t('pricingPage.growth.f4'), included: true },
+      { text: t('pricingPage.growth.f5'), included: false },
     ],
   },
   {
-    name: 'Enterprise',
+    name: t('pricingPage.enterprise.name'),
     price: 'Custom',
-    description: 'Full-service digital marketing for large teams.',
+    description: t('pricingPage.enterprise.description'),
     features: [
-      { text: 'All platforms, unlimited posts', included: true },
-      { text: 'Dedicated account manager', included: true },
-      { text: 'Paid Ads (unlimited budget)', included: true },
-      { text: 'Website + E-commerce setup', included: true },
-      { text: 'Photography & Videography', included: true },
-      { text: '24/7 Priority Support', included: true },
+      { text: t('pricingPage.enterprise.f0'), included: true },
+      { text: t('pricingPage.enterprise.f1'), included: true },
+      { text: t('pricingPage.enterprise.f2'), included: true },
+      { text: t('pricingPage.enterprise.f3'), included: true },
+      { text: t('pricingPage.enterprise.f4'), included: true },
+      { text: t('pricingPage.enterprise.f5'), included: true },
     ],
-    ctaLabel: 'Contact Us',
+    ctaLabel: t('pricingPage.enterprise.cta'),
   },
-]
+])
 </script>
 
 <template>
@@ -59,11 +61,13 @@ const plans: PricingPlan[] = [
     <section class="pt-32 pb-14 bg-brand-surface border-b border-brand-border relative overflow-hidden">
       <div class="absolute inset-0 bg-grid-pattern bg-grid opacity-30 pointer-events-none" aria-hidden="true" />
       <div class="container-content text-center relative z-10">
-        <AppBreadcrumb :crumbs="[{ label: 'Pricing' }]" class="mb-6 justify-center" />
-        <SectionBadge icon="mdi:tag-outline" class="mb-5">Transparent Pricing</SectionBadge>
-        <h1 class="text-brand-text-primary mb-4 mt-4">Simple, <span class="gradient-text">Honest Pricing</span></h1>
+        <AppBreadcrumb :crumbs="[{ label: $t('pricingPage.breadcrumb') }]" class="mb-6 justify-center" />
+        <SectionBadge icon="mdi:tag-outline" class="mb-5">{{ $t('pricingPage.badge') }}</SectionBadge>
+        <h1 class="text-brand-text-primary mb-4 mt-4">
+          {{ $t('pricingPage.heading') }} <span class="gradient-text">{{ $t('pricingPage.headingHighlight') }}</span>
+        </h1>
         <p class="text-brand-text-secondary text-lg max-w-xl mx-auto mb-8">
-          No hidden fees. Pick the plan that fits your goals.
+          {{ $t('pricingPage.subheading') }}
         </p>
 
         <!-- Billing toggle -->
@@ -73,16 +77,16 @@ const plans: PricingPlan[] = [
             :class="billing === 'monthly' ? 'bg-brand-orange text-white shadow-glow-orange' : 'text-brand-text-secondary hover:text-brand-text-primary'"
             @click="billing = 'monthly'"
           >
-            Monthly
+            {{ $t('pricingPage.monthly') }}
           </button>
           <button
             class="px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-150 flex items-center gap-2"
             :class="billing === 'yearly' ? 'bg-brand-orange text-white shadow-glow-orange' : 'text-brand-text-secondary hover:text-brand-text-primary'"
             @click="billing = 'yearly'"
           >
-            Yearly
+            {{ $t('pricingPage.yearly') }}
             <span class="text-xs font-bold px-1.5 py-0.5 rounded-full bg-brand-success/20 text-brand-success">
-              Save 20%
+              {{ $t('pricingPage.save20') }}
             </span>
           </button>
         </div>
@@ -104,8 +108,8 @@ const plans: PricingPlan[] = [
         </div>
 
         <p class="text-center text-sm text-brand-text-muted mt-10">
-          All prices in USD. Need something custom?
-          <NuxtLink to="/contact" class="text-brand-orange hover:underline">Let's talk →</NuxtLink>
+          {{ $t('pricingPage.note') }}
+          <NuxtLink to="/contact" class="text-brand-orange hover:underline">{{ $t('pricingPage.letsTalk') }}</NuxtLink>
         </p>
       </div>
     </section>

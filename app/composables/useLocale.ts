@@ -1,13 +1,11 @@
-type Locale = 'en' | 'bn'
-
 export function useLocale() {
-  const locale = useState<Locale>('locale', () => 'en')
+  const { locale, setLocale } = useI18n()
 
   function toggleLocale() {
-    locale.value = locale.value === 'en' ? 'bn' : 'en'
+    setLocale(locale.value === 'en' ? 'bn' : 'en')
   }
 
   const localeLabel = computed(() => locale.value === 'en' ? 'EN' : 'বাং')
 
-  return { locale, toggleLocale, localeLabel }
+  return { locale, toggleLocale, localeLabel, setLocale }
 }

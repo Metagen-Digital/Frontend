@@ -520,6 +520,7 @@ const postMap: Record<string, PostData> = {
 };
 
 /* ─── Runtime ──────────────────────────────────────────────── */
+const { t } = useI18n()
 const { get } = useApi();
 const slug = route.params.slug as string;
 const { data: blogResponse, error: blogError } = await get<BlogApiDetail>(
@@ -798,7 +799,7 @@ const categoryIcon: Record<string, string> = {
         <!-- Breadcrumb -->
         <div class="mb-8 opacity-75">
           <AppBreadcrumb
-            :crumbs="[{ label: 'Blog', to: '/blog' }, { label: post.category }]"
+            :crumbs="[{ label: $t('blogDetail.breadcrumb'), to: '/blog' }, { label: post.category }]"
           />
         </div>
 
@@ -888,7 +889,7 @@ const categoryIcon: Record<string, string> = {
               <p
                 class="text-xs font-bold text-brand-text-muted uppercase tracking-widest mb-3"
               >
-                Tags
+                {{ $t('blogDetail.tags') }}
               </p>
               <div class="flex flex-wrap gap-2">
                 <span
@@ -927,9 +928,7 @@ const categoryIcon: Record<string, string> = {
 
             <!-- Share row -->
             <div class="mt-8 flex flex-wrap items-center gap-3">
-              <span class="text-sm font-bold text-brand-text-primary"
-                >Share this article:</span
-              >
+              <span class="text-sm font-bold text-brand-text-primary">{{ $t('blogDetail.share') }}</span>
               <button
                 class="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-brand-border bg-brand-surface text-sm font-semibold text-brand-text-secondary hover:border-brand-primary hover:text-brand-primary transition-all duration-200"
                 @click="copyLink"
@@ -939,7 +938,7 @@ const categoryIcon: Record<string, string> = {
                   class="w-4 h-4"
                   aria-hidden="true"
                 />
-                {{ copied ? "Copied!" : "Copy Link" }}
+                {{ copied ? $t('blogDetail.copied') : $t('blogDetail.copyLink') }}
               </button>
               <a
                 href="https://www.linkedin.com/sharing/share-offsite/"
@@ -980,7 +979,7 @@ const categoryIcon: Record<string, string> = {
                 <p
                   class="text-[12px] font-bold text-brand-text-primary uppercase tracking-widest"
                 >
-                  Table of Contents
+                  {{ $t('blogDetail.tableOfContents') }}
                 </p>
               </div>
               <nav class="p-4 space-y-1">
@@ -1019,7 +1018,7 @@ const categoryIcon: Record<string, string> = {
                 <p
                   class="text-[10px] font-bold text-brand-text-muted uppercase tracking-wider mb-0.5"
                 >
-                  Reading Time
+                  {{ $t('blogDetail.readingTime') }}
                 </p>
                 <p class="text-sm font-bold text-brand-text-primary">
                   {{ post.readTime }}
@@ -1066,12 +1065,7 @@ const categoryIcon: Record<string, string> = {
     <section class="section-padding bg-brand-surface">
       <div class="container-content">
         <div class="mb-10">
-          <p
-            class="text-[11px] font-bold text-brand-text-muted uppercase tracking-widest mb-2"
-          >
-            Keep Reading
-          </p>
-          <h2 class="text-brand-text-primary">Related Articles</h2>
+          <h2 class="text-brand-text-primary">{{ $t('blogDetail.relatedPosts') }}</h2>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6">
           <BlogCard
@@ -1102,7 +1096,7 @@ const categoryIcon: Record<string, string> = {
             class="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1"
             aria-hidden="true"
           />
-          Back to All Articles
+          {{ $t('blogDetail.backToBlog') }}
         </NuxtLink>
       </div>
     </section>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { CaseStudyApiItem, PortfolioCategory } from "~/types";
+const { t } = useI18n()
 
 useSeoMeta({
   title: "Portfolio | MetaGenDigital",
@@ -21,97 +22,6 @@ interface Item {
 }
 
 const activeCategory = ref<"All" | PortfolioCategory>("All");
-
-const fallbackItems: Item[] = [
-  {
-    slug: "techcorp-website",
-    title: "TechCorp BD Website Redesign",
-    category: "Web Dev",
-    thumbnail:
-      "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=900&q=80&auto=format&fit=crop",
-    tagColor: "orange",
-    result: "+180% traffic",
-    client: "TechCorp BD",
-    year: 2024,
-  },
-  {
-    slug: "shopbd-social",
-    title: "ShopBD Social Media Campaign",
-    category: "Social Media",
-    thumbnail:
-      "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=900&q=80&auto=format&fit=crop",
-    tagColor: "purple",
-    result: "+400% engagement",
-    client: "ShopBD",
-    year: 2024,
-  },
-  {
-    slug: "greengrow-photos",
-    title: "GreenGrow Product Photography",
-    category: "Photography",
-    thumbnail:
-      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=900&q=80&auto=format&fit=crop",
-    tagColor: "cyan",
-    result: "+60% conversion",
-    client: "GreenGrow",
-    year: 2024,
-  },
-  {
-    slug: "urbaneats-brand-film",
-    title: "UrbanEats Cinematic Brand Film",
-    category: "Video",
-    thumbnail:
-      "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=900&q=80&auto=format&fit=crop",
-    tagColor: "orange",
-    result: "2M+ views",
-    client: "UrbanEats",
-    year: 2024,
-  },
-  {
-    slug: "stylehouse-store",
-    title: "StyleHouse E-commerce Platform",
-    category: "E-commerce",
-    thumbnail:
-      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=900&q=80&auto=format&fit=crop",
-    tagColor: "purple",
-    result: "3× revenue",
-    client: "StyleHouse",
-    year: 2024,
-  },
-  {
-    slug: "eduprime-marketing",
-    title: "EduPrime Digital Marketing Campaign",
-    category: "Web Dev",
-    thumbnail:
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=80&auto=format&fit=crop",
-    tagColor: "cyan",
-    result: "5× ROI",
-    client: "EduPrime",
-    year: 2023,
-  },
-  {
-    slug: "naturabd-photography",
-    title: "NaturaBD Lifestyle Photography",
-    category: "Photography",
-    thumbnail:
-      "https://images.unsplash.com/photo-1606787366850-de6330128bfc?w=900&q=80&auto=format&fit=crop",
-    tagColor: "orange",
-    result: "+90% CTR",
-    client: "NaturaBD",
-    year: 2023,
-  },
-  {
-    slug: "nexatech-social",
-    title: "NexaTech LinkedIn Growth Strategy",
-    category: "Social Media",
-    thumbnail:
-      "https://images.unsplash.com/photo-1562577309-4932fdd64cd1?w=900&q=80&auto=format&fit=crop",
-    tagColor: "purple",
-    result: "+5K followers",
-    client: "NexaTech",
-    year: 2023,
-  },
-];
 
 const { get } = useApi();
 const { data: caseStudiesResponse } =
@@ -135,10 +45,6 @@ function toTagColor(category: PortfolioCategory): TagColor {
 
 const items = computed<Item[]>(() => {
   const apiItems = caseStudiesResponse.value?.data ?? [];
-  if (!apiItems.length) {
-    return fallbackItems;
-  }
-
   return apiItems.map((item) => {
     const category = normalizeCategory(item.category);
     const metric = item.metrics?.[0];
@@ -205,43 +111,18 @@ const categoryCount = (cat: "All" | PortfolioCategory) =>
       />
 
       <div class="container-content relative z-10">
-        <AppBreadcrumb :crumbs="[{ label: 'Portfolio' }]" class="mb-6" />
-        <SectionBadge icon="mdi:briefcase-outline" class="mb-5"
-          >Our Work</SectionBadge
-        >
+        <AppBreadcrumb :crumbs="[{ label: $t('portfolioPage.breadcrumb') }]" class="mb-6" />
+        <SectionBadge icon="mdi:briefcase-outline" class="mb-5">{{ $t('portfolioPage.badge') }}</SectionBadge>
 
-        <div
-          class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6"
-        >
+        <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
           <div>
             <h1 class="text-brand-text-primary mb-4 max-w-2xl">
-              Projects That
-              <span class="gradient-text"> Speak for Themselves</span>
+              {{ $t('portfolioPage.heading') }}
+              <span class="gradient-text"> {{ $t('portfolioPage.headingHighlight') }}</span>
             </h1>
-            <p
-              class="text-brand-text-secondary text-lg max-w-xl leading-relaxed"
-            >
-              Real results for real businesses — explore our best work across
-              web, social, photography, video, and e-commerce.
+            <p class="text-brand-text-secondary text-lg max-w-xl leading-relaxed">
+              {{ $t('portfolioPage.subheading') }}
             </p>
-          </div>
-
-          <!-- Stats row -->
-          <div class="flex flex-wrap gap-6 lg:gap-8 flex-shrink-0">
-            <div
-              v-for="s in [
-                { v: '50+', l: 'Projects' },
-                { v: '40+', l: 'Clients' },
-                { v: '5', l: 'Categories' },
-              ]"
-              :key="s.l"
-              class="text-center"
-            >
-              <div class="text-2xl font-black gradient-text font-display">
-                {{ s.v }}
-              </div>
-              <div class="text-xs text-brand-text-muted mt-0.5">{{ s.l }}</div>
-            </div>
           </div>
         </div>
       </div>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const { t } = useI18n()
+
 useSeoMeta({
   title: "Contact Us | MetaGenDigital",
   description:
@@ -112,22 +114,19 @@ const accentBar: Record<string, string> = {
       />
 
       <div class="container-content relative z-10">
-        <AppBreadcrumb :crumbs="[{ label: 'Contact' }]" class="mb-6" />
+        <AppBreadcrumb :crumbs="[{ label: $t('contactPage.breadcrumb') }]" class="mb-6" />
         <div
           v-motion
           :initial="{ opacity: 0, y: 20 }"
           :enter="{ opacity: 1, y: 0, transition: { duration: 600 } }"
           class="max-w-2xl"
         >
-          <SectionBadge icon="mdi:chat-outline" color="orange" class="mb-5"
-            >Get In Touch</SectionBadge
-          >
+          <SectionBadge icon="mdi:chat-outline" color="orange" class="mb-5">{{ $t('contactPage.badge') }}</SectionBadge>
           <h1 class="text-brand-text-primary mt-4 mb-4">
-            Let's <span class="gradient-text">Work Together</span>
+            {{ $t('contactPage.heading') }} <span class="gradient-text">{{ $t('contactPage.headingHighlight') }}</span>
           </h1>
           <p class="text-brand-text-secondary text-lg leading-relaxed">
-            Have a project in mind? We'd love to hear about it. Fill in the form
-            or reach us directly — we usually respond within a few hours.
+            {{ $t('contactPage.subheading') }}
           </p>
         </div>
 
@@ -216,11 +215,10 @@ const accentBar: Record<string, string> = {
                     />
                   </div>
                   <h3 class="text-white font-bold text-lg mb-1">
-                    Prefer WhatsApp?
+                    {{ $t('contactPage.whatsappTitle') }}
                   </h3>
                   <p class="text-white/75 text-sm mb-5 leading-relaxed">
-                    Chat with us directly. We usually reply within 1 hour during
-                    working hours.
+                    {{ $t('contactPage.whatsappText') }}
                   </p>
                   <a
                     href="https://wa.me/8801970222573"
@@ -233,7 +231,7 @@ const accentBar: Record<string, string> = {
                       class="w-4 h-4 text-[#25D366]"
                       aria-hidden="true"
                     />
-                    Chat on WhatsApp
+                    {{ $t('contactPage.whatsappBtn') }}
                     <Icon
                       name="mdi:arrow-right"
                       class="w-4 h-4"
@@ -256,10 +254,10 @@ const accentBar: Record<string, string> = {
               class="rounded-2xl border border-brand-border bg-white shadow-card p-6"
             >
               <h3 class="text-base font-bold text-brand-text-primary mb-1">
-                Follow Us
+                {{ $t('contactPage.followTitle') }}
               </h3>
               <p class="text-sm text-brand-text-muted mb-5">
-                Stay updated with our latest work and insights.
+                {{ $t('contactPage.followText') }}
               </p>
 
               <div class="space-y-3">
@@ -325,44 +323,30 @@ const accentBar: Record<string, string> = {
                   />
                 </div>
                 <p class="text-sm text-brand-text-secondary">
-                  <span class="font-semibold text-brand-text-primary"
-                    >Free consultation</span
-                  >
-                  on every enquiry
+                  <span class="font-semibold text-brand-text-primary">{{ $t('contactPage.freeConsult') }}</span>
+                  {{ $t('contactPage.freeConsultSub') }}
                 </p>
               </div>
               <div class="flex items-center gap-3">
                 <div
                   class="w-8 h-8 rounded-lg bg-brand-orange/10 flex items-center justify-center flex-shrink-0"
                 >
-                  <Icon
-                    name="mdi:clock-fast"
-                    class="w-4 h-4 text-brand-orange"
-                    aria-hidden="true"
-                  />
+                  <Icon name="mdi:clock-fast" class="w-4 h-4 text-brand-orange" aria-hidden="true" />
                 </div>
                 <p class="text-sm text-brand-text-secondary">
-                  <span class="font-semibold text-brand-text-primary"
-                    >Reply within 24 hours</span
-                  >
-                  — usually much faster
+                  <span class="font-semibold text-brand-text-primary">{{ $t('contactPage.replyTime') }}</span>
+                  {{ $t('contactPage.replyTimeSub') }}
                 </p>
               </div>
               <div class="flex items-center gap-3">
                 <div
                   class="w-8 h-8 rounded-lg bg-brand-primary/10 flex items-center justify-center flex-shrink-0"
                 >
-                  <Icon
-                    name="mdi:shield-lock-outline"
-                    class="w-4 h-4 text-brand-primary"
-                    aria-hidden="true"
-                  />
+                  <Icon name="mdi:shield-lock-outline" class="w-4 h-4 text-brand-primary" aria-hidden="true" />
                 </div>
                 <p class="text-sm text-brand-text-secondary">
-                  <span class="font-semibold text-brand-text-primary"
-                    >Your info is private</span
-                  >
-                  — never shared
+                  <span class="font-semibold text-brand-text-primary">{{ $t('contactPage.privateInfo') }}</span>
+                  {{ $t('contactPage.privateInfoSub') }}
                 </p>
               </div>
             </div>
@@ -385,10 +369,10 @@ const accentBar: Record<string, string> = {
               <!-- Form header -->
               <div class="px-7 pt-7 pb-5 border-b border-brand-border">
                 <h2 class="text-xl font-bold text-brand-text-primary mb-1">
-                  Send Us a Message
+                  {{ $t('contactPage.formTitle') }}
                 </h2>
                 <p class="text-sm text-brand-text-muted">
-                  Fill in the details below and we'll be in touch shortly.
+                  {{ $t('contactPage.formSubtitle') }}
                 </p>
               </div>
 
@@ -400,7 +384,7 @@ const accentBar: Record<string, string> = {
                       for="contact-name"
                       class="block text-sm font-semibold text-brand-text-primary mb-1.5"
                     >
-                      Your Name <span class="text-brand-orange">*</span>
+                      {{ $t('contactPage.labelName') }} <span class="text-brand-orange">*</span>
                     </label>
                     <div class="relative">
                       <Icon
@@ -412,7 +396,7 @@ const accentBar: Record<string, string> = {
                         id="contact-name"
                         v-model="name.value.value"
                         type="text"
-                        placeholder="e.g. Mokammel Tanvir"
+                        :placeholder="$t('contactPage.placeholderName')"
                         autocomplete="name"
                         class="w-full pl-10 pr-4 py-2.5 rounded-xl border text-sm text-brand-text-primary placeholder:text-brand-text-muted bg-white transition-all duration-150 outline-none"
                         :class="
@@ -439,11 +423,8 @@ const accentBar: Record<string, string> = {
                       for="contact-phone"
                       class="block text-sm font-semibold text-brand-text-primary mb-1.5"
                     >
-                      Phone Number
-                      <span
-                        class="text-brand-text-muted font-normal text-xs ml-1"
-                        >(optional)</span
-                      >
+                      {{ $t('contactPage.labelPhone') }}
+                      <span class="text-brand-text-muted font-normal text-xs ml-1">{{ $t('contactPage.labelPhoneOptional') }}</span>
                     </label>
                     <div class="relative">
                       <Icon
@@ -455,7 +436,7 @@ const accentBar: Record<string, string> = {
                         id="contact-phone"
                         v-model="phone.value.value"
                         type="tel"
-                        placeholder="+88 01XXX-XXXXXX"
+                        :placeholder="$t('contactPage.placeholderPhone')"
                         autocomplete="tel"
                         class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-brand-border text-sm text-brand-text-primary placeholder:text-brand-text-muted bg-white transition-all duration-150 outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/10"
                       />
@@ -469,7 +450,7 @@ const accentBar: Record<string, string> = {
                     for="contact-email"
                     class="block text-sm font-semibold text-brand-text-primary mb-1.5"
                   >
-                    Email Address <span class="text-brand-orange">*</span>
+                    {{ $t('contactPage.labelEmail') }} <span class="text-brand-orange">*</span>
                   </label>
                   <div class="relative">
                     <Icon
@@ -481,7 +462,7 @@ const accentBar: Record<string, string> = {
                       id="contact-email"
                       v-model="email.value.value"
                       type="email"
-                      placeholder="you@example.com"
+                      :placeholder="$t('contactPage.placeholderEmail')"
                       autocomplete="email"
                       class="w-full pl-10 pr-4 py-2.5 rounded-xl border text-sm text-brand-text-primary placeholder:text-brand-text-muted bg-white transition-all duration-150 outline-none"
                       :class="
@@ -509,7 +490,7 @@ const accentBar: Record<string, string> = {
                     for="contact-service"
                     class="block text-sm font-semibold text-brand-text-primary mb-1.5"
                   >
-                    Service Interested In
+                    {{ $t('contactPage.labelService') }}
                     <span class="text-brand-orange">*</span>
                   </label>
                   <div class="relative">
@@ -529,7 +510,7 @@ const accentBar: Record<string, string> = {
                       "
                     >
                       <option value="" disabled selected>
-                        Select a service…
+                        {{ $t('contactPage.placeholderService') }}
                       </option>
                       <option v-for="svc in services" :key="svc" :value="svc">
                         {{ svc }}
@@ -559,13 +540,13 @@ const accentBar: Record<string, string> = {
                     for="contact-message"
                     class="block text-sm font-semibold text-brand-text-primary mb-1.5"
                   >
-                    Your Message <span class="text-brand-orange">*</span>
+                    {{ $t('contactPage.labelMessage') }} <span class="text-brand-orange">*</span>
                   </label>
                   <textarea
                     id="contact-message"
                     v-model="message.value.value"
                     rows="5"
-                    placeholder="Tell us about your project, goals, and timeline…"
+                    :placeholder="$t('contactPage.placeholderMessage')"
                     class="w-full px-4 py-3 rounded-xl border text-sm text-brand-text-primary placeholder:text-brand-text-muted bg-white transition-all duration-150 outline-none resize-none"
                     :class="
                       message.errorMessage.value
@@ -594,7 +575,7 @@ const accentBar: Record<string, string> = {
                   :disabled="isSubmitting"
                   class="w-full justify-center"
                 >
-                  {{ isSubmitting ? "Sending…" : "Send Message" }}
+                  {{ isSubmitting ? $t('contactPage.submitting') : $t('contactPage.submit') }}
                 </GradientButton>
 
                 <p
@@ -605,8 +586,7 @@ const accentBar: Record<string, string> = {
                     class="w-3.5 h-3.5"
                     aria-hidden="true"
                   />
-                  We'll reply within 24 hours. Your information is kept private
-                  and never shared.
+                  {{ $t('contactPage.privacy') }}
                 </p>
               </form>
             </div>

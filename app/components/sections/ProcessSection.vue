@@ -1,38 +1,40 @@
 <script setup lang="ts">
-const steps = [
+const { t } = useI18n()
+
+const steps = computed(() => [
   {
     number: '01',
     icon: 'mdi:magnify',
-    title: 'Discovery',
-    description: 'We deep-dive into your business, goals, audience, and competitors to lay a solid foundation.',
+    titleKey: 'process.steps.discovery.title',
+    descKey: 'process.steps.discovery.description',
     color: 'orange',
-    tag: 'Research',
+    tagKey: 'process.steps.discovery.tag',
   },
   {
     number: '02',
     icon: 'mdi:lightbulb-on-outline',
-    title: 'Strategy',
-    description: 'We craft a tailored plan — channels, messaging, timelines, and KPIs — built around your objectives.',
+    titleKey: 'process.steps.strategy.title',
+    descKey: 'process.steps.strategy.description',
     color: 'purple',
-    tag: 'Planning',
+    tagKey: 'process.steps.strategy.tag',
   },
   {
     number: '03',
     icon: 'mdi:rocket-launch-outline',
-    title: 'Execute',
-    description: 'Our team brings the strategy to life with precision — design, development, content, and campaigns.',
+    titleKey: 'process.steps.execute.title',
+    descKey: 'process.steps.execute.description',
     color: 'cyan',
-    tag: 'Build & Launch',
+    tagKey: 'process.steps.execute.tag',
   },
   {
     number: '04',
     icon: 'mdi:chart-line',
-    title: 'Grow',
-    description: 'We measure, optimise, and report — then keep iterating to accelerate your growth month after month.',
+    titleKey: 'process.steps.grow.title',
+    descKey: 'process.steps.grow.description',
     color: 'orange',
-    tag: 'Optimise',
+    tagKey: 'process.steps.grow.tag',
   },
-]
+])
 
 const cardGradient: Record<string, string> = {
   orange: 'from-brand-orange/10 to-transparent border-brand-orange/20 hover:border-brand-orange/40 hover:shadow-glow-orange',
@@ -71,13 +73,13 @@ const connectorColor: Record<string, string> = {
 
       <!-- Heading -->
       <div class="text-center mb-14">
-        <SectionBadge icon="mdi:map-marker-path" color="cyan" class="mb-4">Our Process</SectionBadge>
+        <SectionBadge icon="mdi:map-marker-path" color="cyan" class="mb-4">{{ $t('process.badge') }}</SectionBadge>
         <h2 class="text-brand-text-primary mt-4 mb-4">
-          How We
-          <span class="gradient-text"> Work</span>
+          {{ $t('process.heading') }}
+          <span class="gradient-text"> {{ $t('process.headingHighlight') }}</span>
         </h2>
         <p class="text-brand-text-secondary max-w-xl mx-auto">
-          A clear, repeatable process that takes you from idea to measurable growth — with zero surprises.
+          {{ $t('process.subheading') }}
         </p>
       </div>
 
@@ -109,7 +111,7 @@ const connectorColor: Record<string, string> = {
               {{ step.number }}
             </span>
             <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full" :class="tagPill[step.color]">
-              {{ step.tag }}
+              {{ t(step.tagKey) }}
             </span>
           </div>
 
@@ -122,8 +124,8 @@ const connectorColor: Record<string, string> = {
           </div>
 
           <!-- Text -->
-          <h3 class="text-[17px] font-bold text-brand-text-primary mb-2">{{ step.title }}</h3>
-          <p class="text-sm text-brand-text-secondary leading-relaxed">{{ step.description }}</p>
+          <h3 class="text-[17px] font-bold text-brand-text-primary mb-2">{{ t(step.titleKey) }}</h3>
+          <p class="text-sm text-brand-text-secondary leading-relaxed">{{ t(step.descKey) }}</p>
 
           <!-- Mobile vertical connector -->
           <div

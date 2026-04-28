@@ -2,6 +2,7 @@
 import type { Service, ServiceApiItem } from "~/types";
 
 const { el, isVisible } = useScrollAnimation();
+const localePath = useLocalePath();
 
 const fallbackServices: Service[] = [
   {
@@ -112,16 +113,13 @@ const services = computed<Service[]>(() => {
           enter-from-class="opacity-0 translate-y-6"
         >
           <div v-if="isVisible">
-            <SectionBadge icon="mdi:lightning-bolt" class="mb-4"
-              >Our Services</SectionBadge
-            >
+            <SectionBadge icon="mdi:lightning-bolt" class="mb-4">{{ $t('services.badge') }}</SectionBadge>
             <h2 class="text-brand-text-primary mt-4 mb-4">
-              Everything You Need to
-              <span class="gradient-text"> Win Online</span>
+              {{ $t('services.heading') }}
+              <span class="gradient-text"> {{ $t('services.headingHighlight') }}</span>
             </h2>
             <p class="text-brand-text-secondary max-w-xl mx-auto">
-              From strategy to execution — a full suite of services designed to
-              grow your brand and drive measurable results.
+              {{ $t('services.subheading') }}
             </p>
           </div>
         </Transition>
@@ -160,11 +158,11 @@ const services = computed<Service[]>(() => {
       <!-- View all -->
       <div class="flex justify-center mt-12">
         <GradientButton
-          to="/services"
+          :to="localePath('/services')"
           variant="outline"
           icon-right="mdi:arrow-right"
         >
-          View All Services
+          {{ $t('services.viewAll') }}
         </GradientButton>
       </div>
     </div>

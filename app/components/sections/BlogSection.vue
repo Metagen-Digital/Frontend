@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { BlogApiItem } from "~/types";
+const localePath = useLocalePath();
 
 const fallbackPosts = [
   {
@@ -82,28 +83,22 @@ const posts = computed(() => {
         class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12"
       >
         <div>
-          <SectionBadge
-            icon="mdi:newspaper-variant-outline"
-            color="purple"
-            class="mb-4"
-            >Blog & Insights</SectionBadge
-          >
+          <SectionBadge icon="mdi:newspaper-variant-outline" color="purple" class="mb-4">{{ $t('blog.badge') }}</SectionBadge>
           <h2 class="text-brand-text-primary mt-4 mb-2">
-            Tips & Insights From
-            <span class="gradient-text"> Our Team</span>
+            {{ $t('blog.heading') }}
+            <span class="gradient-text"> {{ $t('blog.headingHighlight') }}</span>
           </h2>
           <p class="text-brand-text-secondary max-w-lg">
-            Stay ahead with the latest in digital marketing, web development,
-            and growth strategies.
+            {{ $t('blog.subheading') }}
           </p>
         </div>
         <GradientButton
-          to="/blog"
+          :to="localePath('/blog')"
           variant="outline"
           icon-right="mdi:arrow-right"
           class="flex-shrink-0"
         >
-          View All Posts
+          {{ $t('blog.viewAll') }}
         </GradientButton>
       </div>
 

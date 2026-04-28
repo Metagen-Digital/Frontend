@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { BlogApiItem } from "~/types";
+const { t } = useI18n()
 
 useSeoMeta({
   title: "Blog & Insights | MetaGenDigital",
@@ -23,113 +24,6 @@ interface Post {
 
 const activeCategory = ref("All");
 
-const fallbackPosts: Post[] = [
-  {
-    slug: "digital-marketing-trends-2025",
-    title: "Digital Marketing Trends You Cannot Ignore in 2025",
-    excerpt:
-      "AI-driven campaigns, zero-click search, and hyper-personalised content are reshaping how brands connect with customers. Here's what to prioritise.",
-    category: "Marketing",
-    categoryColor: "orange",
-    thumbnail:
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=80&auto=format&fit=crop",
-    date: "2025-04-01",
-    readTime: "8 min read",
-    author: "Meem Chowdhury",
-  },
-  {
-    slug: "how-to-grow-on-social-media",
-    title: "How to Grow Your Brand on Social Media in 2025",
-    excerpt:
-      "A practical guide to building a strong social media presence with consistent content, genuine community engagement, and data-driven iteration.",
-    category: "Social Media",
-    categoryColor: "purple",
-    thumbnail:
-      "https://images.unsplash.com/photo-1611162616305-c69d394736a4?w=900&q=80&auto=format&fit=crop",
-    date: "2025-03-15",
-    readTime: "5 min read",
-    author: "Nafisa Hossain",
-  },
-  {
-    slug: "seo-tips-for-small-businesses",
-    title: "10 SEO Tips Every Small Business Should Know",
-    excerpt:
-      "Simple, actionable SEO strategies to help your business rank higher in search results without a big budget or technical expertise.",
-    category: "SEO",
-    categoryColor: "orange",
-    thumbnail:
-      "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=900&q=80&auto=format&fit=crop",
-    date: "2025-02-28",
-    readTime: "7 min read",
-    author: "Rakib Hassan",
-  },
-  {
-    slug: "ecommerce-store-launch-checklist",
-    title: "The Ultimate E-commerce Store Launch Checklist",
-    excerpt:
-      "Everything you need to verify before going live — payments, mobile UX, SEO, speed, and the small details that make a big difference.",
-    category: "Web Dev",
-    categoryColor: "cyan",
-    thumbnail:
-      "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=900&q=80&auto=format&fit=crop",
-    date: "2025-02-10",
-    readTime: "6 min read",
-    author: "Rifat Ahmed",
-  },
-  {
-    slug: "instagram-reels-guide",
-    title: "Instagram Reels Strategy That Actually Grows Your Account",
-    excerpt:
-      "Short-form video is dominating organic reach. Learn how to hook viewers in 2 seconds, structure a winning reel, and post consistently.",
-    category: "Social Media",
-    categoryColor: "purple",
-    thumbnail:
-      "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=900&q=80&auto=format&fit=crop",
-    date: "2025-01-22",
-    readTime: "5 min read",
-    author: "Nafisa Hossain",
-  },
-  {
-    slug: "website-speed-and-seo",
-    title: "Why Website Speed is Your Most Important SEO Factor",
-    excerpt:
-      "Google's Core Web Vitals directly impact where you rank. Here's exactly how to measure, diagnose, and fix your site's speed issues.",
-    category: "Web Dev",
-    categoryColor: "cyan",
-    thumbnail:
-      "https://images.unsplash.com/photo-1547658719-da2b51169166?w=900&q=80&auto=format&fit=crop",
-    date: "2025-01-08",
-    readTime: "6 min read",
-    author: "Rifat Ahmed",
-  },
-  {
-    slug: "google-ads-beginners-guide",
-    title: "Google Ads for Beginners: Get Results Without Wasting Budget",
-    excerpt:
-      "Most businesses burn through their first Google Ads budget with nothing to show for it. This guide shows you how to avoid the most common mistakes.",
-    category: "Marketing",
-    categoryColor: "orange",
-    thumbnail:
-      "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=900&q=80&auto=format&fit=crop",
-    date: "2024-12-18",
-    readTime: "9 min read",
-    author: "Meem Chowdhury",
-  },
-  {
-    slug: "brand-photography-tips",
-    title: "How Great Photography Doubles Your Conversion Rate",
-    excerpt:
-      "Poor product photos are silently killing your sales. Learn what makes scroll-stopping imagery and how to brief a photographer for maximum ROI.",
-    category: "Case Studies",
-    categoryColor: "cyan",
-    thumbnail:
-      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=900&q=80&auto=format&fit=crop",
-    date: "2024-11-30",
-    readTime: "4 min read",
-    author: "Nazia Islam",
-  },
-];
-
 const { get } = useApi();
 const { data: blogsResponse } = await get<BlogApiItem[]>("/blogs");
 
@@ -141,10 +35,6 @@ function categoryColor(category?: string | null): CategoryColor {
 
 const posts = computed<Post[]>(() => {
   const apiItems = blogsResponse.value?.data ?? [];
-  if (!apiItems.length) {
-    return fallbackPosts;
-  }
-
   return apiItems.map((post) => ({
     slug: post.slug,
     title: post.title,
@@ -204,40 +94,17 @@ const categoryCount = (cat: string) =>
       />
 
       <div class="container-content relative z-10">
-        <AppBreadcrumb :crumbs="[{ label: 'Blog' }]" class="mb-6" />
-        <SectionBadge icon="mdi:newspaper-variant-outline" class="mb-5"
-          >Insights</SectionBadge
-        >
+        <AppBreadcrumb :crumbs="[{ label: $t('blogPage.breadcrumb') }]" class="mb-6" />
+        <SectionBadge icon="mdi:newspaper-variant-outline" class="mb-5">{{ $t('blogPage.badge') }}</SectionBadge>
 
-        <div
-          class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6"
-        >
+        <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
           <div>
             <h1 class="text-brand-text-primary mb-4 max-w-2xl">
-              Blog &amp; <span class="gradient-text">Insights</span>
+              {{ $t('blogPage.heading') }} <span class="gradient-text">{{ $t('blogPage.headingHighlight') }}</span>
             </h1>
-            <p
-              class="text-brand-text-secondary text-lg max-w-xl leading-relaxed"
-            >
-              Tips, strategies, and deep dives from our digital marketing and
-              web development team — updated every week.
+            <p class="text-brand-text-secondary text-lg max-w-xl leading-relaxed">
+              {{ $t('blogPage.subheading') }}
             </p>
-          </div>
-          <div class="flex flex-wrap gap-6 lg:gap-8 flex-shrink-0">
-            <div
-              v-for="s in [
-                { v: '8+', l: 'Articles' },
-                { v: '5', l: 'Topics' },
-                { v: 'Weekly', l: 'Updates' },
-              ]"
-              :key="s.l"
-              class="text-center"
-            >
-              <div class="text-2xl font-black gradient-text font-display">
-                {{ s.v }}
-              </div>
-              <div class="text-xs text-brand-text-muted mt-0.5">{{ s.l }}</div>
-            </div>
           </div>
         </div>
       </div>
@@ -248,10 +115,8 @@ const categoryCount = (cat: string) =>
     ══════════════════════════════════════════════════ -->
     <section class="pb-12 bg-white">
       <div class="container-content">
-        <p
-          class="text-[11px] font-bold text-brand-text-muted uppercase tracking-widest mb-5"
-        >
-          Featured Article
+        <p class="text-[11px] font-bold text-brand-text-muted uppercase tracking-widest mb-5">
+          {{ $t('blogPage.featured') }}
         </p>
         <BlogCard
           :title="featured.title"

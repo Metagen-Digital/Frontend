@@ -1,79 +1,57 @@
 <script setup lang="ts">
+const { t } = useI18n()
+
 useSeoMeta({
-  title: 'About Us | MetaGenDigital',
-  description: 'MetaGenDigital — Bangladesh\'s trusted digital marketing agency based in Uttara, Dhaka. Learn our story, values, and the team behind your brand\'s growth.',
+  title: computed(() => `${t('aboutPage.breadcrumb')} | MetaGenDigital`),
+  description: computed(() => t('aboutPage.hero.description')),
 })
 
-const stats = [
-  { icon: 'mdi:account-group-outline', value: 50,   suffix: '+', label: 'Happy Clients',      color: 'orange' },
-  { icon: 'mdi:rocket-launch-outline', value: 100,  suffix: '+', label: 'Projects Delivered', color: 'purple' },
-  { icon: 'mdi:star-outline',          value: 98,   suffix: '%', label: 'Client Satisfaction',color: 'cyan' },
-  { icon: 'mdi:calendar-check-outline',value: 3,    suffix: '+', label: 'Years Experience',   color: 'orange' },
-]
+const stats = computed(() => [
+  { icon: 'mdi:account-group-outline', value: 50,  suffix: '+', label: t('aboutPage.stats.clients'),      color: 'orange' },
+  { icon: 'mdi:rocket-launch-outline', value: 100, suffix: '+', label: t('aboutPage.stats.projects'),     color: 'purple' },
+  { icon: 'mdi:star-outline',          value: 98,  suffix: '%', label: t('aboutPage.stats.satisfaction'), color: 'cyan' },
+  { icon: 'mdi:calendar-check-outline',value: 3,   suffix: '+', label: t('aboutPage.stats.experience'),   color: 'orange' },
+])
 
-const values = [
-  { icon: 'mdi:target',              title: 'Results First',           description: 'We measure everything. Every strategy we build is anchored to real KPIs — not vanity metrics.', color: 'orange' },
-  { icon: 'mdi:handshake-outline',   title: 'Client Partnership',      description: 'We treat every client as a long-term partner, not just a project. Your growth is our growth.',       color: 'purple' },
-  { icon: 'mdi:lightbulb-on-outline',title: 'Creative Excellence',     description: 'Bold ideas, refined execution. We push creative boundaries while staying true to your brand.',       color: 'cyan' },
-  { icon: 'mdi:shield-check-outline', title: 'Trust & Transparency',  description: 'Clear reporting, honest pricing, and direct communication — no smoke and mirrors, ever.',            color: 'orange' },
-  { icon: 'mdi:chart-line',          title: 'Data-Driven Decisions',   description: "Analytics guide every campaign. We use real data to optimise and scale what's already working.",     color: 'purple' },
-  { icon: 'mdi:clock-fast',          title: 'Always On Time',          description: 'Deadlines are sacred. We plan meticulously and deliver on schedule — every single time.',            color: 'cyan' },
-]
+const values = computed(() => [
+  { icon: 'mdi:target',               key: 'results',     color: 'orange' },
+  { icon: 'mdi:handshake-outline',    key: 'partnership', color: 'purple' },
+  { icon: 'mdi:lightbulb-on-outline', key: 'creative',    color: 'cyan' },
+  { icon: 'mdi:shield-check-outline', key: 'trust',       color: 'orange' },
+  { icon: 'mdi:chart-line',           key: 'data',        color: 'purple' },
+  { icon: 'mdi:clock-fast',           key: 'time',        color: 'cyan' },
+])
 
-const team = [
-  {
-    name: 'MD. Tanvir Hossain',
-    role: 'Founder & CEO',
-    bio: 'Visionary leader with deep expertise in digital marketing strategy and brand growth across Bangladesh.',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&q=80&auto=format&fit=crop&crop=face',
-    socials: { linkedin: '#', facebook: '#' },
-  },
-  {
-    name: 'Nusrat Jahan',
-    role: 'Head of Social Media',
-    bio: 'Social media strategist who has grown brand communities to tens of thousands of engaged followers.',
-    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&h=300&q=80&auto=format&fit=crop&crop=face',
-    socials: { linkedin: '#', facebook: '#' },
-  },
-  {
-    name: 'Arif Rahman',
-    role: 'Lead Web Developer',
-    bio: 'Full-stack developer specialising in high-performance websites and custom e-commerce solutions.',
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=300&q=80&auto=format&fit=crop&crop=face',
-    socials: { linkedin: '#', facebook: '#' },
-  },
-  {
-    name: 'Sadia Islam',
-    role: 'Creative Director',
-    bio: 'Brand designer and photographer with an eye for visual storytelling that stops the scroll.',
-    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=300&q=80&auto=format&fit=crop&crop=face',
-    socials: { linkedin: '#', facebook: '#' },
-  },
-]
+const team = computed(() => [
+  { key: 'm0', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&q=80&auto=format&fit=crop&crop=face', socials: { linkedin: '#', facebook: '#' } },
+  { key: 'm1', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&h=300&q=80&auto=format&fit=crop&crop=face', socials: { linkedin: '#', facebook: '#' } },
+  { key: 'm2', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=300&q=80&auto=format&fit=crop&crop=face', socials: { linkedin: '#', facebook: '#' } },
+  { key: 'm3', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=300&q=80&auto=format&fit=crop&crop=face', socials: { linkedin: '#', facebook: '#' } },
+])
 
-const services = [
-  { icon: 'mdi:trending-up',      label: 'Digital Marketing',        color: 'text-brand-orange', bg: 'bg-brand-orange/10' },
-  { icon: 'mdi:instagram',        label: 'Social Media Marketing',   color: 'text-brand-purple', bg: 'bg-brand-purple/10' },
-  { icon: 'mdi:camera-outline',   label: 'Photography & Videography',color: 'text-brand-cyan',   bg: 'bg-brand-cyan/10' },
-  { icon: 'mdi:monitor-shimmer',  label: 'Website Development',      color: 'text-brand-primary',bg: 'bg-brand-primary/10' },
-  { icon: 'mdi:shopping-outline', label: 'E-commerce Development',   color: 'text-brand-orange', bg: 'bg-brand-orange/10' },
-  { icon: 'mdi:palette-outline',  label: 'Branding & Graphic Design',color: 'text-brand-purple', bg: 'bg-brand-purple/10' },
-]
+const chips = computed(() => [
+  { icon: 'mdi:trending-up',      key: 'digitalMarketing', color: 'text-brand-orange', bg: 'bg-brand-orange/10' },
+  { icon: 'mdi:instagram',        key: 'socialMedia',      color: 'text-brand-purple', bg: 'bg-brand-purple/10' },
+  { icon: 'mdi:camera-outline',   key: 'photography',      color: 'text-brand-cyan',   bg: 'bg-brand-cyan/10' },
+  { icon: 'mdi:monitor-shimmer',  key: 'webDev',           color: 'text-brand-primary',bg: 'bg-brand-primary/10' },
+  { icon: 'mdi:shopping-outline', key: 'ecommerce',        color: 'text-brand-orange', bg: 'bg-brand-orange/10' },
+  { icon: 'mdi:palette-outline',  key: 'branding',         color: 'text-brand-purple', bg: 'bg-brand-purple/10' },
+])
 
-const contactDetails = [
-  { icon: 'mdi:map-marker-outline', label: 'Address',       value: 'Kamarpara, Uttara, Dhaka, Bangladesh',     href: 'https://maps.google.com/?q=Kamarpara,Uttara,Dhaka', color: 'orange', external: true },
-  { icon: 'mdi:phone-outline',      label: 'Phone',         value: '+88 01970-222573',                          href: 'tel:+8801970222573', color: 'purple' },
-  { icon: 'mdi:email-outline',      label: 'Email',         value: 'hello@metagendigital.com',                  href: 'mailto:hello@metagendigital.com', color: 'cyan' },
-  { icon: 'mdi:email-outline',      label: 'Alt Email',     value: 'metagendigital@gmail.com',                  href: 'mailto:metagendigital@gmail.com', color: 'cyan' },
-  { icon: 'mdi:web',                label: 'Website',       value: 'www.metagendigital.com',                    href: 'https://www.metagendigital.com', color: 'orange', external: true },
-  { icon: 'mdi:clock-outline',      label: 'Working Hours', value: 'Sunday – Thursday, 9am – 6pm (BST)',       color: 'purple' },
-]
+const contactDetails = computed(() => [
+  { key: 'd0', icon: 'mdi:map-marker-outline', href: 'https://maps.google.com/?q=Kamarpara,Uttara,Dhaka', color: 'orange', external: true },
+  { key: 'd1', icon: 'mdi:phone-outline',      href: 'tel:+8801970222573', color: 'purple' },
+  { key: 'd2', icon: 'mdi:email-outline',      href: 'mailto:hello@metagendigital.com', color: 'cyan' },
+  { key: 'd3', icon: 'mdi:email-outline',      href: 'mailto:metagendigital@gmail.com', color: 'cyan' },
+  { key: 'd4', icon: 'mdi:web',                href: 'https://www.metagendigital.com', color: 'orange', external: true },
+  { key: 'd5', icon: 'mdi:clock-outline',      color: 'purple' },
+])
 
 const socials = [
-  { icon: 'mdi:facebook',  href: 'https://www.facebook.com/MetagenDigital',  label: 'Facebook',  handle: '@MetagenDigital', color: 'hover:text-[#4c76be] hover:border-[#4c76be]/30' },
-  { icon: 'mdi:instagram', href: 'https://www.instagram.com/MetagenDigital', label: 'Instagram', handle: '@MetagenDigital', color: 'hover:text-[#e1306c] hover:border-[#e1306c]/30' },
-  { icon: 'mdi:linkedin',  href: 'https://www.linkedin.com/company/MetagenDigital', label: 'LinkedIn', handle: 'MetagenDigital', color: 'hover:text-[#0b86ca] hover:border-[#0b86ca]/30' },
-  { icon: 'mdi:youtube',   href: 'https://www.youtube.com/@MetagenDigital', label: 'YouTube',   handle: '@MetagenDigital', color: 'hover:text-[#fd3832] hover:border-[#fd3832]/30' },
+  { icon: 'mdi:facebook',  href: 'https://www.facebook.com/MetagenDigital',         label: 'Facebook',  handle: '@MetagenDigital', color: 'hover:text-[#4c76be] hover:border-[#4c76be]/30' },
+  { icon: 'mdi:instagram', href: 'https://www.instagram.com/MetagenDigital',        label: 'Instagram', handle: '@MetagenDigital', color: 'hover:text-[#e1306c] hover:border-[#e1306c]/30' },
+  { icon: 'mdi:linkedin',  href: 'https://www.linkedin.com/company/MetagenDigital', label: 'LinkedIn',  handle: 'MetagenDigital',  color: 'hover:text-[#0b86ca] hover:border-[#0b86ca]/30' },
+  { icon: 'mdi:youtube',   href: 'https://www.youtube.com/@MetagenDigital',         label: 'YouTube',   handle: '@MetagenDigital', color: 'hover:text-[#fd3832] hover:border-[#fd3832]/30' },
 ]
 
 const iconGradient: Record<string, string> = {
@@ -101,12 +79,11 @@ const iconContactBg: Record<string, string> = {
     <!-- ── HERO ─────────────────────────────────────────────── -->
     <section class="relative pt-32 pb-20 bg-brand-surface border-b border-brand-border overflow-hidden">
       <div class="absolute inset-0 bg-grid-pattern bg-grid opacity-30 pointer-events-none" aria-hidden="true" />
-      <!-- Orbs -->
       <div class="absolute -left-32 top-1/3 w-96 h-96 rounded-full blur-3xl pointer-events-none" style="background:rgba(48,60,142,0.07)" aria-hidden="true" />
       <div class="absolute -right-20 bottom-0 w-80 h-80 rounded-full blur-3xl pointer-events-none" style="background:rgba(124,58,237,0.07)" aria-hidden="true" />
 
       <div class="container-content relative z-10">
-        <AppBreadcrumb :crumbs="[{ label: 'About Us' }]" class="mb-6" />
+        <AppBreadcrumb :crumbs="[{ label: $t('aboutPage.breadcrumb') }]" class="mb-6" />
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <!-- Left -->
@@ -115,32 +92,31 @@ const iconContactBg: Record<string, string> = {
             :initial="{ opacity: 0, x: -24 }"
             :enter="{ opacity: 1, x: 0, transition: { duration: 700 } }"
           >
-            <SectionBadge icon="mdi:information-outline" color="primary" class="mb-5">About Us</SectionBadge>
+            <SectionBadge icon="mdi:information-outline" color="primary" class="mb-5">{{ $t('aboutPage.hero.badge') }}</SectionBadge>
             <h1 class="text-brand-text-primary mt-4 mb-5">
-              We Are <span class="gradient-text">MetaGenDigital</span>
+              {{ $t('aboutPage.hero.heading') }} <span class="gradient-text">{{ $t('aboutPage.hero.headingHighlight') }}</span>
             </h1>
             <p class="text-lg text-brand-text-secondary leading-relaxed mb-6 max-w-lg">
-              A passionate digital agency from Uttara, Dhaka — helping Bangladesh businesses grow online
-              through creative marketing, stunning web experiences, and data-driven strategies.
+              {{ $t('aboutPage.hero.description') }}
             </p>
 
             <!-- Service chips -->
             <div class="flex flex-wrap gap-2 mb-8">
               <div
-                v-for="svc in services"
-                :key="svc.label"
+                v-for="chip in chips"
+                :key="chip.key"
                 class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-brand-border bg-white text-xs font-medium text-brand-text-secondary"
               >
-                <span class="w-5 h-5 flex items-center justify-center rounded-full flex-shrink-0" :class="svc.bg">
-                  <Icon :name="svc.icon" class="w-3 h-3" :class="svc.color" aria-hidden="true" />
+                <span class="w-5 h-5 flex items-center justify-center rounded-full flex-shrink-0" :class="chip.bg">
+                  <Icon :name="chip.icon" class="w-3 h-3" :class="chip.color" aria-hidden="true" />
                 </span>
-                {{ svc.label }}
+                {{ $t(`aboutPage.chips.${chip.key}`) }}
               </div>
             </div>
 
             <div class="flex gap-3 flex-wrap">
-              <GradientButton to="/services" icon-right="mdi:arrow-right">Our Services</GradientButton>
-              <GradientButton to="/contact" variant="outline" icon="mdi:chat-outline">Get In Touch</GradientButton>
+              <GradientButton to="/services" icon-right="mdi:arrow-right">{{ $t('aboutPage.hero.cta1') }}</GradientButton>
+              <GradientButton to="/contact" variant="outline" icon="mdi:chat-outline">{{ $t('aboutPage.hero.cta2') }}</GradientButton>
             </div>
           </div>
 
@@ -170,8 +146,8 @@ const iconContactBg: Record<string, string> = {
                 <Icon name="mdi:map-marker" class="w-5 h-5 text-brand-orange" aria-hidden="true" />
               </div>
               <div>
-                <p class="text-[11px] font-bold text-brand-text-primary leading-none">Based in Dhaka</p>
-                <p class="text-[10px] text-brand-text-muted mt-0.5">Kamarpara, Uttara</p>
+                <p class="text-[11px] font-bold text-brand-text-primary leading-none">{{ $t('aboutPage.hero.basedIn') }}</p>
+                <p class="text-[10px] text-brand-text-muted mt-0.5">{{ $t('aboutPage.hero.location') }}</p>
               </div>
             </div>
 
@@ -185,8 +161,8 @@ const iconContactBg: Record<string, string> = {
                 <Icon name="mdi:trophy-outline" class="w-4 h-4 text-white" aria-hidden="true" />
               </div>
               <div>
-                <p class="text-[11px] font-bold text-brand-text-primary leading-none">Est. 2021</p>
-                <p class="text-[10px] text-brand-text-muted mt-0.5">3+ Years Strong</p>
+                <p class="text-[11px] font-bold text-brand-text-primary leading-none">{{ $t('aboutPage.hero.est') }}</p>
+                <p class="text-[10px] text-brand-text-muted mt-0.5">{{ $t('aboutPage.hero.yearsStrong') }}</p>
               </div>
             </div>
           </div>
@@ -229,20 +205,17 @@ const iconContactBg: Record<string, string> = {
     <section class="section-padding bg-brand-surface" aria-label="Our Story">
       <div class="container-content">
 
-        <!-- Section heading -->
         <div class="text-center mb-14">
-          <SectionBadge icon="mdi:book-open-outline" color="orange" class="mb-4">Our Story</SectionBadge>
+          <SectionBadge icon="mdi:book-open-outline" color="orange" class="mb-4">{{ $t('aboutPage.story.badge') }}</SectionBadge>
           <h2 class="text-brand-text-primary mt-4 mb-4">
-            Built to Help Brands
-            <span class="gradient-text"> Win Online</span>
+            {{ $t('aboutPage.story.heading') }}
+            <span class="gradient-text"> {{ $t('aboutPage.story.headingHighlight') }}</span>
           </h2>
           <p class="text-brand-text-secondary max-w-2xl mx-auto">
-            From a creative team in Uttara, Dhaka — to a full-service digital agency serving clients across
-            Bangladesh and internationally.
+            {{ $t('aboutPage.story.subheading') }}
           </p>
         </div>
 
-        <!-- Two-column: image left, content right -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
 
           <!-- Image side -->
@@ -252,7 +225,6 @@ const iconContactBg: Record<string, string> = {
             :visible-once="{ opacity: 1, x: 0, transition: { duration: 600 } }"
             class="relative"
           >
-            <!-- Main image -->
             <div class="relative rounded-3xl overflow-hidden shadow-card-hover ring-1 ring-brand-border">
               <img
                 src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=900&q=80&auto=format&fit=crop"
@@ -263,7 +235,6 @@ const iconContactBg: Record<string, string> = {
               <div class="absolute inset-0 bg-gradient-to-t from-brand-primary/20 to-transparent" />
             </div>
 
-            <!-- Floating stat card — bottom right overlap -->
             <div
               class="absolute -bottom-6 -right-4 md:right-8 bg-white rounded-2xl shadow-card-hover border border-brand-border px-5 py-4 flex items-center gap-4 animate-float"
               aria-hidden="true"
@@ -272,12 +243,11 @@ const iconContactBg: Record<string, string> = {
                 <Icon name="mdi:earth" class="w-5 h-5 text-white" aria-hidden="true" />
               </div>
               <div>
-                <p class="text-[13px] font-extrabold text-brand-text-primary leading-none">Global Reach</p>
-                <p class="text-[11px] text-brand-text-muted mt-0.5">Local roots · International clients</p>
+                <p class="text-[13px] font-extrabold text-brand-text-primary leading-none">{{ $t('aboutPage.story.globalReach') }}</p>
+                <p class="text-[11px] text-brand-text-muted mt-0.5">{{ $t('aboutPage.story.globalReachSub') }}</p>
               </div>
             </div>
 
-            <!-- Floating badge — top left -->
             <div
               class="absolute -top-4 -left-4 bg-white rounded-2xl shadow-card border border-brand-border px-4 py-3 flex items-center gap-3 animate-float"
               style="animation-delay:0.8s"
@@ -287,12 +257,11 @@ const iconContactBg: Record<string, string> = {
                 <Icon name="mdi:check-decagram" class="w-5 h-5 text-brand-success" aria-hidden="true" />
               </div>
               <div>
-                <p class="text-[11px] font-bold text-brand-text-primary leading-none">Est. 2021</p>
-                <p class="text-[10px] text-brand-text-muted mt-0.5">3+ Years of Excellence</p>
+                <p class="text-[11px] font-bold text-brand-text-primary leading-none">{{ $t('aboutPage.hero.est') }}</p>
+                <p class="text-[10px] text-brand-text-muted mt-0.5">{{ $t('aboutPage.story.yearsExcellence') }}</p>
               </div>
             </div>
 
-            <!-- Decorative accent blocks -->
             <div class="absolute -bottom-6 -left-6 w-28 h-28 rounded-3xl bg-brand-orange/8 -z-10" aria-hidden="true" />
             <div class="absolute -top-6 -right-6 w-20 h-20 rounded-2xl bg-brand-primary/8 -z-10" aria-hidden="true" />
           </div>
@@ -304,18 +273,13 @@ const iconContactBg: Record<string, string> = {
             :visible-once="{ opacity: 1, x: 0, transition: { delay: 100, duration: 600 } }"
             class="flex flex-col gap-6"
           >
-            <!-- Story paragraphs as modern cards -->
             <div class="flex gap-4 p-5 rounded-2xl border border-brand-border bg-white shadow-card group hover:shadow-card-hover hover:border-brand-orange/30 transition-all duration-300">
               <div class="w-10 h-10 flex-shrink-0 rounded-xl bg-brand-orange/10 flex items-center justify-center mt-0.5 transition-transform duration-300 group-hover:scale-110">
                 <Icon name="mdi:flag-outline" class="w-5 h-5 text-brand-orange" aria-hidden="true" />
               </div>
               <div>
-                <h3 class="text-[15px] font-bold text-brand-text-primary mb-1">How We Started</h3>
-                <p class="text-sm text-brand-text-secondary leading-relaxed">
-                  MetaGenDigital was founded in 2021 with one clear goal — to give businesses access to world-class
-                  digital marketing that actually delivers results. We started small in Kamarpara, Uttara, Dhaka, with
-                  a passionate team and a big vision.
-                </p>
+                <h3 class="text-[15px] font-bold text-brand-text-primary mb-1">{{ $t('aboutPage.story.started.title') }}</h3>
+                <p class="text-sm text-brand-text-secondary leading-relaxed">{{ $t('aboutPage.story.started.text') }}</p>
               </div>
             </div>
 
@@ -324,12 +288,8 @@ const iconContactBg: Record<string, string> = {
                 <Icon name="mdi:earth" class="w-5 h-5 text-brand-purple" aria-hidden="true" />
               </div>
               <div>
-                <h3 class="text-[15px] font-bold text-brand-text-primary mb-1">Local Roots, Global Reach</h3>
-                <p class="text-sm text-brand-text-secondary leading-relaxed">
-                  What started as a local agency has grown into a full-service team serving clients both across
-                  Bangladesh and internationally. From Dhaka startups to overseas brands — we bring the same
-                  dedication, creativity, and results-focus to every project.
-                </p>
+                <h3 class="text-[15px] font-bold text-brand-text-primary mb-1">{{ $t('aboutPage.story.roots.title') }}</h3>
+                <p class="text-sm text-brand-text-secondary leading-relaxed">{{ $t('aboutPage.story.roots.text') }}</p>
               </div>
             </div>
 
@@ -338,11 +298,8 @@ const iconContactBg: Record<string, string> = {
                 <Icon name="mdi:chart-line" class="w-5 h-5 text-brand-cyan" aria-hidden="true" />
               </div>
               <div>
-                <h3 class="text-[15px] font-bold text-brand-text-primary mb-1">Where We Are Today</h3>
-                <p class="text-sm text-brand-text-secondary leading-relaxed">
-                  Today we combine sharp strategy, creative execution, and performance analytics to help 50+ clients
-                  stand out in a competitive digital landscape — and achieve sustainable, measurable growth.
-                </p>
+                <h3 class="text-[15px] font-bold text-brand-text-primary mb-1">{{ $t('aboutPage.story.today.title') }}</h3>
+                <p class="text-sm text-brand-text-secondary leading-relaxed">{{ $t('aboutPage.story.today.text') }}</p>
               </div>
             </div>
           </div>
@@ -355,7 +312,6 @@ const iconContactBg: Record<string, string> = {
       <div class="container-content">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-          <!-- Mission -->
           <div
             v-motion
             :initial="{ opacity: 0, y: 24 }"
@@ -366,15 +322,10 @@ const iconContactBg: Record<string, string> = {
             <div class="w-14 h-14 flex items-center justify-center rounded-2xl bg-gradient-to-br from-brand-primary/20 to-brand-primary/5 text-brand-primary mb-6 transition-transform duration-300 group-hover:scale-110">
               <Icon name="mdi:flag-outline" class="w-7 h-7" aria-hidden="true" />
             </div>
-            <h3 class="text-xl font-bold text-brand-text-primary mb-3">Our Mission</h3>
-            <p class="text-brand-text-secondary leading-relaxed">
-              To empower Bangladeshi businesses with world-class digital marketing, creative content, and
-              technology solutions — enabling them to compete and win in the global digital economy.
-              We build partnerships, not just campaigns.
-            </p>
+            <h3 class="text-xl font-bold text-brand-text-primary mb-3">{{ $t('aboutPage.mission.title') }}</h3>
+            <p class="text-brand-text-secondary leading-relaxed">{{ $t('aboutPage.mission.text') }}</p>
           </div>
 
-          <!-- Vision -->
           <div
             v-motion
             :initial="{ opacity: 0, y: 24 }"
@@ -385,11 +336,8 @@ const iconContactBg: Record<string, string> = {
             <div class="w-14 h-14 flex items-center justify-center rounded-2xl bg-gradient-to-br from-brand-purple/20 to-brand-purple/5 text-brand-purple mb-6 transition-transform duration-300 group-hover:scale-110">
               <Icon name="mdi:eye-outline" class="w-7 h-7" aria-hidden="true" />
             </div>
-            <h3 class="text-xl font-bold text-brand-text-primary mb-3">Our Vision</h3>
-            <p class="text-brand-text-secondary leading-relaxed">
-              To become the most trusted and results-driven digital agency in Bangladesh — recognised for our
-              creativity, integrity, and the measurable impact we create for every client we work with.
-            </p>
+            <h3 class="text-xl font-bold text-brand-text-primary mb-3">{{ $t('aboutPage.vision.title') }}</h3>
+            <p class="text-brand-text-secondary leading-relaxed">{{ $t('aboutPage.vision.text') }}</p>
           </div>
         </div>
       </div>
@@ -399,20 +347,18 @@ const iconContactBg: Record<string, string> = {
     <section class="section-padding bg-brand-surface" aria-label="Our Values">
       <div class="container-content">
         <div class="text-center mb-14">
-          <SectionBadge icon="mdi:heart-outline" color="purple" class="mb-4">Our Values</SectionBadge>
+          <SectionBadge icon="mdi:heart-outline" color="purple" class="mb-4">{{ $t('aboutPage.values.badge') }}</SectionBadge>
           <h2 class="text-brand-text-primary mt-4 mb-4">
-            What We
-            <span class="gradient-text"> Believe In</span>
+            {{ $t('aboutPage.values.heading') }}
+            <span class="gradient-text"> {{ $t('aboutPage.values.headingHighlight') }}</span>
           </h2>
-          <p class="text-brand-text-secondary max-w-xl mx-auto">
-            Our values shape every decision we make — from how we build campaigns to how we talk to clients.
-          </p>
+          <p class="text-brand-text-secondary max-w-xl mx-auto">{{ $t('aboutPage.values.subheading') }}</p>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           <div
             v-for="(value, i) in values"
-            :key="value.title"
+            :key="value.key"
             v-motion
             :initial="{ opacity: 0, y: 28 }"
             :visible-once="{ opacity: 1, y: 0, transition: { delay: i * 80, duration: 500 } }"
@@ -432,8 +378,8 @@ const iconContactBg: Record<string, string> = {
                 <Icon :name="value.icon" class="w-5 h-5" aria-hidden="true" />
               </div>
               <div>
-                <h3 class="text-[15px] font-bold text-brand-text-primary mb-1">{{ value.title }}</h3>
-                <p class="text-sm text-brand-text-secondary leading-relaxed">{{ value.description }}</p>
+                <h3 class="text-[15px] font-bold text-brand-text-primary mb-1">{{ $t(`aboutPage.values.${value.key}.title`) }}</h3>
+                <p class="text-sm text-brand-text-secondary leading-relaxed">{{ $t(`aboutPage.values.${value.key}.description`) }}</p>
               </div>
             </div>
           </div>
@@ -445,35 +391,31 @@ const iconContactBg: Record<string, string> = {
     <section class="section-padding bg-white" aria-label="Our Team">
       <div class="container-content">
         <div class="text-center mb-14">
-          <SectionBadge icon="mdi:account-group-outline" color="cyan" class="mb-4">Our Team</SectionBadge>
+          <SectionBadge icon="mdi:account-group-outline" color="cyan" class="mb-4">{{ $t('aboutPage.team.badge') }}</SectionBadge>
           <h2 class="text-brand-text-primary mt-4 mb-4">
-            The Experts Behind
-            <span class="gradient-text"> Your Growth</span>
+            {{ $t('aboutPage.team.heading') }}
+            <span class="gradient-text"> {{ $t('aboutPage.team.headingHighlight') }}</span>
           </h2>
-          <p class="text-brand-text-secondary max-w-xl mx-auto">
-            A tight-knit team of marketers, developers, designers, and creatives — all dedicated to your success.
-          </p>
+          <p class="text-brand-text-secondary max-w-xl mx-auto">{{ $t('aboutPage.team.subheading') }}</p>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <div
             v-for="(member, i) in team"
-            :key="member.name"
+            :key="member.key"
             v-motion
             :initial="{ opacity: 0, y: 30 }"
             :visible-once="{ opacity: 1, y: 0, transition: { delay: i * 90, duration: 500 } }"
             class="group flex flex-col rounded-card border border-brand-border bg-white shadow-card hover:shadow-card-hover hover:border-brand-primary/20 transition-all duration-300 overflow-hidden"
           >
-            <!-- Avatar -->
             <div class="relative aspect-square overflow-hidden bg-brand-surface">
               <img
                 :src="member.avatar"
-                :alt="member.name"
+                :alt="$t(`aboutPage.team.${member.key}.name`)"
                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 loading="lazy"
               />
               <div class="absolute inset-0 bg-gradient-to-t from-brand-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <!-- Social overlay -->
               <div class="absolute bottom-3 left-0 right-0 flex justify-center gap-2 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
                 <a :href="member.socials.linkedin" class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-brand-primary hover:bg-[#0b86ca] hover:text-white transition-colors duration-150" aria-label="LinkedIn">
                   <Icon name="mdi:linkedin" class="w-4 h-4" aria-hidden="true" />
@@ -483,11 +425,10 @@ const iconContactBg: Record<string, string> = {
                 </a>
               </div>
             </div>
-            <!-- Info -->
             <div class="p-5">
-              <h3 class="text-[15px] font-bold text-brand-text-primary mb-0.5">{{ member.name }}</h3>
-              <p class="text-xs font-semibold text-brand-orange mb-2 uppercase tracking-wide">{{ member.role }}</p>
-              <p class="text-xs text-brand-text-secondary leading-relaxed">{{ member.bio }}</p>
+              <h3 class="text-[15px] font-bold text-brand-text-primary mb-0.5">{{ $t(`aboutPage.team.${member.key}.name`) }}</h3>
+              <p class="text-xs font-semibold text-brand-orange mb-2 uppercase tracking-wide">{{ $t(`aboutPage.team.${member.key}.role`) }}</p>
+              <p class="text-xs text-brand-text-secondary leading-relaxed">{{ $t(`aboutPage.team.${member.key}.bio`) }}</p>
             </div>
           </div>
         </div>
@@ -497,23 +438,18 @@ const iconContactBg: Record<string, string> = {
     <!-- ── CONTACT INFO ───────────────────────────────────────── -->
     <section class="section-padding bg-brand-surface" aria-label="Contact Information">
       <div class="container-content">
-
         <div class="grid grid-cols-1 lg:grid-cols-5 gap-10 items-start">
 
-          <!-- Left: heading + map placeholder -->
           <div class="lg:col-span-2">
-            <SectionBadge icon="mdi:map-marker-outline" color="orange" class="mb-5">Find Us</SectionBadge>
+            <SectionBadge icon="mdi:map-marker-outline" color="orange" class="mb-5">{{ $t('aboutPage.contact.badge') }}</SectionBadge>
             <h2 class="text-brand-text-primary mt-4 mb-4">
-              Get In
-              <span class="gradient-text"> Touch</span>
+              {{ $t('aboutPage.contact.heading') }}
+              <span class="gradient-text"> {{ $t('aboutPage.contact.headingHighlight') }}</span>
             </h2>
-            <p class="text-brand-text-secondary mb-8 leading-relaxed">
-              We're based in Uttara, Dhaka and available Sunday to Thursday. Reach us through any channel below — we usually reply within a few hours.
-            </p>
+            <p class="text-brand-text-secondary mb-8 leading-relaxed">{{ $t('aboutPage.contact.subheading') }}</p>
 
-            <!-- Social links -->
             <div>
-              <p class="text-xs text-brand-text-muted uppercase tracking-widest font-semibold mb-4">Follow Us</p>
+              <p class="text-xs text-brand-text-muted uppercase tracking-widest font-semibold mb-4">{{ $t('aboutPage.contact.followUs') }}</p>
               <div class="flex flex-wrap gap-3">
                 <a
                   v-for="social in socials"
@@ -532,11 +468,10 @@ const iconContactBg: Record<string, string> = {
             </div>
           </div>
 
-          <!-- Right: contact detail cards -->
           <div class="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div
               v-for="(detail, i) in contactDetails"
-              :key="detail.label + i"
+              :key="detail.key"
               v-motion
               :initial="{ opacity: 0, y: 20 }"
               :visible-once="{ opacity: 1, y: 0, transition: { delay: i * 70, duration: 450 } }"
@@ -554,7 +489,7 @@ const iconContactBg: Record<string, string> = {
                 <Icon :name="detail.icon" class="w-5 h-5" aria-hidden="true" />
               </div>
               <div class="min-w-0">
-                <p class="text-[10px] text-brand-text-muted uppercase tracking-widest font-semibold mb-0.5">{{ detail.label }}</p>
+                <p class="text-[10px] text-brand-text-muted uppercase tracking-widest font-semibold mb-0.5">{{ $t(`aboutPage.contact.${detail.key}.label`) }}</p>
                 <a
                   v-if="detail.href"
                   :href="detail.href"
@@ -562,9 +497,9 @@ const iconContactBg: Record<string, string> = {
                   :rel="detail.external ? 'noopener noreferrer' : undefined"
                   class="text-sm font-medium text-brand-text-primary hover:text-brand-primary transition-colors duration-150 break-words"
                 >
-                  {{ detail.value }}
+                  {{ $t(`aboutPage.contact.${detail.key}.value`) }}
                 </a>
-                <p v-else class="text-sm font-medium text-brand-text-primary">{{ detail.value }}</p>
+                <p v-else class="text-sm font-medium text-brand-text-primary">{{ $t(`aboutPage.contact.${detail.key}.value`) }}</p>
               </div>
             </div>
           </div>
@@ -574,11 +509,11 @@ const iconContactBg: Record<string, string> = {
 
     <!-- ── CTA ───────────────────────────────────────────────── -->
     <CtaSection
-      title="Ready to Grow Your Business?"
-      subtitle="Let's build something great together. Tell us about your project and we'll get back within 24 hours."
-      primary-label="Start a Project"
+      :title="$t('aboutPage.cta.title')"
+      :subtitle="$t('aboutPage.cta.subtitle')"
+      :primary-label="$t('aboutPage.cta.primary')"
       primary-to="/contact"
-      secondary-label="View Our Work"
+      :secondary-label="$t('aboutPage.cta.secondary')"
       secondary-to="/portfolio"
     />
 

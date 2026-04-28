@@ -76,16 +76,13 @@ const doubled = computed(() => [...testimonials.value, ...testimonials.value]);
   >
     <div class="container-content mb-12">
       <div class="text-center">
-        <SectionBadge icon="mdi:star" color="orange" class="mb-4"
-          >Testimonials</SectionBadge
-        >
+        <SectionBadge icon="mdi:star" color="orange" class="mb-4">{{ $t('testimonials.badge') }}</SectionBadge>
         <h2 class="text-brand-text-primary mt-4 mb-4">
-          What Our Clients
-          <span class="gradient-text"> Say About Us</span>
+          {{ $t('testimonials.heading') }}
+          <span class="gradient-text"> {{ $t('testimonials.headingHighlight') }}</span>
         </h2>
         <p class="text-brand-text-secondary max-w-xl mx-auto">
-          Don't take our word for it — hear from the businesses we've helped
-          grow.
+          {{ $t('testimonials.subheading') }}
         </p>
       </div>
     </div>
