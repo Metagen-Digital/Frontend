@@ -9,6 +9,7 @@ const navLinks = computed(() => [
   { labelKey: "nav.services",  to: "/services",  icon: "mdi:briefcase-outline" },
   { labelKey: "nav.portfolio", to: "/portfolio", icon: "mdi:folder-star-outline" },
   { labelKey: "nav.blog",      to: "/blog",      icon: "mdi:notebook-outline" },
+  { labelKey: "nav.careers",   to: "/careers",   icon: "mdi:briefcase-account-outline" },
   { labelKey: "nav.contact",   to: "/contact",   icon: "mdi:message-outline" },
 ]);
 

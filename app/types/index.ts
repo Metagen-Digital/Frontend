@@ -277,6 +277,31 @@ export interface SeoData {
   schema_markup: object | null
 }
 
+// ─── Career API Types ─────────────────────────────────────
+export interface CareerJobApiItem {
+  id: number
+  title: string
+  slug: string
+  department: string
+  location: string
+  type: string
+  experience_level: string
+  salary_range: string | null
+  salary_period: string | null
+  description: string
+  requirements: string[]
+  is_featured: boolean
+  application_deadline: string | null
+  created_at: string
+}
+
+export interface CareerJobApiDetail extends CareerJobApiItem {
+  responsibilities: string[]
+  benefits: string[]
+  meta_title: string | null
+  meta_description: string | null
+}
+
 // ─── Contact Form API Payload ─────────────────────────────
 export interface ContactFormData {
   name: string

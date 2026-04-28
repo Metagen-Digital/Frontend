@@ -13,6 +13,7 @@ const navLinks = computed(() => [
   { labelKey: 'nav.services',  to: '/services' },
   { labelKey: 'nav.portfolio', to: '/portfolio' },
   { labelKey: 'nav.blog',      to: '/blog' },
+  { labelKey: 'nav.careers',   to: '/careers' },
   { labelKey: 'nav.contact',   to: '/contact' },
 ])
 
