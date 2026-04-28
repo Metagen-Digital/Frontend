@@ -15,6 +15,8 @@ const company = computed(() => [
   { labelKey: "footer.links.about",     to: "/about" },
   { labelKey: "footer.links.portfolio", to: "/portfolio" },
   { labelKey: "footer.links.blog",      to: "/blog" },
+  { labelKey: "footer.links.products",  to: "/products" },
+  { labelKey: "footer.links.careers",   to: "/careers" },
   { labelKey: "footer.links.contact",   to: "/contact" },
 ])
 

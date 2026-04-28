@@ -302,6 +302,48 @@ export interface CareerJobApiDetail extends CareerJobApiItem {
   meta_description: string | null
 }
 
+// ─── Product API Types ────────────────────────────────────
+export interface ProductApiItem {
+  id: number
+  name: string
+  slug: string
+  tagline: string
+  short_description: string
+  featured_image: string | null
+  category: string | null
+  categoryId: string | null
+  badge: string | null
+  badge_color: string | null
+  badgeClass: string
+  price_display: string | null
+  price_period: string | null
+  price_amount: string | null
+  features: string[]
+  rating: number | null
+  reviews_count: number
+  is_featured: boolean
+  bg_gradient: string | null
+  icon_path: string | null
+  purchase_link: string | null
+}
+
+export interface ProductApiDetail extends ProductApiItem {
+  description: string | null
+  pricing_note: string | null
+  gallery: string[]
+  stats: Array<{ label: string; value: string }>
+  highlights: string[]
+  plans: Array<{
+    name: string
+    price: string
+    period?: string
+    description?: string
+    features: string[]
+    is_popular?: boolean
+  }>
+  seo: SeoData
+}
+
 // ─── Contact Form API Payload ─────────────────────────────
 export interface ContactFormData {
   name: string
