@@ -277,6 +277,17 @@ export interface SeoData {
   schema_markup: object | null
 }
 
+// ─── Team API Types ───────────────────────────────────────
+export interface TeamApiItem {
+  id: number
+  name: string
+  position: string
+  bio: string | null
+  avatar_url: string | null
+  socials: Record<string, string>
+  sort_order: number
+}
+
 // ─── Career API Types ─────────────────────────────────────
 export interface CareerJobApiItem {
   id: number

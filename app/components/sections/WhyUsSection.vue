@@ -3,12 +3,20 @@ import type { Stat } from '~/types'
 
 const { el, isVisible } = useScrollAnimation()
 const { t } = useI18n()
+const { get } = useApi()
+
+const { data: testimonialStats } = await get<{ average_rating: number }>('/testimonials/stats')
+
+const satisfactionPct = computed(() => {
+  const rating = testimonialStats.value?.data?.average_rating ?? 5
+  return Math.min(100, Math.round((rating / 5) * 100))
+})
 
 const stats = computed<Stat[]>(() => [
-  { value: 50,  suffix: '+', label: t('whyUs.stats.clients'),      prefix: '' },
-  { value: 100, suffix: '+', label: t('whyUs.stats.projects'),     prefix: '' },
-  { value: 98,  suffix: '%', label: t('whyUs.stats.satisfaction'), prefix: '' },
-  { value: 3,   suffix: '+', label: t('whyUs.stats.experience'),   prefix: '' },
+  { value: 50,                    suffix: '+', label: t('whyUs.stats.clients'),      prefix: '' },
+  { value: 100,                   suffix: '+', label: t('whyUs.stats.projects'),     prefix: '' },
+  { value: satisfactionPct.value, suffix: '%', label: t('whyUs.stats.satisfaction'), prefix: '' },
+  { value: 3,                     suffix: '+', label: t('whyUs.stats.experience'),   prefix: '' },
 ])
 
 const features = computed(() => [

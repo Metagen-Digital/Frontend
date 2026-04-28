@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { TeamApiItem } from '~/types'
+
 const { t } = useI18n()
 const { get } = useApi()
 
@@ -9,6 +11,7 @@ useSeoMeta({
 
 // testimonials/stats থেকে average_rating নিয়ে satisfaction % বের করা হয়
 const { data: testimonialStats } = await get<{ average_rating: number; total: number }>('/testimonials/stats')
+const { data: teamResponse }     = await get<TeamApiItem[]>('/team')
 
 const satisfactionPct = computed(() => {
   const rating = testimonialStats.value?.data?.average_rating ?? 5
@@ -31,12 +34,7 @@ const values = computed(() => [
   { icon: 'mdi:clock-fast',           key: 'time',        color: 'cyan' },
 ])
 
-const team = computed(() => [
-  { key: 'm0', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&q=80&auto=format&fit=crop&crop=face', socials: { linkedin: '#', facebook: '#' } },
-  { key: 'm1', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&h=300&q=80&auto=format&fit=crop&crop=face', socials: { linkedin: '#', facebook: '#' } },
-  { key: 'm2', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=300&q=80&auto=format&fit=crop&crop=face', socials: { linkedin: '#', facebook: '#' } },
-  { key: 'm3', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=300&q=80&auto=format&fit=crop&crop=face', socials: { linkedin: '#', facebook: '#' } },
-])
+const team = computed<TeamApiItem[]>(() => teamResponse.value?.data ?? [])
 
 const chips = computed(() => [
   { icon: 'mdi:trending-up',      key: 'digitalMarketing', color: 'text-brand-orange', bg: 'bg-brand-orange/10' },
@@ -411,33 +409,51 @@ const iconContactBg: Record<string, string> = {
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <div
             v-for="(member, i) in team"
-            :key="member.key"
+            :key="member.id"
             v-motion
             :initial="{ opacity: 0, y: 30 }"
             :visible-once="{ opacity: 1, y: 0, transition: { delay: i * 90, duration: 500 } }"
             class="group flex flex-col rounded-card border border-brand-border bg-white shadow-card hover:shadow-card-hover hover:border-brand-primary/20 transition-all duration-300 overflow-hidden"
           >
+            <!-- Photo -->
             <div class="relative aspect-square overflow-hidden bg-brand-surface">
               <img
-                :src="member.avatar"
-                :alt="$t(`aboutPage.team.${member.key}.name`)"
+                v-if="member.avatar_url"
+                :src="member.avatar_url"
+                :alt="member.name"
                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 loading="lazy"
               />
-              <div class="absolute inset-0 bg-gradient-to-t from-brand-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-brand-primary/20 to-brand-purple/20">
+                <Icon name="mdi:account-circle-outline" class="w-20 h-20 text-brand-text-muted/40" />
+              </div>
+
+              <!-- Overlay + socials on hover -->
+              <div class="absolute inset-0 bg-gradient-to-t from-brand-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <div class="absolute bottom-3 left-0 right-0 flex justify-center gap-2 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                <a :href="member.socials.linkedin" class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-brand-primary hover:bg-[#0b86ca] hover:text-white transition-colors duration-150" aria-label="LinkedIn">
-                  <Icon name="mdi:linkedin" class="w-4 h-4" aria-hidden="true" />
-                </a>
-                <a :href="member.socials.facebook" class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-brand-primary hover:bg-[#4c76be] hover:text-white transition-colors duration-150" aria-label="Facebook">
-                  <Icon name="mdi:facebook" class="w-4 h-4" aria-hidden="true" />
+                <a
+                  v-for="(url, platform) in member.socials"
+                  :key="platform"
+                  :href="url"
+                  target="_blank"
+                  rel="noopener"
+                  :aria-label="String(platform)"
+                  class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-brand-primary hover:scale-110 transition-all duration-150"
+                >
+                  <Icon
+                    :name="platform === 'linkedin' ? 'mdi:linkedin' : platform === 'github' ? 'mdi:github' : platform === 'twitter' ? 'mdi:twitter' : 'mdi:facebook'"
+                    class="w-4 h-4"
+                    aria-hidden="true"
+                  />
                 </a>
               </div>
             </div>
+
+            <!-- Info -->
             <div class="p-5">
-              <h3 class="text-[15px] font-bold text-brand-text-primary mb-0.5">{{ $t(`aboutPage.team.${member.key}.name`) }}</h3>
-              <p class="text-xs font-semibold text-brand-orange mb-2 uppercase tracking-wide">{{ $t(`aboutPage.team.${member.key}.role`) }}</p>
-              <p class="text-xs text-brand-text-secondary leading-relaxed">{{ $t(`aboutPage.team.${member.key}.bio`) }}</p>
+              <h3 class="text-[15px] font-bold text-brand-text-primary mb-0.5">{{ member.name }}</h3>
+              <p class="text-xs font-semibold text-brand-orange mb-2 uppercase tracking-wide">{{ member.position }}</p>
+              <p v-if="member.bio" class="text-xs text-brand-text-secondary leading-relaxed">{{ member.bio }}</p>
             </div>
           </div>
         </div>
