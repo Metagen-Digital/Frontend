@@ -1,16 +1,25 @@
 <script setup lang="ts">
 const { t } = useI18n()
+const { get } = useApi()
 
 useSeoMeta({
   title: computed(() => `${t('aboutPage.breadcrumb')} | MetaGenDigital`),
   description: computed(() => t('aboutPage.hero.description')),
 })
 
+// testimonials/stats থেকে average_rating নিয়ে satisfaction % বের করা হয়
+const { data: testimonialStats } = await get<{ average_rating: number; total: number }>('/testimonials/stats')
+
+const satisfactionPct = computed(() => {
+  const rating = testimonialStats.value?.data?.average_rating ?? 5
+  return Math.min(100, Math.round((rating / 5) * 100))
+})
+
 const stats = computed(() => [
-  { icon: 'mdi:account-group-outline', value: 50,  suffix: '+', label: t('aboutPage.stats.clients'),      color: 'orange' },
-  { icon: 'mdi:rocket-launch-outline', value: 100, suffix: '+', label: t('aboutPage.stats.projects'),     color: 'purple' },
-  { icon: 'mdi:star-outline',          value: 98,  suffix: '%', label: t('aboutPage.stats.satisfaction'), color: 'cyan' },
-  { icon: 'mdi:calendar-check-outline',value: 3,   suffix: '+', label: t('aboutPage.stats.experience'),   color: 'orange' },
+  { icon: 'mdi:account-group-outline', value: 50,                    suffix: '+', label: t('aboutPage.stats.clients'),      color: 'orange' },
+  { icon: 'mdi:rocket-launch-outline', value: 100,                   suffix: '+', label: t('aboutPage.stats.projects'),     color: 'purple' },
+  { icon: 'mdi:star-outline',          value: satisfactionPct.value, suffix: '%', label: t('aboutPage.stats.satisfaction'), color: 'cyan' },
+  { icon: 'mdi:calendar-check-outline',value: 3,                     suffix: '+', label: t('aboutPage.stats.experience'),   color: 'orange' },
 ])
 
 const values = computed(() => [
