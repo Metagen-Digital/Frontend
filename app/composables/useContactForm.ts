@@ -1,5 +1,6 @@
 import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
+import type { ServiceApiItem } from '~/types'
 
 const schema = yup.object({
   name:    yup.string().required('Name is required').min(2, 'Minimum 2 characters'),
@@ -9,18 +10,15 @@ const schema = yup.object({
   message: yup.string().required('Message is required').min(10, 'Please write at least 10 characters'),
 })
 
-export const services = [
-  'Digital Marketing',
-  'Social Media Marketing',
-  'Photography & Videography',
-  'Website Development',
-  'E-commerce Development',
-  'Other',
-]
-
 export function useContactForm() {
   const { success, error } = useToast()
-  const { post } = useApi()
+  const { get, post } = useApi()
+
+  const { data: servicesResponse } = get<ServiceApiItem[]>('/services')
+  const services = computed<string[]>(() => {
+    const titles = (servicesResponse.value?.data ?? []).map(s => s.title)
+    return [...titles, 'Other']
+  })
 
   const { handleSubmit, isSubmitting, resetForm } = useForm({ validationSchema: schema })
 
