@@ -671,12 +671,7 @@ const apiService = computed<ServiceData | null>(() => {
       { value: revisionStat, label: "Revisions" },
     ],
     features: (data.features || []).map((feature, index) => ({
-      icon: [
-        "mdi:check-decagram",
-        "mdi:star-four-points",
-        "mdi:rocket-launch-outline",
-        "mdi:shield-check-outline",
-      ][index % 4],
+      icon: (["mdi:check-decagram", "mdi:star-four-points", "mdi:rocket-launch-outline", "mdi:shield-check-outline"] as string[])[index % 4] ?? "mdi:check-decagram",
       title: feature,
       desc: `Delivered as part of our ${data.title} service package.`,
     })),
@@ -845,9 +840,7 @@ const cfg = computed(() => colorConfig[service.value?.color ?? "orange"]);
             <p class="text-white/80 text-xl font-semibold mb-3 leading-snug">
               {{ service.tagline }}
             </p>
-            <p class="text-white/70 text-base leading-relaxed max-w-xl mb-8">
-              {{ service.overview }}
-            </p>
+            <p class="text-white/70 text-base leading-relaxed max-w-xl mb-8" v-html="service.overview" />
 
             <!-- CTA buttons -->
             <div class="flex flex-wrap gap-3">
