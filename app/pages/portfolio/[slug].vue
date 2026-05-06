@@ -1176,10 +1176,12 @@ const apiProject = computed<ProjectData | null>(() => {
     title: data.title,
     category: normalizedCategory,
     client: data.clientName || "MetaGen Client",
-    industry: data.type || "Business Services",
-    year: data.createdAt
-      ? new Date(data.createdAt).getFullYear()
-      : new Date().getFullYear(),
+    industry: data.industry || data.type || "Business Services",
+    year: data.projectEndDate
+      ? new Date(data.projectEndDate).getFullYear()
+      : data.createdAt
+        ? new Date(data.createdAt).getFullYear()
+        : new Date().getFullYear(),
     duration: data.projectDuration || "Flexible timeline",
     teamSize: "Dedicated team",
     color: colorFromCategory(normalizedCategory),
@@ -1204,7 +1206,7 @@ const apiProject = computed<ProjectData | null>(() => {
       ? data.metrics.map((metric) => ({
           label: metric.label,
           value: metric.value,
-          icon: "mdi:trending-up",
+          icon: metric.icon || "mdi:trending-up",
         }))
       : [
           {

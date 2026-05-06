@@ -86,6 +86,10 @@ module.exports = {
           '0%':   { transform: 'translateX(0%)' },
           '100%': { transform: 'translateX(-50%)' },
         },
+        'marquee-reverse': {
+          '0%':   { transform: 'translateX(-50%)' },
+          '100%': { transform: 'translateX(0%)' },
+        },
         'fade-up': {
           '0%':   { opacity: '0', transform: 'translateY(24px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
@@ -108,7 +112,8 @@ module.exports = {
         },
       },
       animation: {
-        'marquee':   'marquee 30s linear infinite',
+        'marquee':          'marquee 30s linear infinite',
+        'marquee-reverse':  'marquee-reverse 30s linear infinite',
         'fade-up':   'fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
         'fade-in':   'fade-in 0.4s ease forwards',
         'shimmer':   'shimmer 2s linear infinite',

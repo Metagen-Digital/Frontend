@@ -14,7 +14,7 @@ const contactCards = [
   {
     icon: "mdi:map-marker-outline",
     label: "Our Office",
-    value: "Kamarpara, Uttara",
+    value: "Uttara 10",
     sub: "Dhaka, Bangladesh",
     color: "orange",
   },

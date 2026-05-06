@@ -1,6 +1,5 @@
 <script setup lang="ts">
 const { t } = useI18n()
-const { post } = useApi()
 const localePath = useLocalePath()
 
 const services = computed(() => [
@@ -53,33 +52,6 @@ const socials = [
 ]
 
 const currentYear = new Date().getFullYear()
-
-// Newsletter subscribe
-const newsletterEmail    = ref('')
-const newsletterStatus   = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
-const newsletterMessage  = ref('')
-
-async function subscribeNewsletter() {
-  const email = newsletterEmail.value.trim()
-  if (!email) return
-  newsletterStatus.value = 'loading'
-  try {
-    const res = await post('/newsletter/subscribe', { email })
-    if (res.success) {
-      newsletterStatus.value = 'success'
-      newsletterMessage.value = t('footer.newsletter.success')
-      newsletterEmail.value = ''
-    }
-  } catch (err: any) {
-    if (err?.status === 400) {
-      newsletterStatus.value = 'error'
-      newsletterMessage.value = t('footer.newsletter.alreadySubscribed')
-    } else {
-      newsletterStatus.value = 'error'
-      newsletterMessage.value = t('footer.newsletter.error')
-    }
-  }
-}
 </script>
 
 <template>
@@ -179,7 +151,7 @@ async function subscribeNewsletter() {
               class="w-4 h-4 mt-0.5 text-brand-orange flex-shrink-0"
               aria-hidden="true"
             />
-            <span>Kamarpara, Uttara, Dhaka, Bangladesh</span>
+            <span>Uttara 10, Dhaka, Bangladesh</span>
           </li>
           <li class="flex items-start gap-2.5">
             <Icon
@@ -231,39 +203,6 @@ async function subscribeNewsletter() {
             <span>{{ $t('footer.links.hours') }}</span>
           </li>
         </ul>
-      </div>
-    </div>
-
-    <!-- Newsletter band -->
-    <div style="border-top: 1px solid #504f59; border-bottom: 1px solid #504f59">
-      <div class="container-content py-8 flex flex-col sm:flex-row items-center justify-between gap-6">
-        <div>
-          <p class="text-white font-semibold text-sm mb-0.5">{{ $t('footer.newsletter.title') }}</p>
-          <p class="text-[13px]" style="color: #c7c6c6">{{ $t('footer.newsletter.subtitle') }}</p>
-        </div>
-        <div class="w-full sm:w-auto">
-          <div v-if="newsletterStatus === 'success'" class="flex items-center gap-2 text-sm text-green-400">
-            <Icon name="mdi:check-circle-outline" class="w-4 h-4 flex-shrink-0" />
-            {{ newsletterMessage }}
-          </div>
-          <form v-else class="flex gap-2" @submit.prevent="subscribeNewsletter">
-            <input
-              v-model="newsletterEmail"
-              type="email"
-              :placeholder="$t('footer.newsletter.placeholder')"
-              required
-              class="w-64 px-4 py-2 rounded-btn text-sm text-brand-text-primary bg-white/95 outline-none focus:ring-2 focus:ring-brand-orange/50 placeholder:text-brand-text-muted"
-            />
-            <button
-              type="submit"
-              :disabled="newsletterStatus === 'loading'"
-              class="px-4 py-2 rounded-btn bg-brand-orange text-white text-sm font-semibold hover:bg-brand-orange/90 transition-colors duration-150 disabled:opacity-60 whitespace-nowrap"
-            >
-              {{ newsletterStatus === 'loading' ? $t('footer.newsletter.subscribing') : $t('footer.newsletter.subscribe') }}
-            </button>
-          </form>
-          <p v-if="newsletterStatus === 'error'" class="mt-1.5 text-xs text-red-400">{{ newsletterMessage }}</p>
-        </div>
       </div>
     </div>
 

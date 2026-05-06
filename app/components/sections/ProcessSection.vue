@@ -72,7 +72,7 @@ const connectorColor: Record<string, string> = {
     <div class="container-content">
 
       <!-- Heading -->
-      <div class="text-center mb-14">
+      <div class="text-center mb-6">
         <SectionBadge icon="mdi:map-marker-path" color="cyan" class="mb-4">{{ $t('process.badge') }}</SectionBadge>
         <h2 class="text-brand-text-primary mt-4 mb-4">
           {{ $t('process.heading') }}

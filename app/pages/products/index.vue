@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import type { ProductApiItem } from '~/types'
 
+interface CategoryItem {
+  slug: string
+  name: string
+  count: number
+}
+
 useSeoMeta({
   title: 'Products | MetaGenDigital',
   description: 'Explore MetaGenDigital digital products — tools and solutions built to grow your business.',
@@ -9,10 +15,14 @@ useSeoMeta({
 const { get } = useApi()
 
 const { data: productsResponse } = await get<ProductApiItem[]>('/products')
-const { data: catsResponse }     = await get<string[]>('/products/categories')
+const { data: catsResponse }     = await get<CategoryItem[]>('/products/categories')
 
 const allProducts = computed<ProductApiItem[]>(() => productsResponse.value?.data ?? [])
-const categories  = computed<string[]>(() => ['All', ...(catsResponse.value?.data ?? [])])
+
+const categories = computed<CategoryItem[]>(() => [
+  { slug: 'All', name: 'All', count: 0 },
+  ...(catsResponse.value?.data ?? []),
+])
 
 const activeFilter = ref('All')
 
@@ -22,7 +32,8 @@ const filtered = computed(() =>
     : allProducts.value.filter(p => p.categoryId === activeFilter.value),
 )
 
-function categoryLabel(cat: string) {
+function categoryLabel(cat: string | null | undefined) {
+  if (!cat || typeof cat !== 'string') return ''
   return cat.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
 }
 </script>
@@ -56,14 +67,15 @@ function categoryLabel(cat: string) {
         <div class="flex flex-wrap gap-2 mb-10">
           <button
             v-for="cat in categories"
-            :key="cat"
+            :key="cat.slug"
             class="px-4 py-2 rounded-full text-sm font-semibold border transition-all duration-200"
-            :class="activeFilter === cat
+            :class="activeFilter === cat.slug
               ? 'bg-brand-primary text-white border-brand-primary shadow-sm'
               : 'bg-white text-brand-text-secondary border-brand-border hover:border-brand-primary/40 hover:text-brand-primary'"
-            @click="activeFilter = cat"
+            @click="activeFilter = cat.slug"
           >
-            {{ categoryLabel(cat) }}
+            {{ cat.name }}
+            <span v-if="cat.slug !== 'All'" class="ml-1 opacity-60 text-[11px]">({{ cat.count }})</span>
           </button>
         </div>
 

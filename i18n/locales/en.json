@@ -7,7 +7,9 @@
     "blog": "Blog",
     "careers": "Careers",
     "contact": "Contact",
-    "getQuote": "Get a Quote"
+    "hosting": "Hosting",
+    "getQuote": "Get a Quote",
+    "contactUs": "Contact Us"
   },
   "hero": {
     "badge": "Bangladesh's #1 Digital Agency",
@@ -28,7 +30,9 @@
       "digitalMarketing": "Digital Marketing",
       "socialMedia": "Social Media",
       "webDev": "Web Development",
-      "photography": "Photography"
+      "photography": "Photography & Videography",
+      "videoEditing": "Video Editing",
+      "graphicDesign": "Graphic Design"
     },
     "bubbles": {
       "googleAds": "Google Ads",
@@ -42,7 +46,7 @@
     },
     "available": "Available for projects",
     "trafficGrowth": "Avg. Traffic Growth",
-    "clientsCount": "50+ Clients",
+    "clientsCount": "100+ Clients",
     "clientsRegion": "Across Bangladesh",
     "scroll": "Scroll"
   },
@@ -57,10 +61,12 @@
     "badge": "Testimonials",
     "heading": "What Our Clients",
     "headingHighlight": "Say About Us",
-    "subheading": "Don't take our word for it — hear from the businesses we've helped grow."
+    "subheading": "Don't take our word for it — hear from the businesses we've helped grow.",
+    "notAvailable": "No testimonials available at this time."
   },
   "trustedBy": {
-    "tagline": "Trusted by growing businesses across Bangladesh"
+    "tagline": "Trusted by growing businesses across Bangladesh",
+    "notAvailable": "Client logos not available at this time."
   },
   "process": {
     "badge": "Our Process",
@@ -133,7 +139,8 @@
     "heading": "Tips & Insights From",
     "headingHighlight": "Our Team",
     "subheading": "Stay ahead with the latest in digital marketing, web development, and growth strategies.",
-    "viewAll": "View All Posts"
+    "viewAll": "View All Posts",
+    "notAvailable": "No blog posts available at this time."
   },
   "cta": {
     "title": "Ready to Scale Your Business?",
@@ -172,12 +179,13 @@
       "privacy": "Privacy Policy",
       "terms": "Terms of Use",
       "whatsapp": "WhatsApp Us",
-      "hours": "Sun–Thu: 9am – 6pm (BST)"
+      "hours": "Sat–Thu: 9am – 6pm (BST)"
     }
   },
   "mobile": {
     "contact": "Contact",
-    "getQuote": "Get a Quote"
+    "getQuote": "Get a Quote",
+    "contactUs": "Contact Us"
   },
   "servicesPage": {
     "breadcrumb": "Services",
@@ -277,13 +285,13 @@
       "badge": "About Us",
       "heading": "We Are",
       "headingHighlight": "MetaGenDigital",
-      "description": "A passionate digital agency from Uttara, Dhaka — helping Bangladesh businesses grow online through creative marketing, stunning web experiences, and data-driven strategies.",
+      "description": "A results-driven digital agency empowering businesses across Bangladesh and beyond — with creative marketing, stunning web experiences, and data-driven strategies that deliver real, measurable growth.",
       "cta1": "Our Services",
       "cta2": "Get In Touch",
       "basedIn": "Based in Dhaka",
-      "location": "Kamarpara, Uttara",
+      "location": "Uttara 10, Dhaka",
       "est": "Est. 2021",
-      "yearsStrong": "3+ Years Strong"
+      "yearsStrong": "5+ Years Strong"
     },
     "stats": {
       "clients": "Happy Clients",
@@ -298,10 +306,10 @@
       "subheading": "From a creative team in Uttara, Dhaka — to a full-service digital agency serving clients across Bangladesh and internationally.",
       "globalReach": "Global Reach",
       "globalReachSub": "Local roots · International clients",
-      "yearsExcellence": "3+ Years of Excellence",
+      "yearsExcellence": "5+ Years of Excellence",
       "started": {
         "title": "How We Started",
-        "text": "MetaGenDigital was founded in 2021 with one clear goal — to give businesses access to world-class digital marketing that actually delivers results. We started small in Kamarpara, Uttara, Dhaka, with a passionate team and a big vision."
+        "text": "MetaGenDigital was founded in 2021 with one clear goal — to give businesses access to world-class digital marketing that actually delivers results. We started small in Uttara 10, Dhaka, with a passionate team and a big vision."
       },
       "roots": {
         "title": "Local Roots, Global Reach",
@@ -346,6 +354,7 @@
       "digitalMarketing": "Digital Marketing",
       "socialMedia": "Social Media Marketing",
       "photography": "Photography & Videography",
+      "videoEditing": "Video Editing",
       "webDev": "Website Development",
       "ecommerce": "E-commerce Development",
       "branding": "Branding & Graphic Design"
@@ -354,14 +363,14 @@
       "badge": "Find Us",
       "heading": "Get In",
       "headingHighlight": "Touch",
-      "subheading": "We're based in Uttara, Dhaka and available Sunday to Thursday. Reach us through any channel below — we usually reply within a few hours.",
+      "subheading": "We're based in Uttara, Dhaka and available Saturday to Thursday. Reach us through any channel below — we usually reply within a few hours.",
       "followUs": "Follow Us",
-      "d0": { "label": "Address", "value": "Kamarpara, Uttara, Dhaka, Bangladesh" },
+      "d0": { "label": "Address", "value": "Uttara 10, Dhaka, Bangladesh" },
       "d1": { "label": "Phone", "value": "+88 01970-222573" },
       "d2": { "label": "Email", "value": "hello{'@'}metagendigital.com" },
       "d3": { "label": "Alt Email", "value": "metagendigital{'@'}gmail.com" },
       "d4": { "label": "Website", "value": "www.metagendigital.com" },
-      "d5": { "label": "Working Hours", "value": "Sunday – Thursday, 9am – 6pm (BST)" }
+      "d5": { "label": "Working Hours", "value": "Saturday – Thursday, 9am – 6pm (BST)" }
     },
     "cta": {
       "title": "Ready to Grow Your Business?",
@@ -422,5 +431,15 @@
     "title": "Page Not Found",
     "message": "The page you're looking for doesn't exist.",
     "back": "Go Back Home"
+  },
+  "newsletterSection": {
+    "badge": "Newsletter",
+    "heading": "Stay Updated with Digital Insights",
+    "subheading": "Get weekly digital marketing tips, growth strategies, and industry insights delivered straight to your inbox.",
+    "noSpam": "No spam, ever",
+    "weeklyOnly": "Weekly digest",
+    "joinCount": "Join 500+ subscribers",
+    "successTitle": "You're all set!",
+    "privacyNote": "We respect your privacy. Unsubscribe anytime with one click."
   }
 }

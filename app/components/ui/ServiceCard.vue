@@ -93,7 +93,7 @@ const cfg = computed(() => cardConfig[props.color])
       </h3>
 
       <!-- Description -->
-      <p class="text-sm text-brand-text-secondary leading-relaxed mb-5 flex-1" v-html="description" />
+      <p class="text-sm text-brand-text-secondary leading-relaxed mb-5 flex-1 line-clamp-3" v-html="description" />
 
       <!-- Feature chips -->
       <div v-if="features.length" class="flex flex-wrap gap-1.5 mb-5">

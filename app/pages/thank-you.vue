@@ -13,8 +13,8 @@ useSeoMeta({
         <Icon name="mdi:check-circle" class="w-10 h-10 text-brand-success" aria-hidden="true" />
       </div>
 
-      <h1 class="text-white mb-3">{{ $t('thankYouPage.title') }}</h1>
-      <p class="text-brand-text-muted text-sm mb-10">{{ $t('thankYouPage.subtitle') }}</p>
+      <h1 class="text-brand-text-primary mb-3">{{ $t('thankYouPage.title') }}</h1>
+      <p class="text-brand-text-secondary text-sm mb-10">{{ $t('thankYouPage.subtitle') }}</p>
 
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
         <GradientButton to="/" icon="mdi:home">{{ $t('thankYouPage.back') }}</GradientButton>

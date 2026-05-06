@@ -3,17 +3,19 @@ const { t } = useI18n()
 const localePath = useLocalePath()
 
 const stats = computed(() => [
-  { icon: "mdi:account-group-outline", value: "50+",  labelKey: "hero.stats.clients",    color: "text-brand-orange" },
+  { icon: "mdi:account-group-outline", value: "100+", labelKey: "hero.stats.clients",    color: "text-brand-orange" },
   { icon: "mdi:rocket-launch-outline", value: "100+", labelKey: "hero.stats.projects",   color: "text-brand-purple" },
   { icon: "mdi:star-outline",          value: "5.0★", labelKey: "hero.stats.rating",     color: "text-brand-cyan" },
-  { icon: "mdi:calendar-check-outline",value: "3+",   labelKey: "hero.stats.experience", color: "text-brand-primary" },
+  { icon: "mdi:calendar-check-outline",value: "5+",   labelKey: "hero.stats.experience", color: "text-brand-primary" },
 ])
 
 const services = computed(() => [
-  { icon: "mdi:trending-up",     labelKey: "hero.serviceChips.digitalMarketing", color: "text-brand-orange", bg: "bg-brand-orange/10" },
-  { icon: "mdi:instagram",       labelKey: "hero.serviceChips.socialMedia",      color: "text-brand-purple", bg: "bg-brand-purple/10" },
-  { icon: "mdi:monitor-shimmer", labelKey: "hero.serviceChips.webDev",           color: "text-brand-primary", bg: "bg-brand-primary/10" },
-  { icon: "mdi:camera-outline",  labelKey: "hero.serviceChips.photography",      color: "text-brand-cyan",   bg: "bg-brand-cyan/10" },
+  { icon: "mdi:trending-up",        labelKey: "hero.serviceChips.digitalMarketing", color: "text-brand-orange",  bg: "bg-brand-orange/10" },
+  { icon: "mdi:instagram",          labelKey: "hero.serviceChips.socialMedia",      color: "text-brand-purple",  bg: "bg-brand-purple/10" },
+  { icon: "mdi:monitor-shimmer",    labelKey: "hero.serviceChips.webDev",           color: "text-brand-primary", bg: "bg-brand-primary/10" },
+  { icon: "mdi:camera-outline",     labelKey: "hero.serviceChips.photography",      color: "text-brand-cyan",    bg: "bg-brand-cyan/10" },
+  { icon: "mdi:video-outline",      labelKey: "hero.serviceChips.videoEditing",     color: "text-brand-orange",  bg: "bg-brand-orange/10" },
+  { icon: "mdi:palette-outline",    labelKey: "hero.serviceChips.graphicDesign",    color: "text-brand-purple",  bg: "bg-brand-purple/10" },
 ])
 
 const floatingBubbles = computed(() => [
@@ -54,24 +56,31 @@ const floatingBubbles = computed(() => [
 
 <template>
   <section
-    class="relative min-h-[100svh] flex items-center overflow-hidden bg-white"
+    class="relative min-h-[100svh] flex items-center overflow-hidden"
+    style="background: linear-gradient(155deg, #eef3ff 0%, #f3f6ff 45%, #edf6ff 100%)"
     aria-label="Hero"
   >
     <!-- Background grid -->
     <div
-      class="absolute inset-0 bg-grid-pattern bg-grid opacity-40 pointer-events-none"
+      class="absolute inset-0 bg-grid-pattern bg-grid opacity-30 pointer-events-none"
       aria-hidden="true"
     />
-    <!-- Orb left -->
+    <!-- Orb left — indigo tint matching #2d3c93 -->
     <div
       class="absolute -left-40 top-1/4 w-[600px] h-[600px] rounded-full blur-3xl pointer-events-none"
-      style="background: rgba(48, 60, 142, 0.06)"
+      style="background: rgba(48, 60, 142, 0.10)"
       aria-hidden="true"
     />
-    <!-- Orb right -->
+    <!-- Orb right — sky-blue tint matching logo icon gradient -->
     <div
       class="absolute -right-20 bottom-0 w-[500px] h-[500px] rounded-full blur-3xl pointer-events-none"
-      style="background: rgba(124, 58, 237, 0.06)"
+      style="background: rgba(14, 165, 233, 0.08)"
+      aria-hidden="true"
+    />
+    <!-- Orb top-right accent -->
+    <div
+      class="absolute right-1/4 -top-20 w-[400px] h-[400px] rounded-full blur-3xl pointer-events-none"
+      style="background: rgba(45, 60, 147, 0.06)"
       aria-hidden="true"
     />
 
@@ -172,7 +181,7 @@ const floatingBubbles = computed(() => [
             <div
               v-for="svc in services"
               :key="svc.labelKey"
-              class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-brand-border bg-white text-xs font-medium text-brand-text-secondary hover:border-brand-border-strong hover:shadow-card transition-all duration-200 cursor-default"
+              class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-brand-border bg-white/80 backdrop-blur-sm text-xs font-medium text-brand-text-secondary hover:border-brand-border-strong hover:shadow-card transition-all duration-200 cursor-default"
             >
               <span class="w-5 h-5 flex items-center justify-center rounded-full flex-shrink-0" :class="svc.bg">
                 <Icon :name="svc.icon" class="w-3 h-3" :class="svc.color" aria-hidden="true" />

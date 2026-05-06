@@ -213,6 +213,7 @@ export interface CaseStudyApiItem {
   technologies: string[]
   metrics: CaseStudyMetric[]
   type: string
+  industry?: string | null
   clientName?: string | null
   projectDuration?: string | null
   projectStartDate?: string | null
@@ -235,6 +236,7 @@ export interface CaseStudyApiDetail extends CaseStudyApiItem {
 export interface CaseStudyMetric {
   label: string
   value: string
+  icon?: string | null
 }
 
 // ─── Testimonial API Types ────────────────────────────────

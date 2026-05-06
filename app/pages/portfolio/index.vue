@@ -61,9 +61,11 @@ const items = computed<Item[]>(() => {
         ? `${metric.value} ${metric.label}`
         : item.type || "Project result",
       client: item.clientName || "MetaGen Client",
-      year: item.createdAt
-        ? new Date(item.createdAt).getFullYear()
-        : new Date().getFullYear(),
+      year: item.projectEndDate
+        ? new Date(item.projectEndDate).getFullYear()
+        : item.createdAt
+          ? new Date(item.createdAt).getFullYear()
+          : new Date().getFullYear(),
     };
   });
 });

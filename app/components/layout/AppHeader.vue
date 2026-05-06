@@ -8,13 +8,12 @@ const { t } = useI18n()
 const isScrolled = computed(() => scrollY.value > 50)
 
 const navLinks = computed(() => [
-  { labelKey: 'nav.home',      to: '/' },
-  { labelKey: 'nav.about',     to: '/about' },
-  { labelKey: 'nav.services',  to: '/services' },
-  { labelKey: 'nav.portfolio', to: '/portfolio' },
-  { labelKey: 'nav.blog',      to: '/blog' },
-  { labelKey: 'nav.careers',   to: '/careers' },
-  { labelKey: 'nav.contact',   to: '/contact' },
+  { labelKey: 'nav.home',      to: '/',                                        external: false },
+  { labelKey: 'nav.about',     to: '/about',                                   external: false },
+  { labelKey: 'nav.services',  to: '/services',                                external: false },
+  { labelKey: 'nav.portfolio', to: '/portfolio',                               external: false },
+  { labelKey: 'nav.blog',      to: '/blog',                                    external: false },
+  { labelKey: 'nav.hosting',   to: 'https://hosting.metagendigital.com',       external: true  },
 ])
 
 const route = useRoute()
@@ -47,22 +46,29 @@ function toggleMenu() {
 
       <!-- Desktop nav -->
       <nav class="hidden lg:flex items-center gap-1" aria-label="Main navigation">
-        <NuxtLink
-          v-for="link in navLinks"
-          :key="link.to"
-          :to="localePath(link.to)"
-          class="relative px-3 py-2 text-sm font-medium transition-colors duration-150 rounded-md group"
-          :class="isActive(link.to)
-            ? 'text-brand-text-primary'
-            : 'text-brand-text-secondary hover:text-brand-text-primary'"
-        >
-          {{ t(link.labelKey) }}
-          <!-- Active/hover underline -->
-          <span
-            class="absolute bottom-0.5 left-3 right-3 h-0.5 bg-brand-primary rounded-full transition-all duration-250 origin-left"
-            :class="isActive(link.to) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'"
-          />
-        </NuxtLink>
+        <template v-for="link in navLinks" :key="link.to">
+          <a
+            v-if="link.external"
+            :href="link.to"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="relative px-3 py-2 text-sm font-semibold text-brand-text-primary rounded-md group"
+          >
+            {{ t(link.labelKey) }}
+            <span class="absolute bottom-0.5 left-3 right-3 h-0.5 bg-brand-primary rounded-full transition-all duration-250 origin-left scale-x-0 group-hover:scale-x-100" />
+          </a>
+          <NuxtLink
+            v-else
+            :to="localePath(link.to)"
+            class="relative px-3 py-2 text-sm font-semibold text-brand-text-primary rounded-md group"
+          >
+            {{ t(link.labelKey) }}
+            <span
+              class="absolute bottom-0.5 left-3 right-3 h-0.5 bg-brand-primary rounded-full transition-all duration-250 origin-left"
+              :class="isActive(link.to) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'"
+            />
+          </NuxtLink>
+        </template>
       </nav>
 
       <!-- CTA + Language Toggle + Mobile toggle -->
@@ -84,7 +90,7 @@ function toggleMenu() {
           :to="localePath('/contact')"
           class="hidden md:inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-gradient-brand rounded-btn hover:shadow-glow-primary hover:scale-105 transition-all duration-250 ease-spring"
         >
-          {{ $t('nav.getQuote') }}
+          {{ $t('nav.contactUs') }}
           <Icon name="mdi:arrow-right" class="w-4 h-4" aria-hidden="true" />
         </NuxtLink>
 

@@ -22,7 +22,7 @@ const stats = computed(() => [
   { icon: 'mdi:account-group-outline', value: 50,                    suffix: '+', label: t('aboutPage.stats.clients'),      color: 'orange' },
   { icon: 'mdi:rocket-launch-outline', value: 100,                   suffix: '+', label: t('aboutPage.stats.projects'),     color: 'purple' },
   { icon: 'mdi:star-outline',          value: satisfactionPct.value, suffix: '%', label: t('aboutPage.stats.satisfaction'), color: 'cyan' },
-  { icon: 'mdi:calendar-check-outline',value: 3,                     suffix: '+', label: t('aboutPage.stats.experience'),   color: 'orange' },
+  { icon: 'mdi:calendar-check-outline',value: 5,                     suffix: '+', label: t('aboutPage.stats.experience'),   color: 'orange' },
 ])
 
 const values = computed(() => [
@@ -40,13 +40,14 @@ const chips = computed(() => [
   { icon: 'mdi:trending-up',      key: 'digitalMarketing', color: 'text-brand-orange', bg: 'bg-brand-orange/10' },
   { icon: 'mdi:instagram',        key: 'socialMedia',      color: 'text-brand-purple', bg: 'bg-brand-purple/10' },
   { icon: 'mdi:camera-outline',   key: 'photography',      color: 'text-brand-cyan',   bg: 'bg-brand-cyan/10' },
+  { icon: 'mdi:movie-edit-outline', key: 'videoEditing',  color: 'text-brand-orange', bg: 'bg-brand-orange/10' },
   { icon: 'mdi:monitor-shimmer',  key: 'webDev',           color: 'text-brand-primary',bg: 'bg-brand-primary/10' },
   { icon: 'mdi:shopping-outline', key: 'ecommerce',        color: 'text-brand-orange', bg: 'bg-brand-orange/10' },
   { icon: 'mdi:palette-outline',  key: 'branding',         color: 'text-brand-purple', bg: 'bg-brand-purple/10' },
 ])
 
 const contactDetails = computed(() => [
-  { key: 'd0', icon: 'mdi:map-marker-outline', href: 'https://maps.google.com/?q=Kamarpara,Uttara,Dhaka', color: 'orange', external: true },
+  { key: 'd0', icon: 'mdi:map-marker-outline', href: 'https://maps.google.com/?q=Uttara+10,Dhaka,Bangladesh', color: 'orange', external: true },
   { key: 'd1', icon: 'mdi:phone-outline',      href: 'tel:+8801970222573', color: 'purple' },
   { key: 'd2', icon: 'mdi:email-outline',      href: 'mailto:hello@metagendigital.com', color: 'cyan' },
   { key: 'd3', icon: 'mdi:email-outline',      href: 'mailto:metagendigital@gmail.com', color: 'cyan' },

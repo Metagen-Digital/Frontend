@@ -17,6 +17,7 @@
       <slot />
     </main>
 
+    <NewsletterSection />
     <AppFooter />
     <BackToTop />
     <ToastNotification />

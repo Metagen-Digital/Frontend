@@ -13,10 +13,10 @@ const satisfactionPct = computed(() => {
 })
 
 const stats = computed<Stat[]>(() => [
-  { value: 50,                    suffix: '+', label: t('whyUs.stats.clients'),      prefix: '' },
+  { value: 100,                   suffix: '+', label: t('whyUs.stats.clients'),      prefix: '' },
   { value: 100,                   suffix: '+', label: t('whyUs.stats.projects'),     prefix: '' },
   { value: satisfactionPct.value, suffix: '%', label: t('whyUs.stats.satisfaction'), prefix: '' },
-  { value: 3,                     suffix: '+', label: t('whyUs.stats.experience'),   prefix: '' },
+  { value: 5,                     suffix: '+', label: t('whyUs.stats.experience'),   prefix: '' },
 ])
 
 const features = computed(() => [
@@ -46,7 +46,7 @@ const accentBar: Record<string, string> = {
     <div class="container-content">
 
       <!-- Heading -->
-      <div class="text-center mb-14">
+      <div class="text-center mb-6">
         <SectionBadge icon="mdi:shield-star" color="purple" class="mb-4">{{ $t('whyUs.badge') }}</SectionBadge>
         <h2 class="text-brand-text-primary mt-4 mb-4">
           {{ $t('whyUs.heading') }}
@@ -60,7 +60,7 @@ const accentBar: Record<string, string> = {
       <!-- Gradient stats banner -->
       <div
         ref="el"
-        class="relative overflow-hidden rounded-card mb-14 bg-gradient-brand p-px"
+        class="relative overflow-hidden rounded-card mb-6 bg-gradient-brand p-px"
       >
         <div class="relative rounded-[15px] bg-gradient-brand px-6 py-10 md:py-12">
           <!-- subtle dot grid overlay -->

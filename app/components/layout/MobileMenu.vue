@@ -4,13 +4,12 @@ const localePath = useLocalePath()
 const { t } = useI18n()
 
 const navLinks = computed(() => [
-  { labelKey: "nav.home",      to: "/",          icon: "mdi:home-outline" },
-  { labelKey: "nav.about",     to: "/about",     icon: "mdi:account-group-outline" },
-  { labelKey: "nav.services",  to: "/services",  icon: "mdi:briefcase-outline" },
-  { labelKey: "nav.portfolio", to: "/portfolio", icon: "mdi:folder-star-outline" },
-  { labelKey: "nav.blog",      to: "/blog",      icon: "mdi:notebook-outline" },
-  { labelKey: "nav.careers",   to: "/careers",   icon: "mdi:briefcase-account-outline" },
-  { labelKey: "nav.contact",   to: "/contact",   icon: "mdi:message-outline" },
+  { labelKey: "nav.home",      to: "/",                                    icon: "mdi:home-outline",          external: false },
+  { labelKey: "nav.about",     to: "/about",                               icon: "mdi:account-group-outline", external: false },
+  { labelKey: "nav.services",  to: "/services",                            icon: "mdi:briefcase-outline",     external: false },
+  { labelKey: "nav.portfolio", to: "/portfolio",                           icon: "mdi:folder-star-outline",   external: false },
+  { labelKey: "nav.blog",      to: "/blog",                                icon: "mdi:notebook-outline",      external: false },
+  { labelKey: "nav.hosting",   to: "https://hosting.metagendigital.com",   icon: "mdi:server-outline",        external: true  },
 ]);
 
 const socialLinks = [
@@ -112,30 +111,39 @@ watch(mobileMenuOpen, (open) => {
 
         <!-- Links -->
         <div class="flex-1 overflow-y-auto px-4 py-6 space-y-1">
-          <NuxtLink
-            v-for="(link, i) in navLinks"
-            :key="link.to"
-            :to="localePath(link.to)"
-            class="group relative flex items-center gap-3 px-4 py-3 rounded-card text-base font-semibold border transition-all duration-200"
-            :class="
-              isActive(link.to)
-                ? 'bg-gradient-brand text-white border-brand-primary/40 shadow-card'
-                : 'text-brand-text-secondary border-transparent hover:bg-brand-surface hover:text-brand-primary hover:border-brand-border'
-            "
-            :style="{ animationDelay: `${i * 50}ms` }"
-          >
-            <span
-              class="absolute left-0 top-2 bottom-2 w-1 rounded-r-full bg-brand-orange transition-opacity duration-200"
+          <template v-for="(link, i) in navLinks" :key="link.to">
+            <a
+              v-if="link.external"
+              :href="link.to"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group relative flex items-center gap-3 px-4 py-3 rounded-card text-base font-semibold border transition-all duration-200 text-brand-text-secondary border-transparent hover:bg-brand-surface hover:text-brand-primary hover:border-brand-border"
+              :style="{ animationDelay: `${i * 50}ms` }"
+            >
+              <span class="absolute left-0 top-2 bottom-2 w-1 rounded-r-full bg-brand-orange transition-opacity duration-200 opacity-0 group-hover:opacity-70" aria-hidden="true" />
+              <Icon :name="link.icon" class="w-5 h-5" aria-hidden="true" />
+              {{ t(link.labelKey) }}
+            </a>
+            <NuxtLink
+              v-else
+              :to="localePath(link.to)"
+              class="group relative flex items-center gap-3 px-4 py-3 rounded-card text-base font-semibold border transition-all duration-200"
               :class="
                 isActive(link.to)
-                  ? 'opacity-100'
-                  : 'opacity-0 group-hover:opacity-70'
+                  ? 'bg-gradient-brand text-white border-brand-primary/40 shadow-card'
+                  : 'text-brand-text-secondary border-transparent hover:bg-brand-surface hover:text-brand-primary hover:border-brand-border'
               "
-              aria-hidden="true"
-            />
-            <Icon :name="link.icon" class="w-5 h-5" aria-hidden="true" />
-            {{ t(link.labelKey) }}
-          </NuxtLink>
+              :style="{ animationDelay: `${i * 50}ms` }"
+            >
+              <span
+                class="absolute left-0 top-2 bottom-2 w-1 rounded-r-full bg-brand-orange transition-opacity duration-200"
+                :class="isActive(link.to) ? 'opacity-100' : 'opacity-0 group-hover:opacity-70'"
+                aria-hidden="true"
+              />
+              <Icon :name="link.icon" class="w-5 h-5" aria-hidden="true" />
+              {{ t(link.labelKey) }}
+            </NuxtLink>
+          </template>
 
           <!-- Contact + social info -->
           <div class="mt-6 pt-6 border-t border-brand-border">
@@ -195,7 +203,7 @@ watch(mobileMenuOpen, (open) => {
             class="flex items-center justify-center gap-2 w-full px-5 py-3 text-sm font-semibold text-white bg-gradient-brand rounded-btn hover:shadow-glow-orange transition-all duration-250"
             @click="mobileMenuOpen = false"
           >
-            {{ $t('mobile.getQuote') }}
+            {{ $t('mobile.contactUs') }}
             <Icon name="mdi:arrow-right" class="w-4 h-4" aria-hidden="true" />
           </NuxtLink>
         </div>

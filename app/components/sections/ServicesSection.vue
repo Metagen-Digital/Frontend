@@ -4,110 +4,35 @@ import type { Service, ServiceApiItem } from "~/types";
 const { el, isVisible } = useScrollAnimation();
 const localePath = useLocalePath();
 
-const fallbackServices: Service[] = [
-  {
-    slug: "digital-marketing",
-    name: "Digital Marketing",
-    icon: "mdi:trending-up",
-    tagline: "ROI-focused",
-    description:
-      "Data-driven paid ads, SEO, and analytics strategies that maximise your return on every dollar spent.",
-    features: [
-      "Google & Meta Ads",
-      "SEO Optimisation",
-      "Analytics & Reporting",
-    ],
-    color: "orange",
-  },
-  {
-    slug: "social-media-marketing",
-    name: "Social Media Marketing",
-    icon: "mdi:instagram",
-    tagline: "Grow & Engage",
-    description:
-      "Creative content, community management, and growth strategies across all major social platforms.",
-    features: [
-      "Content Strategy",
-      "Community Management",
-      "Influencer Outreach",
-    ],
-    color: "purple",
-  },
-  {
-    slug: "photography-videography",
-    name: "Photography & Videography",
-    icon: "mdi:camera",
-    tagline: "Visual Stories",
-    description:
-      "Professional product shoots, brand films, and social reels that make your brand impossible to ignore.",
-    features: ["Product Photography", "Brand Films", "Social Reels"],
-    color: "cyan",
-  },
-  {
-    slug: "website-development",
-    name: "Website Development",
-    icon: "mdi:monitor-shimmer",
-    tagline: "Fast & SEO-ready",
-    description:
-      "Custom-designed, high-performance websites built with modern tech and optimised for search engines.",
-    features: ["Custom Design", "Mobile Responsive", "CMS Integration"],
-    color: "orange",
-  },
-  {
-    slug: "ecommerce-development",
-    name: "E-commerce Development",
-    icon: "mdi:shopping-outline",
-    tagline: "Sell 24/7",
-    description:
-      "Full-featured Shopify, WooCommerce, and custom e-commerce solutions with seamless payment setup.",
-    features: [
-      "Shopify & WooCommerce",
-      "Payment Integration",
-      "Full Setup & Launch",
-    ],
-    color: "purple",
-  },
-  {
-    slug: "branding-design",
-    name: "Branding & Graphic Design",
-    icon: "mdi:palette-outline",
-    tagline: "Stand Out",
-    description:
-      "From logo to full brand identity — we design visuals that make your business instantly recognisable and trusted.",
-    features: ["Logo & Identity", "Brand Guidelines", "Marketing Creatives"],
-    color: "cyan",
-  },
-];
-
 const { get } = useApi();
-const { data: servicesResponse } =
-  await get<ServiceApiItem[]>("/services/featured");
+const { data: servicesResponse, status } = await get<ServiceApiItem[]>("/services/featured");
 
 const colorPool: Array<Service["color"]> = ["orange", "purple", "cyan"];
 
+const isLoading = computed(() => status.value === "pending");
+
 const services = computed<Service[]>(() => {
   const apiItems = servicesResponse.value?.data ?? [];
-  if (!apiItems.length) {
-    return fallbackServices;
-  }
-
   return apiItems.map((service, index) => ({
     slug: service.slug,
     name: service.title,
     icon: service.icon || "mdi:briefcase-outline",
-    tagline: service.short_description || "Growth-focused service",
-    description: service.short_description || service.description || "",
+    tagline: service.short_description || "",
+    description: service.description || service.short_description || "",
     features: (service.features || []).slice(0, 3),
     color: colorPool[index % colorPool.length],
   }));
 });
+
+const isEmpty = computed(() => !isLoading.value && services.value.length === 0);
 </script>
 
 <template>
   <section class="section-padding bg-brand-surface" aria-label="Our Services">
     <div class="container-content">
+
       <!-- Heading -->
-      <div ref="el" class="text-center mb-14">
+      <div ref="el" class="text-center mb-6">
         <Transition
           enter-active-class="transition-all duration-600 ease-spring"
           enter-from-class="opacity-0 translate-y-6"
@@ -125,8 +50,49 @@ const services = computed<Service[]>(() => {
         </Transition>
       </div>
 
-      <!-- Cards grid — 3 cols on lg, last card centred on 5-item grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Skeleton loading — 6 placeholder cards -->
+      <div v-if="isLoading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div
+          v-for="n in 6"
+          :key="n"
+          class="rounded-2xl bg-white border border-brand-border shadow-card overflow-hidden animate-pulse"
+        >
+          <div class="h-44 bg-gray-200" />
+          <div class="p-6 space-y-3">
+            <div class="h-4 w-20 bg-gray-200 rounded-full" />
+            <div class="h-5 w-48 bg-gray-200 rounded-lg" />
+            <div class="h-3 w-full bg-gray-100 rounded" />
+            <div class="h-3 w-4/5 bg-gray-100 rounded" />
+            <div class="flex gap-2 pt-2">
+              <div class="h-7 w-24 bg-gray-100 rounded-lg" />
+              <div class="h-7 w-24 bg-gray-100 rounded-lg" />
+              <div class="h-7 w-24 bg-gray-100 rounded-lg" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty state -->
+      <div
+        v-else-if="isEmpty"
+        class="flex flex-col items-center justify-center py-24 text-center"
+      >
+        <div class="w-20 h-20 rounded-2xl bg-brand-border/60 flex items-center justify-center mb-6 shadow-sm">
+          <Icon name="mdi:briefcase-off-outline" class="w-10 h-10 text-brand-text-secondary" aria-hidden="true" />
+        </div>
+        <h3 class="text-xl font-bold text-brand-text-primary mb-2">
+          No Services Available
+        </h3>
+        <p class="text-sm text-brand-text-secondary max-w-xs">
+          We're updating our service offerings. Check back soon.
+        </p>
+      </div>
+
+      <!-- Cards grid — 3 cols on lg, odd last card centred -->
+      <div
+        v-else
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+      >
         <div
           v-for="(service, i) in services"
           :key="service.slug"
@@ -155,8 +121,8 @@ const services = computed<Service[]>(() => {
         </div>
       </div>
 
-      <!-- View all -->
-      <div class="flex justify-center mt-12">
+      <!-- View all — hidden on empty/loading -->
+      <div v-if="!isEmpty && !isLoading" class="flex justify-center mt-6">
         <GradientButton
           :to="localePath('/services')"
           variant="outline"
@@ -165,6 +131,7 @@ const services = computed<Service[]>(() => {
           {{ $t('services.viewAll') }}
         </GradientButton>
       </div>
+
     </div>
   </section>
 </template>
