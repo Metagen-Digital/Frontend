@@ -48,7 +48,7 @@ function categoryLabel(cat: string | null | undefined) {
 
       <div class="container-content relative z-10">
         <AppBreadcrumb :crumbs="[{ label: 'Products' }]" class="mb-6" />
-        <SectionBadge icon="mdi:package-variant-outline" class="mb-5">Digital Products</SectionBadge>
+        <SectionBadge icon="mdi:package-variant" class="mb-5">Digital Products</SectionBadge>
 
         <h1 class="text-brand-text-primary mb-4 max-w-2xl">
           Tools Built to <span class="gradient-text">Grow Your Business</span>
@@ -81,7 +81,7 @@ function categoryLabel(cat: string | null | undefined) {
 
         <!-- Empty state -->
         <div v-if="filtered.length === 0" class="py-20 text-center text-brand-text-muted">
-          <Icon name="mdi:package-variant-outline" class="w-12 h-12 mx-auto mb-4 opacity-40" />
+          <Icon name="mdi:package-variant" class="w-12 h-12 mx-auto mb-4 opacity-40" />
           <p class="text-lg font-medium">No products in this category yet.</p>
         </div>
 
@@ -106,7 +106,7 @@ function categoryLabel(cat: string | null | undefined) {
                 <svg v-if="product.icon_path" class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
                   <path :d="product.icon_path" />
                 </svg>
-                <Icon v-else name="mdi:package-variant-outline" class="w-8 h-8 text-white" />
+                <Icon v-else name="mdi:package-variant" class="w-8 h-8 text-white" />
               </div>
 
               <!-- Badge -->

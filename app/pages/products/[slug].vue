@@ -49,7 +49,7 @@ function categoryLabel(cat: string | null) {
                 <svg v-if="product.icon_path" class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
                   <path :d="product.icon_path" />
                 </svg>
-                <Icon v-else name="mdi:package-variant-outline" class="w-8 h-8 text-white" />
+                <Icon v-else name="mdi:package-variant" class="w-8 h-8 text-white" />
               </div>
               <div>
                 <span v-if="product.badge" class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold mb-1" :class="product.badgeClass">
@@ -216,7 +216,7 @@ function categoryLabel(cat: string | null) {
               <svg v-if="item.icon_path" class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path :d="item.icon_path" />
               </svg>
-              <Icon v-else name="mdi:package-variant-outline" class="w-6 h-6 text-white" />
+              <Icon v-else name="mdi:package-variant" class="w-6 h-6 text-white" />
             </div>
             <div class="flex-1 min-w-0">
               <h4 class="text-sm font-bold text-brand-text-primary group-hover:text-brand-primary transition-colors truncate">{{ item.name }}</h4>

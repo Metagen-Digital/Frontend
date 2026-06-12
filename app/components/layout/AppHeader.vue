@@ -71,7 +71,7 @@ function toggleMenu() {
         </template>
       </nav>
 
-      <!-- CTA + Language Toggle + Mobile toggle -->
+      <!-- CTA + Language Toggle + UserMenu + Mobile toggle -->
       <div class="flex items-center gap-2">
         <!-- Language Toggle -->
         <button
@@ -86,6 +86,7 @@ function toggleMenu() {
           <span>{{ localeLabel }}</span>
         </button>
 
+        <!-- Contact CTA (desktop only) -->
         <NuxtLink
           :to="localePath('/contact')"
           class="hidden md:inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-gradient-brand rounded-btn hover:shadow-glow-primary hover:scale-105 transition-all duration-250 ease-spring"
@@ -93,6 +94,9 @@ function toggleMenu() {
           {{ $t('nav.contactUs') }}
           <Icon name="mdi:arrow-right" class="w-4 h-4" aria-hidden="true" />
         </NuxtLink>
+
+        <!-- User icon (sign in / dashboard) -->
+        <UserMenu />
 
         <!-- Mobile hamburger -->
         <button

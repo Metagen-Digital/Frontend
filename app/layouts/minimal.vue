@@ -14,7 +14,7 @@
       <div class="container-content flex items-center justify-between h-16">
         <NuxtLink to="/" aria-label="MetaGenDigital home">
           <img
-            src="/images/MetaGen-Logo-w.svg"
+            src="/images/MetaGen-Logo.svg"
             alt="MetaGenDigital"
             class="h-7 w-auto"
           />

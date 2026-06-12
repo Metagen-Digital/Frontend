@@ -175,7 +175,7 @@ function cfg(index: number) {
 
         <!-- No packages -->
         <div v-else-if="activePackages.length === 0" class="py-16 text-center">
-          <Icon name="mdi:package-variant-outline" class="w-12 h-12 mx-auto mb-4 text-brand-text-muted opacity-40" />
+          <Icon name="mdi:package-variant" class="w-12 h-12 mx-auto mb-4 text-brand-text-muted opacity-40" />
           <p class="text-brand-text-secondary font-medium mb-2">No packages defined yet for this service.</p>
           <NuxtLink to="/contact" class="text-sm text-brand-primary hover:underline">
             Contact us for a custom quote →

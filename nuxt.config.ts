@@ -77,6 +77,7 @@ export default defineNuxtConfig({
     public: {
       apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:8000/api',
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000',
+      cookieDomain: process.env.COOKIE_DOMAIN || '',
     },
   },
 
@@ -85,4 +86,9 @@ export default defineNuxtConfig({
   },
 
   sitemap: {},
+
+  routeRules: {
+    '/dashboard':    { ssr: false },
+    '/bn/dashboard': { ssr: false },
+  },
 })
