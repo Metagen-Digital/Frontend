@@ -118,11 +118,15 @@ const floatingBubbles = computed(() => [
             :enter="{ opacity: 1, x: 0, transition: { delay: 180, duration: 700 } }"
           >
             <h1 class="font-display font-extrabold leading-[1.08] text-brand-text-primary mb-5">
-              {{ $t('hero.headlineGrow') === 'Grow' ? 'We' : 'আমরা' }}
-              <span class="gradient-text">{{ $t('hero.headlineGrow') }}</span>
-              {{ $t('hero.headlineGrow') === 'Grow' ? 'Your' : 'করি' }}<br />
-              {{ $t('hero.headlineGrow') === 'Grow' ? 'Business' : 'আপনার ব্যবসা' }}<br class="hidden sm:block" />
-              <span class="gradient-text">{{ $t('hero.headlineOnline') }}</span>
+              <template v-if="$t('hero.headlineGrow') === 'Grow'">
+                We <span class="gradient-text">{{ $t('hero.headlineGrow') }}</span> Your<br />
+                Business<br class="hidden sm:block" />
+                <span class="gradient-text">{{ $t('hero.headlineOnline') }}</span>
+              </template>
+              <template v-else>
+                আমরা আপনার ব্যবসা<br />
+                <span class="gradient-text">{{ $t('hero.headlineOnline') }} {{ $t('hero.headlineGrow') }}</span>
+              </template>
             </h1>
           </div>
 
