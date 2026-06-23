@@ -1,6 +1,6 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
-  devtools: { enabled: true },
+  devtools: { enabled: process.env.NODE_ENV !== 'production' },
 
   modules: [
     '@nuxtjs/tailwindcss',
@@ -70,7 +70,7 @@ export default defineNuxtConfig({
   image: {
     format: ['webp'],
     quality: 85,
-    domains: ['localhost', 'api.bytestacklab.com'],
+    domains: ['localhost', 'api.bytestacklab.com', 'api.metagendigital.com'],
   },
 
   runtimeConfig: {

@@ -1,0 +1,9 @@
+User-Agent: *
+Allow: /
+Disallow: /dashboard
+Disallow: /auth/
+Disallow: /bn/dashboard
+Disallow: /bn/auth/
+Disallow: /api/
+
+Sitemap: https://metagendigital.com/sitemap.xml
