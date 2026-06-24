@@ -4,6 +4,12 @@ definePageMeta({
   layout: 'minimal',
 })
 
+useSeoMeta({
+  title: 'Reset Password | MetaGenDigital',
+  description: 'Reset your MetaGenDigital account password.',
+  robots: 'noindex, nofollow',
+})
+
 const config = useRuntimeConfig()
 const apiBase = config.public.apiBase as string
 const localePath = useLocalePath()

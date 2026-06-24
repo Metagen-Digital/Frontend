@@ -88,7 +88,33 @@ export default defineNuxtConfig({
   sitemap: {},
 
   routeRules: {
-    '/dashboard':    { ssr: false },
-    '/bn/dashboard': { ssr: false },
+    // Global security headers on every route
+    '/**': {
+      headers: {
+        'X-Content-Type-Options': 'nosniff',
+        'X-Frame-Options': 'SAMEORIGIN',
+        'Referrer-Policy': 'strict-origin-when-cross-origin',
+        'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
+        'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
+        'Content-Security-Policy': [
+          "default-src 'self'",
+          "script-src 'self' 'unsafe-inline'",
+          "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+          "font-src 'self' data: https://fonts.gstatic.com",
+          "img-src 'self' data: blob: https:",
+          "connect-src 'self' https://api.metagendigital.com https://api.bytestacklab.com",
+          "frame-ancestors 'self'",
+          "base-uri 'self'",
+          "form-action 'self'",
+          "object-src 'none'",
+        ].join('; '),
+      },
+    },
+    // Private dashboard — client-only, never indexed
+    '/dashboard':    { ssr: false, robots: false },
+    '/bn/dashboard': { ssr: false, robots: false },
+    // Auth pages — keep out of the index
+    '/auth/**':    { robots: false },
+    '/bn/auth/**': { robots: false },
   },
 })

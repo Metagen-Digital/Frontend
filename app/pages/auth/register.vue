@@ -4,6 +4,12 @@ definePageMeta({
   layout: 'minimal',
 })
 
+useSeoMeta({
+  title: 'Create Account | MetaGenDigital',
+  description: 'Create your MetaGenDigital account.',
+  robots: 'noindex, nofollow',
+})
+
 const { register, loading } = useAuth()
 const localePath = useLocalePath()
 
