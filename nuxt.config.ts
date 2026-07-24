@@ -111,7 +111,10 @@ export default defineNuxtConfig({
     serverBundle: 'remote',
   },
 
-  sitemap: {},
+  sitemap: {
+    // Pull dynamic slugs (blog/services/portfolio/products/careers) from the API.
+    sources: ['/api/__sitemap__/urls'],
+  },
 
   routeRules: {
     // Global security headers on every route
