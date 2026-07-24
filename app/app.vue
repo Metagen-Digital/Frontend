@@ -64,6 +64,16 @@ useHead(computed(() => ({
     },
   ],
 })))
+
+// Site-wide SEO defaults. Individual pages override title/description/ogImage;
+// this guarantees every page ships an OG/Twitter card even if it forgets to.
+useSeoMeta({
+  ogSiteName: 'MetaGen Digital',
+  ogType: 'website',
+  ogImage: computed(() => `${siteUrl.value}/og/home.jpg`),
+  twitterCard: 'summary_large_image',
+  twitterImage: computed(() => `${siteUrl.value}/og/home.jpg`),
+})
 </script>
 
 <template>

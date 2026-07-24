@@ -18,7 +18,21 @@ export default defineNuxtConfig({
     '@nuxtjs/robots',
     '@nuxt/content',
     '@nuxtjs/i18n',
+    'nuxt-gtag',
   ],
+
+  // Google Analytics 4. Set NUXT_PUBLIC_GTAG_ID (G-XXXXXXXXXX) in the env.
+  // Empty id = analytics simply doesn't load, so dev/preview stay clean.
+  gtag: {
+    id: process.env.NUXT_PUBLIC_GTAG_ID,
+    enabled: process.env.NODE_ENV === 'production',
+  },
+
+  // Absolute site URL for sitemap, canonical and og tags.
+  site: {
+    url: process.env.NUXT_PUBLIC_SITE_URL || 'https://metagendigital.com',
+    name: 'MetaGen Digital',
+  },
 
   css: ['~/assets/css/main.css'],
 
@@ -61,6 +75,11 @@ export default defineNuxtConfig({
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
         { charset: 'utf-8' },
+        // Google Search Console verification. Set NUXT_PUBLIC_GSC_VERIFICATION
+        // to the token Search Console gives you (HTML-tag method).
+        ...(process.env.NUXT_PUBLIC_GSC_VERIFICATION
+          ? [{ name: 'google-site-verification', content: process.env.NUXT_PUBLIC_GSC_VERIFICATION }]
+          : []),
       ],
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon/favicon.ico' },
