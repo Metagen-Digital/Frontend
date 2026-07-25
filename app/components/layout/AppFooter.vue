@@ -181,6 +181,19 @@ const currentYear = new Date().getFullYear()
           </li>
           <li class="flex items-start gap-2.5">
             <Icon
+              name="mdi:email-outline"
+              class="w-4 h-4 mt-0.5 text-brand-orange flex-shrink-0"
+              aria-hidden="true"
+            />
+            <a
+              href="mailto:hosting@metagendigital.com"
+              class="hover:text-brand-orange transition-colors duration-150 break-all"
+            >
+              hosting@metagendigital.com
+            </a>
+          </li>
+          <li class="flex items-start gap-2.5">
+            <Icon
               name="mdi:whatsapp"
               class="w-4 h-4 mt-0.5 text-brand-orange flex-shrink-0"
               aria-hidden="true"
