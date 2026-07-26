@@ -7,9 +7,15 @@ interface CategoryItem {
   count: number
 }
 
+const siteUrl = (useRuntimeConfig().public.siteUrl as string) || 'https://metagendigital.com'
+
 useSeoMeta({
   title: 'Products | MetaGenDigital',
   description: 'Explore MetaGenDigital digital products — tools and solutions built to grow your business.',
+  ogTitle: 'Products | MetaGenDigital',
+  ogDescription: 'Digital products — tools and solutions built to grow your business.',
+  // Absolute — Facebook/LinkedIn crawlers do not resolve relative OG paths.
+  ogImage: `${siteUrl}/og/home.jpg`,
 })
 
 const { get } = useApi()
@@ -18,6 +24,12 @@ const { data: productsResponse } = await get<ProductApiItem[]>('/products')
 const { data: catsResponse }     = await get<CategoryItem[]>('/products/categories')
 
 const allProducts = computed<ProductApiItem[]>(() => productsResponse.value?.data ?? [])
+
+useCollectionJsonLd({
+  name: 'Products',
+  description: 'MetaGenDigital digital products — tools and solutions built to grow your business.',
+  items: () => allProducts.value.map(product => ({ name: product.name, url: `/products/${product.slug}` })),
+})
 
 const categories = computed<CategoryItem[]>(() => [
   { slug: 'All', name: 'All', count: 0 },

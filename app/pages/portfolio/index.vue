@@ -2,10 +2,17 @@
 import type { CaseStudyApiItem, PortfolioCategory } from "~/types";
 const { t } = useI18n()
 
+const siteUrl = (useRuntimeConfig().public.siteUrl as string) || "https://metagendigital.com";
+
 useSeoMeta({
   title: "Portfolio | MetaGenDigital",
   description:
     "Explore our work — web development, social media, photography, video, and e-commerce projects that deliver real results.",
+  ogTitle: "Portfolio | MetaGenDigital",
+  ogDescription:
+    "Web development, social media, photography, video and e-commerce projects that deliver real results.",
+  // Absolute — Facebook/LinkedIn crawlers do not resolve relative OG paths.
+  ogImage: `${siteUrl}/og/home.jpg`,
 });
 
 type TagColor = "orange" | "purple" | "cyan";
@@ -68,6 +75,14 @@ const items = computed<Item[]>(() => {
           : new Date().getFullYear(),
     };
   });
+});
+
+// Every project, not just the filtered view — category filtering is a
+// client-side ref, so the crawler's URL always represents the full list.
+useCollectionJsonLd({
+  name: "Portfolio",
+  description: "Web development, social media, photography and e-commerce case studies.",
+  items: () => items.value.map(item => ({ name: item.title, url: `/portfolio/${item.slug}` })),
 });
 
 const categories = computed<("All" | PortfolioCategory)[]>(() => {

@@ -2,10 +2,17 @@
 import type { Service, ServiceApiItem } from "~/types";
 const { t } = useI18n()
 
+const siteUrl = (useRuntimeConfig().public.siteUrl as string) || "https://metagendigital.com";
+
 useSeoMeta({
   title: "Our Services | MetaGenDigital",
   description:
     "Explore our full range of digital marketing, web development, photography, social media, and brand design services.",
+  ogTitle: "Our Services | MetaGenDigital",
+  ogDescription:
+    "Digital marketing, web development, photography, social media and brand design — built for the Bangladesh market.",
+  // Absolute — Facebook/LinkedIn crawlers do not resolve relative OG paths.
+  ogImage: `${siteUrl}/og/home.jpg`,
 });
 
 const { get } = useApi();
@@ -26,6 +33,12 @@ const services = computed<Service[]>(() => {
     features: (service.features || []).slice(0, 4),
     color: colorPool[index % colorPool.length],
   }));
+});
+
+useCollectionJsonLd({
+  name: "Our Services",
+  description: "Digital marketing, web development, photography and brand design services.",
+  items: () => services.value.map(service => ({ name: service.name, url: `/services/${service.slug}` })),
 });
 </script>
 

@@ -1114,7 +1114,7 @@ const projectMap: Record<string, ProjectData> = {
   },
 };
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const { get } = useApi();
 const slug = route.params.slug as string;
 const { data: caseStudyResponse } = await get<CaseStudyApiDetail>(
@@ -1284,9 +1284,45 @@ if (!project.value) {
   throw createError({ statusCode: 404, statusMessage: "Project not found" });
 }
 
+/* ─── SEO ───────────────────────────────────────────────────── */
+const apiData = computed(() => caseStudyResponse.value?.data);
+const config = useRuntimeConfig();
+const siteUrl = (config.public.siteUrl as string) || "https://metagendigital.com";
+
+const seoDescription = computed(() =>
+  apiData.value?.seo?.meta_description || toPlainText(project.value?.summary),
+);
+
 useSeoMeta({
-  title: computed(() => `${project.value?.title} | MetaGenDigital`),
-  description: computed(() => project.value?.summary),
+  title: computed(() => apiData.value?.seo?.meta_title || `${project.value?.title} | MetaGenDigital`),
+  description: seoDescription,
+  ogTitle: computed(() => project.value?.title),
+  ogDescription: seoDescription,
+  ogImage: computed(() => apiData.value?.image || undefined),
+  twitterImage: computed(() => apiData.value?.image || undefined),
+});
+
+// CreativeWork for the case study itself — signals "portfolio piece by this
+// agency for this client", which is what ties the work back to the brand.
+useJsonLd("case-study", () => {
+  const p = project.value;
+  const data = apiData.value;
+  if (!p || !data) return null;
+  return {
+    "@type": "CreativeWork",
+    name: p.title,
+    headline: p.title,
+    description: seoDescription.value,
+    image: data.image ? [data.image] : undefined,
+    url: `${siteUrl}${route.path}`,
+    creator: { "@id": `${siteUrl}/#organization` },
+    ...(data.clientName ? { sourceOrganization: { "@type": "Organization", name: data.clientName } } : {}),
+    ...(data.projectStartDate ? { dateCreated: data.projectStartDate } : {}),
+    ...(data.projectEndDate ? { datePublished: data.projectEndDate } : {}),
+    ...(data.technologies?.length ? { keywords: data.technologies.join(", ") } : {}),
+    about: data.industry || data.category,
+    inLanguage: locale.value === "bn" ? "bn-BD" : "en-US",
+  };
 });
 
 const colorConfig = {

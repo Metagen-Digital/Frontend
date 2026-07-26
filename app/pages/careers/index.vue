@@ -1,9 +1,15 @@
 <script setup lang="ts">
 import type { CareerJobApiItem } from '~/types'
 
+const siteUrl = (useRuntimeConfig().public.siteUrl as string) || 'https://metagendigital.com'
+
 useSeoMeta({
   title: 'Careers | MetaGenDigital',
   description: 'Join the MetaGenDigital team. Explore open positions across engineering, marketing, design and more.',
+  ogTitle: 'Careers | MetaGenDigital',
+  ogDescription: 'Open positions across engineering, marketing, design and more.',
+  // Absolute — Facebook/LinkedIn crawlers do not resolve relative OG paths.
+  ogImage: `${siteUrl}/og/home.jpg`,
 })
 
 const { get } = useApi()
@@ -13,6 +19,12 @@ const { data: depsResponse } = await get<string[]>('/career-jobs/departments')
 
 const allJobs = computed<CareerJobApiItem[]>(() => jobsResponse.value?.data ?? [])
 const departments = computed<string[]>(() => ['All', ...(depsResponse.value?.data ?? [])])
+
+useCollectionJsonLd({
+  name: 'Careers',
+  description: 'Open positions at MetaGenDigital across engineering, marketing and design.',
+  items: () => allJobs.value.map(job => ({ name: job.title, url: `/careers/${job.slug}` })),
+})
 
 const activeFilter = ref('All')
 

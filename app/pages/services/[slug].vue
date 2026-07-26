@@ -718,9 +718,76 @@ if (!service.value) {
   throw createError({ statusCode: 404, statusMessage: "Service not found" });
 }
 
+/* ─── SEO ───────────────────────────────────────────────────── */
+const apiData = computed(() => serviceResponse.value?.data);
+const config = useRuntimeConfig();
+const siteUrl = (config.public.siteUrl as string) || "https://metagendigital.com";
+
+const seoDescription = computed(() =>
+  apiData.value?.seo?.meta_description || toPlainText(service.value?.overview),
+);
+
 useSeoMeta({
-  title: computed(() => `${service.value?.name} | MetaGenDigital`),
-  description: computed(() => service.value?.overview),
+  title: computed(() => apiData.value?.seo?.meta_title || `${service.value?.name} | MetaGenDigital`),
+  description: seoDescription,
+  ogTitle: computed(() => service.value?.name),
+  ogDescription: seoDescription,
+  ogImage: computed(() => apiData.value?.featured_image || undefined),
+});
+
+// Service + Offer: lets Google show the starting price in the result, which is
+// the single biggest CTR lever on a commercial page.
+useJsonLd("service", () => {
+  const s = service.value;
+  if (!s) return null;
+  const price = apiData.value?.starting_price;
+  return {
+    "@type": "Service",
+    name: s.name,
+    description: seoDescription.value,
+    serviceType: apiData.value?.category || s.name,
+    provider: { "@id": `${siteUrl}/#organization` },
+    areaServed: { "@type": "Country", name: "Bangladesh" },
+    url: `${siteUrl}${route.path}`,
+    ...(price
+      ? {
+          offers: {
+            "@type": "Offer",
+            price,
+            priceCurrency: "BDT",
+            availability: "https://schema.org/InStock",
+            url: `${siteUrl}${route.path}`,
+          },
+        }
+      : {}),
+  };
+});
+
+// The service FAQs come straight from the backend, so the FAQ rich result is
+// free here — no extra content to write.
+useJsonLd("faq", () => {
+  const faqs = service.value?.faq ?? [];
+  if (!faqs.length) return null;
+  return {
+    "@type": "FAQPage",
+    mainEntity: faqs.map(item => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: { "@type": "Answer", text: item.a },
+    })),
+  };
+});
+
+// Feeds the "viewed a service page" retargeting audience in Ads Manager.
+const { trackViewContent } = useAnalytics();
+onMounted(() => {
+  if (service.value) {
+    trackViewContent({
+      name: service.value.name,
+      category: apiData.value?.category ?? "Service",
+      id: slug,
+    });
+  }
 });
 
 const openFaq = ref<number | null>(null);

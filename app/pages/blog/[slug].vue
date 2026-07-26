@@ -2,7 +2,7 @@
 import type { BlogApiDetail, BlogApiItem } from "~/types";
 
 const route = useRoute();
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
 type CategoryColor = "orange" | "purple" | "cyan";
 
@@ -69,9 +69,51 @@ if (!post.value) {
   throw createError({ statusCode: 404, statusMessage: "Post not found" });
 }
 
+/* ─── SEO ───────────────────────────────────────────────────── */
+const detail = computed(() => blogResponse.value?.data);
+const config = useRuntimeConfig();
+const siteUrl = (config.public.siteUrl as string) || "https://metagendigital.com";
+
+// Prefer the meta fields authored in the backend; fall back to the excerpt, and
+// only then to stripped body text (which tends to cut mid-sentence).
+const metaDescription = computed(() =>
+  detail.value?.metaDescription
+  || toPlainText(detail.value?.excerpt)
+  || toPlainText(post.value?.body),
+);
+
 useSeoMeta({
-  title:       computed(() => `${post.value?.title} | MetaGenDigital Blog`),
-  description: computed(() => post.value?.body.replace(/<[^>]+>/g, "").slice(0, 160)),
+  title:       computed(() => detail.value?.metaTitle || `${post.value?.title} | MetaGenDigital Blog`),
+  description: metaDescription,
+  ogTitle:     computed(() => post.value?.title),
+  ogDescription: metaDescription,
+  ogType:      "article",
+  ogImage:     computed(() => post.value?.thumbnail),
+  twitterImage: computed(() => post.value?.thumbnail),
+  articlePublishedTime: computed(() => detail.value?.publishedAt || undefined),
+  articleAuthor: computed(() => (post.value ? [post.value.author.name] : undefined)),
+});
+
+// Article rich result — feeds Google Discover and the "top stories" surfaces,
+// which is where a bilingual agency blog picks up most of its organic reach.
+useJsonLd("article", () => {
+  const p = post.value;
+  if (!p) return null;
+  return {
+    "@type": "BlogPosting",
+    headline: p.title.slice(0, 110), // Google ignores headlines beyond ~110 chars
+    description: metaDescription.value,
+    image: [p.thumbnail],
+    datePublished: p.date,
+    dateModified: detail.value?.publishedAt || p.date,
+    author: { "@type": "Person", name: p.author.name, description: p.author.bio },
+    publisher: { "@id": `${siteUrl}/#organization` },
+    mainEntityOfPage: { "@type": "WebPage", "@id": `${siteUrl}${route.path}` },
+    articleSection: p.category,
+    keywords: p.tags?.join(", ") || undefined,
+    wordCount: p.body.replace(/<[^>]+>/g, " ").trim().split(/\s+/).length,
+    inLanguage: locale.value === "bn" ? "bn-BD" : "en-US",
+  };
 });
 
 /* ─── Related posts ─────────────────────────────────────────── */

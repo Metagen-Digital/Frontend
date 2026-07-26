@@ -13,6 +13,7 @@ const schema = yup.object({
 export function useContactForm() {
   const { success, error } = useToast()
   const { get, post } = useApi()
+  const { trackLead, newEventId, trackingPayload } = useAnalytics()
 
   const { data: servicesResponse } = get<ServiceApiItem[]>('/services')
   const services = computed<string[]>(() => {
@@ -35,6 +36,11 @@ export function useContactForm() {
       const firstName = parts[0] ?? ''
       const lastName  = parts.slice(1).join(' ') || firstName
 
+      // Minted before the request so the browser pixel and the server-side
+      // Conversions API report this Lead under the same id — that is what
+      // lets Meta drop the duplicate instead of counting two conversions.
+      const eventId = newEventId()
+
       const res = await post('/contact/submit', {
         first_name: firstName,
         last_name:  lastName,
@@ -43,9 +49,13 @@ export function useContactForm() {
         service:    values.service,
         message:    values.message,
         subscribe_newsletter: false,
+        ...trackingPayload(eventId),
       })
 
       if (res.success) {
+        // The agency's primary conversion — fired only after the API confirms,
+        // so ad optimisation never learns from failed submissions.
+        trackLead({ service: values.service }, eventId)
         success('Message sent!', "We'll reply within 24 hours.")
         resetForm()
         await navigateTo('/thank-you')

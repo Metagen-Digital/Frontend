@@ -1,9 +1,12 @@
+# Private areas — blocked from crawling outright. The /bn/ variants are added
+# automatically by @nuxtjs/robots from the i18n config, so listing them here
+# too only produces duplicate Disallow lines.
+#
+# No Sitemap: line here either — @nuxtjs/sitemap appends the real index
+# (/sitemap_index.xml, which fans out to the en and bn sitemaps). A hand-written
+# /sitemap.xml entry only adds a redirect hop.
 User-Agent: *
 Allow: /
 Disallow: /dashboard
 Disallow: /auth/
-Disallow: /bn/dashboard
-Disallow: /bn/auth/
 Disallow: /api/
-
-Sitemap: https://metagendigital.com/sitemap.xml

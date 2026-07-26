@@ -2,10 +2,17 @@
 import type { BlogApiItem } from "~/types";
 const { t } = useI18n()
 
+const siteUrl = (useRuntimeConfig().public.siteUrl as string) || "https://metagendigital.com";
+
 useSeoMeta({
   title: "Blog & Insights | MetaGenDigital",
   description:
     "Digital marketing tips, web development guides, social media strategies, and industry insights from the MetaGenDigital team.",
+  ogTitle: "Blog & Insights | MetaGenDigital",
+  ogDescription:
+    "Digital marketing tips, web development guides, social media strategies, and industry insights.",
+  // Absolute — Facebook/LinkedIn crawlers do not resolve relative OG paths.
+  ogImage: `${siteUrl}/og/home.jpg`,
 });
 
 type CategoryColor = "orange" | "purple" | "cyan";
@@ -55,6 +62,14 @@ const categories = computed(() => {
     new Set(posts.value.map((post) => post.category).filter(Boolean)),
   );
   return ["All", ...uniqueCategories];
+});
+
+// Every post, not just the currently filtered view — category filtering is a
+// client-side ref, so the crawler's URL always represents the full list.
+useCollectionJsonLd({
+  name: "Blog & Insights",
+  description: "Digital marketing, web development and social media insights from MetaGenDigital.",
+  items: () => posts.value.map(post => ({ name: post.title, url: `/blog/${post.slug}` })),
 });
 
 const featured = computed(() => posts.value[0] as Post);

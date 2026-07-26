@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const { t } = useI18n()
 const { post } = useApi()
+const { trackSubscribe, newEventId, trackingPayload } = useAnalytics()
 
 const email           = ref('')
 const status          = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
@@ -11,8 +12,12 @@ async function subscribe() {
   if (!val) return
   status.value = 'loading'
   try {
-    const res = await post('/newsletter/subscribe', { email: val })
+    // Minted before the request so the browser pixel and the server-side
+    // Conversions API report this Subscribe under the same id (dedupe).
+    const eventId = newEventId()
+    const res = await post('/newsletter/subscribe', { email: val, ...trackingPayload(eventId) })
     if (res.success) {
+      trackSubscribe(eventId)
       status.value = 'success'
       message.value = t('footer.newsletter.success')
       email.value = ''

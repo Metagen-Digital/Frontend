@@ -82,6 +82,17 @@ export default defineNuxtConfig({
         ...(process.env.NUXT_PUBLIC_GSC_VERIFICATION
           ? [{ name: 'google-site-verification', content: process.env.NUXT_PUBLIC_GSC_VERIFICATION }]
           : []),
+        // Bing Webmaster Tools. Worth having: Bing's index also backs DuckDuckGo
+        // and ChatGPT search. Token from bing.com/webmasters (HTML-meta method).
+        ...(process.env.NUXT_PUBLIC_BING_VERIFICATION
+          ? [{ name: 'msvalidate.01', content: process.env.NUXT_PUBLIC_BING_VERIFICATION }]
+          : []),
+        // Meta domain verification — required for iOS 14+ Aggregated Event
+        // Measurement, without which Purchase/Lead optimisation is degraded.
+        // Token from Events Manager → Brand Safety → Domains.
+        ...(process.env.NUXT_PUBLIC_FB_DOMAIN_VERIFICATION
+          ? [{ name: 'facebook-domain-verification', content: process.env.NUXT_PUBLIC_FB_DOMAIN_VERIFICATION }]
+          : []),
       ],
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon/favicon.ico' },
@@ -104,6 +115,10 @@ export default defineNuxtConfig({
       apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:8000/api',
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000',
       cookieDomain: process.env.COOKIE_DOMAIN || '',
+      // Meta (Facebook) Pixel ID from Events Manager. Not a secret — it ships
+      // in the browser. Empty means the pixel plugin stays inert, so previews
+      // and local dev never pollute ad reporting. See app/plugins/meta-pixel.client.ts
+      fbPixelId: process.env.NUXT_PUBLIC_FB_PIXEL_ID || '',
     },
   },
 
@@ -127,11 +142,13 @@ export default defineNuxtConfig({
         'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
         'Content-Security-Policy': [
           "default-src 'self'",
-          "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com",
+          // connect.facebook.net serves fbevents.js (Meta Pixel); the tracking
+          // beacons themselves go to www.facebook.com/tr, covered by img-src.
+          "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://connect.facebook.net",
           "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
           "font-src 'self' data: https://fonts.gstatic.com",
           "img-src 'self' data: blob: https:",
-          "connect-src 'self' https://api.metagendigital.com https://api.bytestacklab.com https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com",
+          "connect-src 'self' https://api.metagendigital.com https://api.bytestacklab.com https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.facebook.com https://connect.facebook.net",
           "frame-ancestors 'self'",
           "base-uri 'self'",
           "form-action 'self'",

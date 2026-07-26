@@ -10,7 +10,40 @@ interface Props {
   crumbs: Crumb[]
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
+
+// BreadcrumbList structured data, emitted wherever this component renders.
+// Google draws the breadcrumb trail in place of the raw URL in results, which
+// lifts CTR — and it costs nothing beyond the crumbs already being passed in.
+const config = useRuntimeConfig()
+const localePath = useLocalePath()
+const siteUrl = (config.public.siteUrl as string) || 'https://metagendigital.com'
+
+const absolute = (path: string) => `${siteUrl}${path.startsWith('/') ? path : `/${path}`}`
+
+const breadcrumbJsonLd = computed(() => JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: t('nav.home'), item: absolute(localePath('/')) },
+    ...props.crumbs.map((crumb, i) => ({
+      '@type': 'ListItem',
+      position: i + 2,
+      name: crumb.label,
+      // The last crumb is the current page: schema.org wants it without an
+      // item URL, so only linked ancestors carry one.
+      ...(crumb.to && i < props.crumbs.length - 1 ? { item: absolute(crumb.to) } : {}),
+    })),
+  ],
+}))
+
+useHead({
+  script: [{
+    key: 'ld-breadcrumb',
+    type: 'application/ld+json',
+    innerHTML: breadcrumbJsonLd,
+  }],
+})
 </script>
 
 <template>

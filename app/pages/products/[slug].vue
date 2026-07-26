@@ -15,9 +15,71 @@ if (!product.value) {
   throw createError({ statusCode: 404, statusMessage: 'Product not found' })
 }
 
+const config = useRuntimeConfig()
+const siteUrl = (config.public.siteUrl as string) || 'https://metagendigital.com'
+
 useSeoMeta({
   title: computed(() => product.value?.seo?.meta_title ?? `${product.value?.name} | MetaGenDigital`),
   description: computed(() => product.value?.seo?.meta_description ?? product.value?.short_description ?? ''),
+  ogTitle: computed(() => product.value?.name),
+  ogDescription: computed(() => product.value?.short_description ?? ''),
+  ogImage: computed(() => product.value?.featured_image ?? undefined),
+  twitterImage: computed(() => product.value?.featured_image ?? undefined),
+})
+
+// Product + Offer + AggregateRating — the combination Google needs to render
+// price and stars in the SERP. Rating is only emitted when reviews actually
+// exist; faking it is a manual-action risk.
+useJsonLd('product', () => {
+  const p = product.value
+  if (!p) return null
+
+  // plans[] carries the real price points; price_amount is the "from" figure.
+  const prices = (p.plans ?? [])
+    .map(plan => Number(String(plan.price).replace(/[^\d.]/g, '')))
+    .filter(n => Number.isFinite(n) && n > 0)
+  const lowPrice = prices.length ? Math.min(...prices) : Number(p.price_amount) || null
+
+  return {
+    '@type': 'Product',
+    name: p.name,
+    description: p.seo?.meta_description ?? p.short_description ?? '',
+    image: p.featured_image ? [p.featured_image] : undefined,
+    category: p.category ?? undefined,
+    brand: { '@type': 'Brand', name: 'MetaGenDigital' },
+    url: `${siteUrl}${route.path}`,
+    ...(lowPrice
+      ? {
+          offers: {
+            '@type': 'AggregateOffer',
+            lowPrice,
+            ...(prices.length > 1 ? { highPrice: Math.max(...prices) } : {}),
+            offerCount: prices.length || 1,
+            priceCurrency: 'BDT',
+            availability: 'https://schema.org/InStock',
+            seller: { '@id': `${siteUrl}/#organization` },
+          },
+        }
+      : {}),
+    ...(p.rating && p.reviews_count
+      ? {
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: p.rating,
+            reviewCount: p.reviews_count,
+            bestRating: 5,
+          },
+        }
+      : {}),
+  }
+})
+
+// Feeds the "viewed a product page" retargeting audience in Ads Manager.
+const { trackViewContent } = useAnalytics()
+onMounted(() => {
+  if (product.value) {
+    trackViewContent({ name: product.value.name, category: product.value.category ?? 'Product', id: slug })
+  }
 })
 
 function categoryLabel(cat: string | null) {

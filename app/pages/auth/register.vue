@@ -12,6 +12,7 @@ useSeoMeta({
 
 const { register, loading } = useAuth()
 const localePath = useLocalePath()
+const { trackRegistration } = useAnalytics()
 
 const form = reactive({
   name: '',
@@ -32,6 +33,7 @@ async function handleSubmit() {
   if (!result.success) {
     errors.value = result.errors
   } else {
+    trackRegistration()
     await navigateTo(localePath('/dashboard'))
   }
 }

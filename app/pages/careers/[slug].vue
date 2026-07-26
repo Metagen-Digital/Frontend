@@ -15,9 +15,55 @@ if (!job.value) {
   throw createError({ statusCode: 404, statusMessage: 'Job not found' })
 }
 
+const siteUrl = (config.public.siteUrl as string) || 'https://metagendigital.com'
+
 useSeoMeta({
-  title: computed(() => `${job.value?.title} | Careers | MetaGenDigital`),
-  description: computed(() => job.value?.meta_description ?? job.value?.description ?? ''),
+  title: computed(() => job.value?.meta_title ?? `${job.value?.title} | Careers | MetaGenDigital`),
+  description: computed(() => job.value?.meta_description ?? toPlainText(job.value?.description)),
+})
+
+// JobPosting — the entry ticket to the Google Jobs widget, which sits above the
+// normal results for role searches and is a large free candidate channel.
+useJsonLd('job-posting', () => {
+  const j = job.value
+  if (!j) return null
+
+  // Google requires employmentType from a fixed vocabulary.
+  const employmentType = ({
+    'full-time': 'FULL_TIME',
+    'part-time': 'PART_TIME',
+    contract: 'CONTRACTOR',
+    internship: 'INTERN',
+    temporary: 'TEMPORARY',
+    freelance: 'CONTRACTOR',
+  } as Record<string, string>)[j.type?.toLowerCase().replace(/\s+/g, '-')] ?? 'FULL_TIME'
+
+  const isRemote = /remote/i.test(j.location ?? '')
+
+  return {
+    '@type': 'JobPosting',
+    title: j.title,
+    description: j.description,
+    datePosted: j.created_at,
+    ...(j.application_deadline ? { validThrough: j.application_deadline } : {}),
+    employmentType,
+    hiringOrganization: { '@id': `${siteUrl}/#organization` },
+    industry: j.department,
+    experienceRequirements: j.experience_level,
+    url: `${siteUrl}${route.path}`,
+    ...(isRemote
+      ? { jobLocationType: 'TELECOMMUTE', applicantLocationRequirements: { '@type': 'Country', name: 'Bangladesh' } }
+      : {
+          jobLocation: {
+            '@type': 'Place',
+            address: {
+              '@type': 'PostalAddress',
+              addressLocality: j.location || 'Dhaka',
+              addressCountry: 'BD',
+            },
+          },
+        }),
+  }
 })
 
 // ── Apply Form ───────────────────────────────────────────

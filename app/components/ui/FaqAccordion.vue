@@ -6,9 +6,34 @@ interface FaqItem {
 
 interface Props {
   items: FaqItem[]
+  /**
+   * Emit FAQPage structured data. On by default; turn it off when a page shows
+   * two accordions, since Google only accepts one FAQPage per URL.
+   */
+  schema?: boolean
 }
 
-defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), { schema: true })
+
+// FAQPage rich result — the answers can render as an expandable block directly
+// in the SERP, taking up more space and intercepting the click.
+const faqJsonLd = computed(() => JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: props.items.map(item => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.answer },
+  })),
+}))
+
+if (props.schema) {
+  useHead(computed(() => ({
+    script: props.items.length
+      ? [{ key: 'ld-faq', type: 'application/ld+json', innerHTML: faqJsonLd.value }]
+      : [],
+  })))
+}
 
 const openIndex = ref<number | null>(null)
 
