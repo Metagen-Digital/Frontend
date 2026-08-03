@@ -20,6 +20,7 @@
     <NewsletterSection />
     <AppFooter />
     <BackToTop />
+    <ChatWidget />
     <ToastNotification />
   </div>
 </template>
