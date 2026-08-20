@@ -4,9 +4,10 @@ definePageMeta({
   layout: 'minimal',
 })
 
+const { t } = useI18n()
 useSeoMeta({
-  title: 'Sign In | MetaGenDigital',
-  description: 'Sign in to your MetaGenDigital account.',
+  title: computed(() => t('auth.login.metaTitle')),
+  description: computed(() => t('auth.login.metaDescription')),
   robots: 'noindex, nofollow',
 })
 
@@ -35,15 +36,15 @@ async function handleSubmit() {
         <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-brand shadow-glow-primary mb-4">
           <Icon name="mdi:account-lock" class="w-7 h-7 text-white" />
         </div>
-        <h1 class="text-2xl font-bold text-brand-text-primary font-display">Welcome back</h1>
-        <p class="mt-1 text-sm text-brand-text-secondary">Sign in to your MetaGenDigital account</p>
+        <h1 class="text-2xl font-bold text-brand-text-primary font-display">{{ t('auth.login.heading') }}</h1>
+        <p class="mt-1 text-sm text-brand-text-secondary">{{ t('auth.login.subheading') }}</p>
       </div>
 
       <div class="bg-white rounded-2xl shadow-card border border-brand-border p-8">
         <form class="space-y-5" @submit.prevent="handleSubmit">
           <div>
             <label class="block text-sm font-semibold text-brand-text-primary mb-1.5">
-              Email address
+              {{ t('auth.shared.emailAddress') }}
             </label>
             <input
               v-model="form.email"
@@ -59,9 +60,9 @@ async function handleSubmit() {
 
           <div>
             <div class="flex items-center justify-between mb-1.5">
-              <label class="block text-sm font-semibold text-brand-text-primary">Password</label>
+              <label class="block text-sm font-semibold text-brand-text-primary">{{ t('auth.shared.password') }}</label>
               <NuxtLink :to="localePath('/auth/forgot-password')" class="text-xs text-brand-primary hover:underline">
-                Forgot password?
+                {{ t('auth.login.forgotPassword') }}
               </NuxtLink>
             </div>
             <div class="relative">
@@ -91,24 +92,23 @@ async function handleSubmit() {
             class="w-full flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-white bg-gradient-brand rounded-btn hover:shadow-glow-primary hover:scale-[1.02] active:scale-[0.99] transition-all duration-250 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
           >
             <Icon v-if="loading" name="mdi:loading" class="w-4 h-4 animate-spin" />
-            <span>{{ loading ? 'Signing in…' : 'Sign in' }}</span>
+            <span>{{ loading ? t('auth.login.submitLoading') : t('auth.login.submitIdle') }}</span>
           </button>
         </form>
 
         <p class="mt-6 text-center text-sm text-brand-text-secondary">
-          No account?
+          {{ t('auth.login.noAccount') }}
           <NuxtLink :to="localePath('/auth/register')" class="font-semibold text-brand-primary hover:underline">
-            Create one free
+            {{ t('auth.login.createOne') }}
           </NuxtLink>
         </p>
       </div>
 
       <p class="mt-4 text-center text-xs text-brand-text-muted">
-        Same account works on
+        {{ t('auth.login.crossPortal') }}
         <a href="https://hosting.metagendigital.com/auth/login" class="text-brand-primary hover:underline">
-          Hosting Portal
+          {{ t('auth.login.hostingPortal') }}
         </a>
-        too.
       </p>
     </div>
   </div>

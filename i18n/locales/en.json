@@ -152,7 +152,8 @@
     "title": "Ready to Scale Your Business?",
     "subtitle": "Let's build something great together. Tell us about your project and we'll get back to you within 24 hours.",
     "primary": "Let's Talk",
-    "secondary": "View Our Work"
+    "secondary": "View Our Work",
+    "badge": "Ready to grow?"
   },
   "footer": {
     "tagline": "Your trusted growth partner for digital marketing, web development, and creative content. Based in Bangladesh, serving clients worldwide.",
@@ -339,22 +340,56 @@
       "heading": "What We",
       "headingHighlight": "Believe In",
       "subheading": "Our values shape every decision we make — from how we build campaigns to how we talk to clients.",
-      "results": { "title": "Results First", "description": "We measure everything. Every strategy we build is anchored to real KPIs — not vanity metrics." },
-      "partnership": { "title": "Client Partnership", "description": "We treat every client as a long-term partner, not just a project. Your growth is our growth." },
-      "creative": { "title": "Creative Excellence", "description": "Bold ideas, refined execution. We push creative boundaries while staying true to your brand." },
-      "trust": { "title": "Trust & Transparency", "description": "Clear reporting, honest pricing, and direct communication — no smoke and mirrors, ever." },
-      "data": { "title": "Data-Driven Decisions", "description": "Analytics guide every campaign. We use real data to optimise and scale what's already working." },
-      "time": { "title": "Always On Time", "description": "Deadlines are sacred. We plan meticulously and deliver on schedule — every single time." }
+      "results": {
+        "title": "Results First",
+        "description": "We measure everything. Every strategy we build is anchored to real KPIs — not vanity metrics."
+      },
+      "partnership": {
+        "title": "Client Partnership",
+        "description": "We treat every client as a long-term partner, not just a project. Your growth is our growth."
+      },
+      "creative": {
+        "title": "Creative Excellence",
+        "description": "Bold ideas, refined execution. We push creative boundaries while staying true to your brand."
+      },
+      "trust": {
+        "title": "Trust & Transparency",
+        "description": "Clear reporting, honest pricing, and direct communication — no smoke and mirrors, ever."
+      },
+      "data": {
+        "title": "Data-Driven Decisions",
+        "description": "Analytics guide every campaign. We use real data to optimise and scale what's already working."
+      },
+      "time": {
+        "title": "Always On Time",
+        "description": "Deadlines are sacred. We plan meticulously and deliver on schedule — every single time."
+      }
     },
     "team": {
       "badge": "Our Team",
       "heading": "The Experts Behind",
       "headingHighlight": "Your Growth",
       "subheading": "A tight-knit team of marketers, developers, designers, and creatives — all dedicated to your success.",
-      "m0": { "name": "MD. Tanvir Hossain", "role": "Founder & CEO", "bio": "Visionary leader with deep expertise in digital marketing strategy and brand growth across Bangladesh." },
-      "m1": { "name": "Nusrat Jahan", "role": "Head of Social Media", "bio": "Social media strategist who has grown brand communities to tens of thousands of engaged followers." },
-      "m2": { "name": "Arif Rahman", "role": "Lead Web Developer", "bio": "Full-stack developer specialising in high-performance websites and custom e-commerce solutions." },
-      "m3": { "name": "Sadia Islam", "role": "Creative Director", "bio": "Brand designer and photographer with an eye for visual storytelling that stops the scroll." }
+      "m0": {
+        "name": "MD. Tanvir Hossain",
+        "role": "Founder & CEO",
+        "bio": "Visionary leader with deep expertise in digital marketing strategy and brand growth across Bangladesh."
+      },
+      "m1": {
+        "name": "Nusrat Jahan",
+        "role": "Head of Social Media",
+        "bio": "Social media strategist who has grown brand communities to tens of thousands of engaged followers."
+      },
+      "m2": {
+        "name": "Arif Rahman",
+        "role": "Lead Web Developer",
+        "bio": "Full-stack developer specialising in high-performance websites and custom e-commerce solutions."
+      },
+      "m3": {
+        "name": "Sadia Islam",
+        "role": "Creative Director",
+        "bio": "Brand designer and photographer with an eye for visual storytelling that stops the scroll."
+      }
     },
     "chips": {
       "digitalMarketing": "Digital Marketing",
@@ -371,12 +406,30 @@
       "headingHighlight": "Touch",
       "subheading": "We're based in Uttara, Dhaka and available Saturday to Thursday. Reach us through any channel below — we usually reply within a few hours.",
       "followUs": "Follow Us",
-      "d0": { "label": "Address", "value": "Uttara 10, Dhaka, Bangladesh" },
-      "d1": { "label": "Phone", "value": "+88 01970-222573" },
-      "d2": { "label": "Email", "value": "hello{'@'}metagendigital.com" },
-      "d3": { "label": "Alt Email", "value": "metagendigital{'@'}gmail.com" },
-      "d4": { "label": "Website", "value": "www.metagendigital.com" },
-      "d5": { "label": "Working Hours", "value": "Saturday – Thursday, 9am – 6pm (BST)" }
+      "d0": {
+        "label": "Address",
+        "value": "Uttara 10, Dhaka, Bangladesh"
+      },
+      "d1": {
+        "label": "Phone",
+        "value": "+88 01970-222573"
+      },
+      "d2": {
+        "label": "Email",
+        "value": "hello{'@'}metagendigital.com"
+      },
+      "d3": {
+        "label": "Alt Email",
+        "value": "metagendigital{'@'}gmail.com"
+      },
+      "d4": {
+        "label": "Website",
+        "value": "www.metagendigital.com"
+      },
+      "d5": {
+        "label": "Working Hours",
+        "value": "Saturday – Thursday, 9am – 6pm (BST)"
+      }
     },
     "cta": {
       "title": "Ready to Grow Your Business?",
@@ -447,5 +500,291 @@
     "joinCount": "Join 500+ subscribers",
     "successTitle": "You're all set!",
     "privacyNote": "We respect your privacy. Unsubscribe anytime with one click."
+  },
+  "homePage": {
+    "meta": {
+      "title": "MetaGenDigital — We Grow Your Business Online",
+      "description": "Bangladesh's leading digital marketing agency. Expert in web development, social media, photography & videography, and e-commerce solutions.",
+      "ogDescription": "Bangladesh's leading digital marketing agency."
+    }
+  },
+  "portfolio": {
+    "sectionAriaLabel": "Our Portfolio",
+    "badge": "Our Work",
+    "heading": "Projects That",
+    "headingHighlight": "Speak for Themselves",
+    "subheading": "A selection of our best work — web development, photography, social media and digital campaigns.",
+    "filterAriaLabel": "Filter portfolio by category",
+    "emptyTitle": "No Projects Available",
+    "emptyMessage": "We're adding our latest work. Check back soon.",
+    "viewAll": "View Full Portfolio"
+  },
+  "portfolioCard": {
+    "viewCaseStudy": "View Case Study"
+  },
+  "serviceCard": {
+    "viewDetails": "View Details"
+  },
+  "userMenu": {
+    "accountMenuFor": "Account menu for {name}",
+    "myDashboard": "My Dashboard",
+    "signOut": "Sign out",
+    "signIn": "Sign in"
+  },
+  "blogCard": {
+    "readArticle": "Read Article"
+  },
+  "baseModal": {
+    "closeModal": "Close modal"
+  },
+  "basePagination": {
+    "ariaLabel": "Pagination",
+    "previousPage": "Previous page",
+    "nextPage": "Next page",
+    "morePages": "More pages",
+    "page": "Page {n}"
+  },
+  "backToTop": {
+    "ariaLabel": "Scroll back to top"
+  },
+  "pricingCard": {
+    "mostPopular": "Most Popular"
+  },
+  "productsPage": {
+    "meta": {
+      "title": "Products | MetaGenDigital",
+      "description": "Explore MetaGenDigital digital products — tools and solutions built to grow your business.",
+      "ogDescription": "Digital products — tools and solutions built to grow your business."
+    },
+    "breadcrumb": "Products",
+    "badge": "Digital Products",
+    "heading": "Tools Built to",
+    "headingHighlight": "Grow Your Business",
+    "subheading": "Standalone digital products and SaaS tools crafted for modern businesses — ready to use, built to scale.",
+    "allCategory": "All",
+    "empty": "No products in this category yet.",
+    "showingOf": "{from}–{to} of {total}",
+    "collectionDescription": "MetaGenDigital digital products — tools and solutions built to grow your business."
+  },
+  "productDetail": {
+    "getStarted": "Get Started",
+    "talkToSales": "Talk to Sales",
+    "startingAt": "Starting at",
+    "ratingOutOf": "{rating}/5 ({count} reviews)",
+    "getThisProduct": "Get this product",
+    "whatsIncluded": "What's Included",
+    "whatsIncludedSubheading": "Everything you need, built right in.",
+    "aboutThisProduct": "About This Product",
+    "whyChooseThis": "Why Choose This?",
+    "chooseYourPlan": "Choose Your Plan",
+    "relatedProducts": "Related Products"
+  },
+  "careersPage": {
+    "meta": {
+      "title": "Careers | MetaGenDigital",
+      "description": "Join the MetaGenDigital team. Explore open positions across engineering, marketing, design and more.",
+      "ogDescription": "Open positions across engineering, marketing, design and more."
+    },
+    "breadcrumb": "Careers",
+    "badge": "We're Hiring",
+    "heading": "Build Your Career at",
+    "subheading": "Join a passionate team helping businesses grow through digital innovation. We value creativity, ownership, and continuous learning.",
+    "statOpenPositions": "Open Positions",
+    "statRemote": "Remote",
+    "statFriendlyCulture": "Friendly Culture",
+    "statGrowthFocused": "Growth Focused",
+    "allDepartments": "All",
+    "empty": "No open positions in this department right now.",
+    "emptyHint": "Check back soon or explore other departments.",
+    "featured": "Featured",
+    "collectionDescription": "Open positions at MetaGenDigital across engineering, marketing and design.",
+    "jobType": {
+      "full-time": "Full Time",
+      "part-time": "Part Time",
+      "contract": "Contract",
+      "internship": "Internship",
+      "remote": "Remote"
+    }
+  },
+  "careerDetail": {
+    "openPosition": "Open Position",
+    "jobDetails": "Job Details",
+    "department": "Department",
+    "location": "Location",
+    "type": "Type",
+    "experience": "Experience",
+    "salary": "Salary",
+    "deadline": "Deadline",
+    "applyNow": "Apply Now",
+    "applicationSubmitted": "Application submitted!",
+    "applicationSubmittedMessage": "Thank you for applying. We'll review your application and reach out within 5–7 business days.",
+    "aboutTheRole": "About the Role",
+    "requirements": "Requirements",
+    "responsibilities": "Responsibilities",
+    "benefits": "Benefits",
+    "applyForThisPosition": "Apply for this Position",
+    "form": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "phone": "Phone",
+      "optional": "(optional)",
+      "resume": "Resume / CV",
+      "resumeHint": "(PDF, DOC, DOCX — max 5 MB)",
+      "coverLetter": "Cover Letter",
+      "coverLetterPlaceholder": "Tell us why you're a great fit for this role...",
+      "portfolioUrl": "Portfolio URL",
+      "linkedinUrl": "LinkedIn URL",
+      "githubUrl": "GitHub URL",
+      "additionalInfo": "Additional Info",
+      "additionalInfoPlaceholder": "Anything else you'd like us to know...",
+      "uploadPrompt": "Click to upload or drag & drop",
+      "cancel": "Cancel",
+      "submitting": "Submitting...",
+      "submit": "Submit Application",
+      "firstNamePlaceholder": "John",
+      "lastNamePlaceholder": "Doe",
+      "phonePlaceholder": "+880 1700-000000"
+    },
+    "validation": {
+      "firstNameRequired": "First name is required",
+      "lastNameRequired": "Last name is required",
+      "emailInvalid": "Valid email is required",
+      "fixErrors": "Please fix the errors below.",
+      "genericError": "Something went wrong. Please try again."
+    }
+  },
+  "termsPage": {
+    "title": "Terms of Use | MetaGenDigital",
+    "description": "Read the terms and conditions governing the use of MetaGenDigital services.",
+    "breadcrumb": "Terms of Use",
+    "heading": "Terms of Use"
+  },
+  "privacyPage": {
+    "title": "Privacy Policy | MetaGenDigital",
+    "description": "Learn how MetaGenDigital collects, uses, and protects your personal information.",
+    "breadcrumb": "Privacy Policy",
+    "heading": "Privacy Policy"
+  },
+  "auth": {
+    "login": {
+      "metaTitle": "Sign In | MetaGenDigital",
+      "metaDescription": "Sign in to your MetaGenDigital account.",
+      "heading": "Welcome back",
+      "subheading": "Sign in to your MetaGenDigital account",
+      "forgotPassword": "Forgot password?",
+      "submitIdle": "Sign in",
+      "submitLoading": "Signing in…",
+      "noAccount": "No account?",
+      "createOne": "Create one free",
+      "crossPortal": "Same account works on",
+      "hostingPortal": "Hosting Portal, too."
+    },
+    "register": {
+      "metaTitle": "Create Account | MetaGenDigital",
+      "metaDescription": "Create your MetaGenDigital account.",
+      "heading": "Create your account",
+      "subheading": "Access all MetaGenDigital services with one account",
+      "fullName": "Full name",
+      "confirmPassword": "Confirm password",
+      "confirmPasswordPlaceholder": "Re-enter password",
+      "passwordMinPlaceholder": "Min. 8 characters",
+      "passwordMismatch": "Passwords do not match",
+      "submitIdle": "Create account",
+      "submitLoading": "Creating account…",
+      "haveAccount": "Already have an account?",
+      "signIn": "Sign in",
+      "crossPortalNote": "One account, two portals — MetaGenDigital & Hosting."
+    },
+    "forgotPassword": {
+      "metaTitle": "Reset Password | MetaGenDigital",
+      "metaDescription": "Reset your MetaGenDigital account password.",
+      "heading": "Reset Password",
+      "subheading": "Enter your email to receive a reset link",
+      "checkInbox": "Check your inbox",
+      "sentMessage": "We've sent a password reset link to {email}. Check your spam folder if you don't see it.",
+      "backToSignIn": "Back to Sign In",
+      "submitIdle": "Send reset link",
+      "submitLoading": "Sending…",
+      "genericError": "Something went wrong. Please try again."
+    },
+    "resetPassword": {
+      "metaTitle": "Set a new password | MetaGenDigital",
+      "metaDescription": "Choose a new password for your MetaGenDigital account.",
+      "heading": "Set a new password",
+      "subheading": "Choose a strong password for your account",
+      "invalidLinkTitle": "Invalid or incomplete link",
+      "invalidLinkMessage": "Please request a new password reset link.",
+      "requestNewLink": "Request new link",
+      "successTitle": "Password updated",
+      "successMessage": "Your password has been reset. You can now sign in.",
+      "goToSignIn": "Go to Sign In",
+      "newPassword": "New password",
+      "newPasswordPlaceholder": "At least 8 characters",
+      "confirmPasswordPlaceholder": "Re-enter your password",
+      "submitIdle": "Reset password",
+      "submitLoading": "Updating…",
+      "genericError": "Reset failed. The link may have expired — request a new one."
+    },
+    "shared": {
+      "emailAddress": "Email address",
+      "password": "Password"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "signOut": "Sign out",
+    "tabs": {
+      "account": "My Account",
+      "orders": "My Orders",
+      "track": "Track Order"
+    },
+    "account": {
+      "editProfile": "Edit Profile",
+      "profileUpdated": "Profile updated successfully.",
+      "fullName": "Full Name",
+      "fullNamePlaceholder": "Your full name",
+      "emailAddress": "Email Address",
+      "emailCannotChange": "Email cannot be changed.",
+      "phoneNumber": "Phone Number",
+      "phonePlaceholder": "+880 1XXX-XXXXXX",
+      "saving": "Saving…",
+      "saveChanges": "Save Changes",
+      "changePassword": "Change Password",
+      "passwordChanged": "Password changed successfully.",
+      "currentPassword": "Current Password",
+      "newPassword": "New Password",
+      "newPasswordPlaceholder": "Min. 8 characters",
+      "confirmNewPassword": "Confirm New Password",
+      "confirmNewPasswordPlaceholder": "Re-enter new password",
+      "updating": "Updating…",
+      "updatePassword": "Update Password"
+    },
+    "orders": {
+      "hostingOrders": "Hosting Orders",
+      "noOrders": "No hosting orders yet",
+      "noOrdersHint": "Orders placed from the Hosting portal will appear here.",
+      "trackThisOrder": "Track this order →",
+      "invoices": "Invoices",
+      "loadingInvoices": "Loading invoices…",
+      "noInvoices": "No invoices yet",
+      "noInvoicesHint": "Invoices generated by MetaGenDigital will appear here.",
+      "downloading": "Downloading…",
+      "downloadPdf": "Download PDF",
+      "downloadFailed": "Failed to download invoice. Please try again."
+    },
+    "track": {
+      "heading": "Track Order",
+      "placeholder": "Enter Order ID (e.g. MGD-123456)",
+      "check": "Check",
+      "tooManyRequests": "Too many requests. Wait a moment and try again.",
+      "notFound": "Order not found. Please check the order ID and make sure it was placed with this account's email.",
+      "orderId": "Order ID",
+      "plan": "Plan",
+      "domain": "Domain",
+      "billing": "Billing",
+      "price": "Price",
+      "status": "Status"
+    }
   }
 }

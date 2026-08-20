@@ -4,9 +4,10 @@ definePageMeta({
   layout: 'minimal',
 })
 
+const { t } = useI18n()
 useSeoMeta({
-  title: 'Create Account | MetaGenDigital',
-  description: 'Create your MetaGenDigital account.',
+  title: computed(() => t('auth.register.metaTitle')),
+  description: computed(() => t('auth.register.metaDescription')),
   robots: 'noindex, nofollow',
 })
 
@@ -26,7 +27,7 @@ const showPassword = ref(false)
 async function handleSubmit() {
   errors.value = {}
   if (form.password !== form.password_confirmation) {
-    errors.value = { password_confirmation: ['Passwords do not match'] }
+    errors.value = { password_confirmation: [t('auth.register.passwordMismatch')] }
     return
   }
   const result = await register(form.name, form.email, form.password, form.password_confirmation)
@@ -46,14 +47,14 @@ async function handleSubmit() {
         <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-brand shadow-glow-primary mb-4">
           <Icon name="mdi:account-plus" class="w-7 h-7 text-white" />
         </div>
-        <h1 class="text-2xl font-bold text-brand-text-primary font-display">Create your account</h1>
-        <p class="mt-1 text-sm text-brand-text-secondary">Access all MetaGenDigital services with one account</p>
+        <h1 class="text-2xl font-bold text-brand-text-primary font-display">{{ t('auth.register.heading') }}</h1>
+        <p class="mt-1 text-sm text-brand-text-secondary">{{ t('auth.register.subheading') }}</p>
       </div>
 
       <div class="bg-white rounded-2xl shadow-card border border-brand-border p-8">
         <form class="space-y-4" @submit.prevent="handleSubmit">
           <div>
-            <label class="block text-sm font-semibold text-brand-text-primary mb-1.5">Full name</label>
+            <label class="block text-sm font-semibold text-brand-text-primary mb-1.5">{{ t('auth.register.fullName') }}</label>
             <input
               v-model="form.name"
               type="text"
@@ -67,7 +68,7 @@ async function handleSubmit() {
           </div>
 
           <div>
-            <label class="block text-sm font-semibold text-brand-text-primary mb-1.5">Email address</label>
+            <label class="block text-sm font-semibold text-brand-text-primary mb-1.5">{{ t('auth.shared.emailAddress') }}</label>
             <input
               v-model="form.email"
               type="email"
@@ -81,7 +82,7 @@ async function handleSubmit() {
           </div>
 
           <div>
-            <label class="block text-sm font-semibold text-brand-text-primary mb-1.5">Password</label>
+            <label class="block text-sm font-semibold text-brand-text-primary mb-1.5">{{ t('auth.shared.password') }}</label>
             <div class="relative">
               <input
                 v-model="form.password"
@@ -89,7 +90,7 @@ async function handleSubmit() {
                 autocomplete="new-password"
                 required
                 minlength="8"
-                placeholder="Min. 8 characters"
+                :placeholder="t('auth.register.passwordMinPlaceholder')"
                 class="w-full px-4 py-2.5 rounded-lg border text-sm transition-colors outline-none focus:ring-2 focus:ring-brand-primary/20 pr-10"
                 :class="errors.password ? 'border-red-400 bg-red-50' : 'border-brand-border focus:border-brand-primary'"
               />
@@ -105,13 +106,13 @@ async function handleSubmit() {
           </div>
 
           <div>
-            <label class="block text-sm font-semibold text-brand-text-primary mb-1.5">Confirm password</label>
+            <label class="block text-sm font-semibold text-brand-text-primary mb-1.5">{{ t('auth.register.confirmPassword') }}</label>
             <input
               v-model="form.password_confirmation"
               type="password"
               autocomplete="new-password"
               required
-              placeholder="Re-enter password"
+              :placeholder="t('auth.register.confirmPasswordPlaceholder')"
               class="w-full px-4 py-2.5 rounded-lg border text-sm transition-colors outline-none focus:ring-2 focus:ring-brand-primary/20"
               :class="errors.password_confirmation ? 'border-red-400 bg-red-50' : 'border-brand-border focus:border-brand-primary'"
             />
@@ -124,20 +125,20 @@ async function handleSubmit() {
             class="w-full flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-white bg-gradient-brand rounded-btn hover:shadow-glow-primary hover:scale-[1.02] active:scale-[0.99] transition-all duration-250 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 mt-2"
           >
             <Icon v-if="loading" name="mdi:loading" class="w-4 h-4 animate-spin" />
-            <span>{{ loading ? 'Creating account…' : 'Create account' }}</span>
+            <span>{{ loading ? t('auth.register.submitLoading') : t('auth.register.submitIdle') }}</span>
           </button>
         </form>
 
         <p class="mt-6 text-center text-sm text-brand-text-secondary">
-          Already have an account?
+          {{ t('auth.register.haveAccount') }}
           <NuxtLink :to="localePath('/auth/login')" class="font-semibold text-brand-primary hover:underline">
-            Sign in
+            {{ t('auth.register.signIn') }}
           </NuxtLink>
         </p>
       </div>
 
       <p class="mt-4 text-center text-xs text-brand-text-muted">
-        One account, two portals — MetaGenDigital & Hosting.
+        {{ t('auth.register.crossPortalNote') }}
       </p>
     </div>
   </div>

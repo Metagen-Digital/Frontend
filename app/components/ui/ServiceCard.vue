@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const { t } = useI18n()
+
 interface Props {
   icon: string
   title: string
@@ -111,7 +113,7 @@ const cfg = computed(() => cardConfig[props.color])
       <!-- CTA row -->
       <div class="flex items-center justify-between pt-4 border-t border-brand-border">
         <span class="text-sm font-semibold transition-colors duration-200" :class="cfg.text">
-          View Details
+          {{ t('serviceCard.viewDetails') }}
         </span>
         <div
           class="w-9 h-9 rounded-xl flex items-center justify-center text-white transition-all duration-250 group-hover:translate-x-1 group-hover:scale-110"

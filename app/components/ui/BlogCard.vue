@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const { t } = useI18n()
+
 interface Props {
   title: string
   excerpt: string
@@ -68,10 +70,14 @@ const cfg = computed(() => cardConfig[props.categoryColor])
   >
     <!-- Thumbnail -->
     <div class="relative overflow-hidden bg-brand-surface flex-shrink-0" :class="featured ? 'aspect-[16/8]' : 'aspect-[16/9]'">
-      <img
+      <!-- See PortfolioCard: grid thumbnails need a srcset, not the full
+           CMS upload at every breakpoint. -->
+      <NuxtImg
         :src="thumbnail"
         :alt="title"
         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+        sizes="100vw sm:50vw lg:33vw"
+        format="webp"
         loading="lazy"
       />
       <div class="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
@@ -102,7 +108,7 @@ const cfg = computed(() => cardConfig[props.categoryColor])
       >
         <div class="flex items-center gap-2 px-5 py-2.5 bg-white rounded-xl text-sm font-semibold shadow-lg -translate-y-1 group-hover:translate-y-0 transition-transform duration-300" :class="cfg.text">
           <Icon name="mdi:book-open-outline" class="w-4 h-4" aria-hidden="true" />
-          Read Article
+          {{ t('blogCard.readArticle') }}
         </div>
       </div>
     </div>
@@ -134,7 +140,7 @@ const cfg = computed(() => cardConfig[props.categoryColor])
 
       <!-- CTA row -->
       <div class="flex items-center justify-between pt-4 border-t border-brand-border">
-        <span class="text-sm font-semibold transition-colors duration-200" :class="cfg.text">Read Article</span>
+        <span class="text-sm font-semibold transition-colors duration-200" :class="cfg.text">{{ t('blogCard.readArticle') }}</span>
         <div
           class="w-8 h-8 rounded-lg flex items-center justify-center text-white transition-all duration-250 group-hover:translate-x-1 group-hover:scale-110"
           :class="cfg.arrow"

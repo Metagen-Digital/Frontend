@@ -3,10 +3,15 @@ import type { ServiceApiItem, ServicePackageApiItem } from '~/types'
 
 const { t } = useI18n()
 const { get } = useApi()
+const siteUrl = (useRuntimeConfig().public.siteUrl as string) || 'https://metagendigital.com'
 
 useSeoMeta({
   title: computed(() => `${t('pricingPage.breadcrumb')} | MetaGenDigital`),
   description: computed(() => t('pricingPage.subheading')),
+  ogTitle: computed(() => `${t('pricingPage.breadcrumb')} | MetaGenDigital`),
+  ogDescription: computed(() => t('pricingPage.subheading')),
+  // Absolute — Facebook/LinkedIn crawlers do not resolve relative OG paths.
+  ogImage: `${siteUrl}/og/pricing.jpg`,
 })
 
 // 1. Fetch all services (for tabs)

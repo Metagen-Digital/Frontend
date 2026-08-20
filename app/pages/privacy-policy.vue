@@ -1,16 +1,23 @@
 <script setup lang="ts">
+const { t } = useI18n()
 definePageMeta({ layout: 'minimal' })
 useSeoMeta({
-  title: 'Privacy Policy | MetaGenDigital',
-  description: 'Learn how MetaGenDigital collects, uses, and protects your personal information.',
+  title: computed(() => t('privacyPage.title')),
+  description: computed(() => t('privacyPage.description')),
 })
 </script>
 
 <template>
   <div class="section-padding">
     <div class="container-content max-w-3xl">
-      <AppBreadcrumb :crumbs="[{ label: 'Privacy Policy' }]" class="mb-8" />
-      <h1 class="text-white mb-6">Privacy Policy</h1>
+      <AppBreadcrumb :crumbs="[{ label: t('privacyPage.breadcrumb') }]" class="mb-8" />
+      <h1 class="text-white mb-6">{{ t('privacyPage.heading') }}</h1>
+      <!--
+        Same call as terms.vue: this body is binding legal text (data
+        collection, retention, third-party sharing). Left English-only rather
+        than auto-translated — needs professional/legal review before a bn
+        version ships. See docs/ACTION_PLAN.md §2.1.
+      -->
       <div class="prose-brand">
         <p>Last updated: June 2025</p>
 

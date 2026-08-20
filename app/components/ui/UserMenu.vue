@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const { t } = useI18n()
 const { user, isLoggedIn, userInitials, logout, loading } = useAuth()
 const localePath = useLocalePath()
 const open = ref(false)
@@ -15,7 +16,7 @@ onClickOutside(menuRef, () => { open.value = false })
       class="w-9 h-9 rounded-full bg-brand-primary text-white text-xs font-bold flex items-center justify-center hover:bg-brand-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-primary/40 focus:ring-offset-1 shrink-0"
       :aria-expanded="open"
       aria-haspopup="true"
-      :aria-label="`Account menu for ${user?.name}`"
+      :aria-label="t('userMenu.accountMenuFor', { name: user?.name ?? '' })"
       @click="open = !open"
     >
       {{ userInitials }}
@@ -47,7 +48,7 @@ onClickOutside(menuRef, () => { open.value = false })
           @click="open = false"
         >
           <Icon name="mdi:view-dashboard-outline" class="w-4 h-4 shrink-0" />
-          My Dashboard
+          {{ t('userMenu.myDashboard') }}
         </NuxtLink>
 
         <div class="border-t border-brand-border mt-1 pt-1">
@@ -58,7 +59,7 @@ onClickOutside(menuRef, () => { open.value = false })
             @click="logout(); open = false"
           >
             <Icon name="mdi:logout" class="w-4 h-4 shrink-0" />
-            Sign out
+            {{ t('userMenu.signOut') }}
           </button>
         </div>
       </div>
@@ -70,7 +71,7 @@ onClickOutside(menuRef, () => { open.value = false })
     v-else
     :to="localePath('/auth/login')"
     class="w-9 h-9 rounded-full flex items-center justify-center hover:opacity-80 transition-opacity shrink-0"
-    aria-label="Sign in"
+    :aria-label="t('userMenu.signIn')"
   >
     <Icon name="mdi:account-circle" class="w-9 h-9 text-brand-text-secondary" />
   </NuxtLink>

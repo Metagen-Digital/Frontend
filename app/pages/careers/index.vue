@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import type { CareerJobApiItem } from '~/types'
 
+const { t } = useI18n()
 const siteUrl = (useRuntimeConfig().public.siteUrl as string) || 'https://metagendigital.com'
 
 useSeoMeta({
-  title: 'Careers | MetaGenDigital',
-  description: 'Join the MetaGenDigital team. Explore open positions across engineering, marketing, design and more.',
-  ogTitle: 'Careers | MetaGenDigital',
-  ogDescription: 'Open positions across engineering, marketing, design and more.',
+  title: computed(() => t('careersPage.meta.title')),
+  description: computed(() => t('careersPage.meta.description')),
+  ogTitle: computed(() => t('careersPage.meta.title')),
+  ogDescription: computed(() => t('careersPage.meta.ogDescription')),
   // Absolute — Facebook/LinkedIn crawlers do not resolve relative OG paths.
-  ogImage: `${siteUrl}/og/home.jpg`,
+  ogImage: `${siteUrl}/og/careers.jpg`,
 })
 
 const { get } = useApi()
@@ -20,9 +21,15 @@ const { data: depsResponse } = await get<string[]>('/career-jobs/departments')
 const allJobs = computed<CareerJobApiItem[]>(() => jobsResponse.value?.data ?? [])
 const departments = computed<string[]>(() => ['All', ...(depsResponse.value?.data ?? [])])
 
+// 'All' stays the internal filter VALUE (compared against activeFilter and
+// department strings from the API); only the rendered label is translated.
+function departmentLabel(dep: string) {
+  return dep === 'All' ? t('careersPage.allDepartments') : dep
+}
+
 useCollectionJsonLd({
-  name: 'Careers',
-  description: 'Open positions at MetaGenDigital across engineering, marketing and design.',
+  name: computed(() => t('careersPage.breadcrumb')),
+  description: computed(() => t('careersPage.collectionDescription')),
   items: () => allJobs.value.map(job => ({ name: job.title, url: `/careers/${job.slug}` })),
 })
 
@@ -34,13 +41,13 @@ const filtered = computed(() =>
     : allJobs.value.filter(j => j.department === activeFilter.value),
 )
 
-const typeLabel: Record<string, string> = {
-  'full-time':  'Full Time',
-  'part-time':  'Part Time',
-  'contract':   'Contract',
-  'internship': 'Internship',
-  'remote':     'Remote',
-}
+const typeLabel = computed<Record<string, string>>(() => ({
+  'full-time':  t('careersPage.jobType.full-time'),
+  'part-time':  t('careersPage.jobType.part-time'),
+  'contract':   t('careersPage.jobType.contract'),
+  'internship': t('careersPage.jobType.internship'),
+  'remote':     t('careersPage.jobType.remote'),
+}))
 
 const typeBadge: Record<string, string> = {
   'full-time':  'bg-green-50 text-green-700 border-green-200',
@@ -60,21 +67,21 @@ const typeBadge: Record<string, string> = {
       <div class="absolute bottom-0 left-0 w-80 h-80 rounded-full bg-brand-orange/5 blur-3xl pointer-events-none" aria-hidden="true" />
 
       <div class="container-content relative z-10">
-        <AppBreadcrumb :crumbs="[{ label: 'Careers' }]" class="mb-6" />
-        <SectionBadge icon="mdi:briefcase-outline" class="mb-5">We're Hiring</SectionBadge>
+        <AppBreadcrumb :crumbs="[{ label: t('careersPage.breadcrumb') }]" class="mb-6" />
+        <SectionBadge icon="mdi:briefcase-outline" class="mb-5">{{ t('careersPage.badge') }}</SectionBadge>
 
         <h1 class="text-brand-text-primary mb-4 max-w-2xl">
-          Build Your Career at <span class="gradient-text">MetaGenDigital</span>
+          {{ t('careersPage.heading') }} <span class="gradient-text">MetaGenDigital</span>
         </h1>
         <p class="text-brand-text-secondary text-lg max-w-2xl leading-relaxed mb-10">
-          Join a passionate team helping businesses grow through digital innovation. We value creativity, ownership, and continuous learning.
+          {{ t('careersPage.subheading') }}
         </p>
 
         <div class="flex flex-wrap items-center gap-8">
           <div v-for="s in [
-            { v: allJobs.length + '+', l: 'Open Positions' },
-            { v: 'Remote',  l: 'Friendly Culture' },
-            { v: '100%',    l: 'Growth Focused' },
+            { v: allJobs.length + '+', l: t('careersPage.statOpenPositions') },
+            { v: t('careersPage.statRemote'),  l: t('careersPage.statFriendlyCulture') },
+            { v: '100%',    l: t('careersPage.statGrowthFocused') },
           ]" :key="s.l" class="flex items-baseline gap-2">
             <span class="text-2xl font-black gradient-text font-display">{{ s.v }}</span>
             <span class="text-sm text-brand-text-secondary">{{ s.l }}</span>
@@ -98,15 +105,15 @@ const typeBadge: Record<string, string> = {
               : 'bg-white text-brand-text-secondary border-brand-border hover:border-brand-primary/40 hover:text-brand-primary'"
             @click="activeFilter = dep"
           >
-            {{ dep }}
+            {{ departmentLabel(dep) }}
           </button>
         </div>
 
         <!-- No jobs -->
         <div v-if="filtered.length === 0" class="py-20 text-center text-brand-text-muted">
           <Icon name="mdi:briefcase-off-outline" class="w-12 h-12 mx-auto mb-4 opacity-40" />
-          <p class="text-lg font-medium">No open positions in this department right now.</p>
-          <p class="text-sm mt-1">Check back soon or explore other departments.</p>
+          <p class="text-lg font-medium">{{ t('careersPage.empty') }}</p>
+          <p class="text-sm mt-1">{{ t('careersPage.emptyHint') }}</p>
         </div>
 
         <!-- Job cards -->
@@ -129,7 +136,7 @@ const typeBadge: Record<string, string> = {
                   {{ job.title }}
                 </h3>
                 <span v-if="job.is_featured" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-brand-orange/10 text-brand-orange border border-brand-orange/20 uppercase tracking-wide">
-                  Featured
+                  {{ t('careersPage.featured') }}
                 </span>
               </div>
 

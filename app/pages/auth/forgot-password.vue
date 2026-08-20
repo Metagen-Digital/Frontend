@@ -4,9 +4,10 @@ definePageMeta({
   layout: 'minimal',
 })
 
+const { t } = useI18n()
 useSeoMeta({
-  title: 'Reset Password | MetaGenDigital',
-  description: 'Reset your MetaGenDigital account password.',
+  title: computed(() => t('auth.forgotPassword.metaTitle')),
+  description: computed(() => t('auth.forgotPassword.metaDescription')),
   robots: 'noindex, nofollow',
 })
 
@@ -30,7 +31,7 @@ async function handleSubmit() {
     })
     sent.value = true
   } catch (e: any) {
-    error.value = e?.data?.message || 'Something went wrong. Please try again.'
+    error.value = e?.data?.message || t('auth.forgotPassword.genericError')
   } finally {
     loading.value = false
   }
@@ -44,32 +45,31 @@ async function handleSubmit() {
         <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-brand shadow-glow-primary mb-4">
           <Icon name="mdi:lock-reset" class="w-7 h-7 text-white" />
         </div>
-        <h1 class="text-2xl font-bold text-brand-text-primary font-display">Reset Password</h1>
-        <p class="mt-1 text-sm text-brand-text-secondary">Enter your email to receive a reset link</p>
+        <h1 class="text-2xl font-bold text-brand-text-primary font-display">{{ t('auth.forgotPassword.heading') }}</h1>
+        <p class="mt-1 text-sm text-brand-text-secondary">{{ t('auth.forgotPassword.subheading') }}</p>
       </div>
 
       <div class="bg-white rounded-2xl shadow-card border border-brand-border p-8">
         <!-- Success state -->
         <div v-if="sent" class="text-center py-4 space-y-3">
           <Icon name="mdi:email-check-outline" class="w-12 h-12 text-green-500 mx-auto" />
-          <p class="text-sm font-semibold text-brand-text-primary">Check your inbox</p>
+          <p class="text-sm font-semibold text-brand-text-primary">{{ t('auth.forgotPassword.checkInbox') }}</p>
           <p class="text-xs text-brand-text-secondary">
-            We've sent a password reset link to <strong>{{ email }}</strong>.
-            Check your spam folder if you don't see it.
+            {{ t('auth.forgotPassword.sentMessage', { email }) }}
           </p>
           <NuxtLink
             :to="localePath('/auth/login')"
             class="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-primary hover:underline mt-2"
           >
             <Icon name="mdi:arrow-left" class="w-4 h-4" />
-            Back to Sign In
+            {{ t('auth.forgotPassword.backToSignIn') }}
           </NuxtLink>
         </div>
 
         <!-- Form -->
         <form v-else class="space-y-5" @submit.prevent="handleSubmit">
           <div>
-            <label class="block text-sm font-semibold text-brand-text-primary mb-1.5">Email address</label>
+            <label class="block text-sm font-semibold text-brand-text-primary mb-1.5">{{ t('auth.shared.emailAddress') }}</label>
             <input
               v-model="email"
               type="email"
@@ -88,12 +88,12 @@ async function handleSubmit() {
             class="w-full flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-white bg-gradient-brand rounded-btn hover:shadow-glow-primary hover:scale-[1.02] active:scale-[0.99] transition-all duration-250 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
           >
             <Icon v-if="loading" name="mdi:loading" class="w-4 h-4 animate-spin" />
-            <span>{{ loading ? 'Sending…' : 'Send reset link' }}</span>
+            <span>{{ loading ? t('auth.forgotPassword.submitLoading') : t('auth.forgotPassword.submitIdle') }}</span>
           </button>
 
           <p class="text-center text-sm text-brand-text-secondary">
             <NuxtLink :to="localePath('/auth/login')" class="font-semibold text-brand-primary hover:underline">
-              Back to Sign In
+              {{ t('auth.forgotPassword.backToSignIn') }}
             </NuxtLink>
           </p>
         </form>

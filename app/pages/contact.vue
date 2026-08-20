@@ -1,10 +1,15 @@
 <script setup lang="ts">
 const { t } = useI18n()
+const siteUrl = (useRuntimeConfig().public.siteUrl as string) || 'https://metagendigital.com'
 
 useSeoMeta({
   title: "Contact Us | MetaGenDigital",
   description:
     "Get in touch with MetaGenDigital. Let's discuss your project and how we can help grow your business online.",
+  ogTitle: "Contact Us | MetaGenDigital",
+  ogDescription: "Let's discuss your project and how we can help grow your business online.",
+  // Absolute — Facebook/LinkedIn crawlers do not resolve relative OG paths.
+  ogImage: `${siteUrl}/og/contact.jpg`,
 });
 
 const { fields, isSubmitting, submit, services } = useContactForm();

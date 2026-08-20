@@ -12,7 +12,7 @@ useSeoMeta({
   ogDescription:
     "Digital marketing tips, web development guides, social media strategies, and industry insights.",
   // Absolute — Facebook/LinkedIn crawlers do not resolve relative OG paths.
-  ogImage: `${siteUrl}/og/home.jpg`,
+  ogImage: `${siteUrl}/og/blog.jpg`,
 });
 
 type CategoryColor = "orange" | "purple" | "cyan";
@@ -29,10 +29,66 @@ interface Post {
   author: string;
 }
 
-const activeCategory = ref("All");
+const route = useRoute();
+const router = useRouter();
+const localePath = useLocalePath();
+
+const PER_PAGE = 9;
+
+// Pagination and filtering live in the URL, not in a local ref.
+//
+// The listing endpoint is paginated now, so filtering client-side would only
+// ever filter the page you happen to be looking at. Driving both from the query
+// string sends them to the server, and — just as importantly — makes every page
+// of the archive a real, SSR-rendered, linkable, crawlable URL instead of a
+// state that only exists after a click.
+const currentPage = computed(() => {
+  const page = Number(route.query.page);
+  return Number.isInteger(page) && page > 0 ? page : 1;
+});
+
+const activeCategory = computed(() => (route.query.category as string) || "All");
 
 const { get } = useApi();
-const { data: blogsResponse } = await get<BlogApiItem[]>("/blogs");
+
+// Reactive query: useFetch re-runs whenever page or category changes.
+const { data: blogsResponse, status } = await get<BlogApiItem[]>("/blogs", {
+  page: currentPage,
+  per_page: PER_PAGE,
+  category: computed(() => (activeCategory.value === "All" ? undefined : activeCategory.value)),
+});
+
+// Category tabs come from the dedicated endpoint, which counts across the WHOLE
+// collection. Deriving them from the posts array would have shown only the
+// categories present on the current page, with the wrong counts.
+const { data: categoriesResponse } = await get<Array<{ name: string; slug: string; count: number }>>(
+  "/blogs/categories",
+);
+
+const isLoading = computed(() => status.value === "pending");
+
+const meta = computed(() => blogsResponse.value?.meta);
+const totalPages = computed(() => meta.value?.last_page ?? 1);
+const totalPosts = computed(() => meta.value?.total ?? 0);
+
+function goToPage(page: number) {
+  router.push({
+    query: {
+      ...route.query,
+      page: page > 1 ? String(page) : undefined,
+    },
+  });
+}
+
+function selectCategory(category: string) {
+  router.push({
+    query: {
+      // Changing the filter always returns to page 1 — staying on page 4 of a
+      // filter that only has two pages would render an empty grid.
+      category: category === "All" ? undefined : category,
+    },
+  });
+}
 
 function categoryColor(category?: string | null): CategoryColor {
   if (category === "Social Media") return "purple";
@@ -57,33 +113,53 @@ const posts = computed<Post[]>(() => {
   }));
 });
 
-const categories = computed(() => {
-  const uniqueCategories = Array.from(
-    new Set(posts.value.map((post) => post.category).filter(Boolean)),
-  );
-  return ["All", ...uniqueCategories];
-});
+const categories = computed(() => [
+  { name: "All", count: totalPosts.value },
+  ...(categoriesResponse.value?.data ?? []).map((c) => ({ name: c.name, count: c.count })),
+]);
 
-// Every post, not just the currently filtered view — category filtering is a
-// client-side ref, so the crawler's URL always represents the full list.
+// Describes exactly what this URL renders — the current page of the current
+// filter, not the whole archive. Claiming to list posts that are not on the
+// page is a mismatch Google can penalise.
 useCollectionJsonLd({
   name: "Blog & Insights",
   description: "Digital marketing, web development and social media insights from MetaGenDigital.",
-  items: () => posts.value.map(post => ({ name: post.title, url: `/blog/${post.slug}` })),
+  items: () => posts.value.map((post) => ({ name: post.title, url: `/blog/${post.slug}` })),
 });
 
-const featured = computed(() => posts.value[0] as Post);
-const filtered = computed(() => {
-  const rest = posts.value.slice(1);
-  return activeCategory.value === "All"
-    ? rest
-    : rest.filter((p) => p.category === activeCategory.value);
-});
+// An out-of-range page must not answer 200 with an empty grid — to a crawler
+// that is a soft 404, and it lets ?page=9999 mint unlimited thin URLs.
+if (currentPage.value > 1 && posts.value.length === 0) {
+  throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
+}
 
-const categoryCount = (cat: string) =>
-  cat === "All"
-    ? posts.value.length
-    : posts.value.filter((p) => p.category === cat).length;
+// The hero slot only makes sense on the unfiltered first page. On page 2 the
+// "featured" post would just be whichever article happened to sort first.
+const featured = computed<Post | null>(() =>
+  currentPage.value === 1 && activeCategory.value === "All" ? (posts.value[0] ?? null) : null,
+);
+
+const filtered = computed(() => (featured.value ? posts.value.slice(1) : posts.value));
+
+// rel=prev/next. Google no longer uses these for indexing (each page
+// self-canonicalises instead — see app.vue), but Bing still does and they cost
+// two tags.
+useHead(() => {
+  const links = [];
+  const base = localePath("/blog");
+  const q = (page: number) => {
+    const params = new URLSearchParams();
+    if (activeCategory.value !== "All") params.set("category", activeCategory.value);
+    if (page > 1) params.set("page", String(page));
+    const qs = params.toString();
+    return qs ? `${base}?${qs}` : base;
+  };
+
+  if (currentPage.value > 1) links.push({ rel: "prev", href: q(currentPage.value - 1) });
+  if (currentPage.value < totalPages.value) links.push({ rel: "next", href: q(currentPage.value + 1) });
+
+  return { link: links };
+});
 </script>
 
 <template>
@@ -128,7 +204,7 @@ const categoryCount = (cat: string) =>
     <!-- ══════════════════════════════════════════════════
          FEATURED POST
     ══════════════════════════════════════════════════ -->
-    <section class="pb-12 bg-white">
+    <section v-if="featured" class="pb-12 bg-white">
       <div class="container-content">
         <p class="text-[11px] font-bold text-brand-text-muted uppercase tracking-widest mb-5">
           {{ $t('blogPage.featured') }}
@@ -162,27 +238,27 @@ const categoryCount = (cat: string) =>
         >
           <button
             v-for="cat in categories"
-            :key="cat"
+            :key="cat.name"
             class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 border"
             :class="
-              activeCategory === cat
+              activeCategory === cat.name
                 ? 'bg-brand-primary border-brand-primary text-white shadow-glow-primary'
                 : 'bg-brand-surface border-brand-border text-brand-text-secondary hover:border-brand-primary/50 hover:text-brand-primary'
             "
             role="tab"
-            :aria-selected="activeCategory === cat"
-            @click="activeCategory = cat"
+            :aria-selected="activeCategory === cat.name"
+            @click="selectCategory(cat.name)"
           >
-            {{ cat }}
+            {{ cat.name }}
             <span
               class="inline-flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-bold transition-colors duration-200"
               :class="
-                activeCategory === cat
+                activeCategory === cat.name
                   ? 'bg-white/20 text-white'
                   : 'bg-brand-border text-brand-text-muted'
               "
             >
-              {{ categoryCount(cat) }}
+              {{ cat.count }}
             </span>
           </button>
         </div>
@@ -230,6 +306,19 @@ const categoryCount = (cat: string) =>
           </p>
           <p class="text-brand-text-muted text-sm">
             More content is being published weekly — check back soon.
+          </p>
+        </div>
+
+        <!-- Server-side pagination. Each page is its own URL, so it is
+             linkable, shareable and crawlable. -->
+        <div v-if="totalPages > 1" class="mt-14">
+          <BasePagination
+            :current-page="currentPage"
+            :total-pages="totalPages"
+            @update:current-page="goToPage"
+          />
+          <p class="mt-4 text-center text-sm text-brand-text-muted">
+            {{ meta?.from ?? 0 }}–{{ meta?.to ?? 0 }} of {{ totalPosts }}
           </p>
         </div>
       </div>

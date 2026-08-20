@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { CareerJobApiDetail } from '~/types'
 
+const { t } = useI18n()
 const route = useRoute()
 const slug = route.params.slug as string
 
@@ -18,7 +19,7 @@ if (!job.value) {
 const siteUrl = (config.public.siteUrl as string) || 'https://metagendigital.com'
 
 useSeoMeta({
-  title: computed(() => job.value?.meta_title ?? `${job.value?.title} | Careers | MetaGenDigital`),
+  title: computed(() => job.value?.meta_title ?? `${job.value?.title} | ${t('careersPage.breadcrumb')} | MetaGenDigital`),
   description: computed(() => job.value?.meta_description ?? toPlainText(job.value?.description)),
 })
 
@@ -90,9 +91,9 @@ const errors = reactive<Record<string, string>>({})
 function validateForm() {
   Object.keys(errors).forEach(k => delete errors[k])
   let valid = true
-  if (!form.first_name.trim()) { errors.first_name = 'First name is required'; valid = false }
-  if (!form.last_name.trim())  { errors.last_name = 'Last name is required'; valid = false }
-  if (!form.email.trim() || !/\S+@\S+\.\S+/.test(form.email)) { errors.email = 'Valid email is required'; valid = false }
+  if (!form.first_name.trim()) { errors.first_name = t('careerDetail.validation.firstNameRequired'); valid = false }
+  if (!form.last_name.trim())  { errors.last_name = t('careerDetail.validation.lastNameRequired'); valid = false }
+  if (!form.email.trim() || !/\S+@\S+\.\S+/.test(form.email)) { errors.email = t('careerDetail.validation.emailInvalid'); valid = false }
   return valid
 }
 
@@ -134,11 +135,11 @@ async function submitApplication() {
       Object.entries(apiErrors).forEach(([k, v]) => {
         errors[k] = (v as string[])[0] ?? ''
       })
-      errorMessage.value = 'Please fix the errors below.'
+      errorMessage.value = t('careerDetail.validation.fixErrors')
     } else if (err?.data?.message) {
       errorMessage.value = err.data.message
     } else {
-      errorMessage.value = 'Something went wrong. Please try again.'
+      errorMessage.value = t('careerDetail.validation.genericError')
     }
   }
   finally {
@@ -146,10 +147,11 @@ async function submitApplication() {
   }
 }
 
-const typeLabel: Record<string, string> = {
-  'full-time': 'Full Time', 'part-time': 'Part Time',
-  'contract': 'Contract', 'internship': 'Internship', 'remote': 'Remote',
-}
+const typeLabel = computed<Record<string, string>>(() => ({
+  'full-time': t('careersPage.jobType.full-time'), 'part-time': t('careersPage.jobType.part-time'),
+  'contract': t('careersPage.jobType.contract'), 'internship': t('careersPage.jobType.internship'),
+  'remote': t('careersPage.jobType.remote'),
+}))
 </script>
 
 <template>
@@ -162,7 +164,7 @@ const typeLabel: Record<string, string> = {
 
       <div class="container-content relative z-10">
         <div class="mb-8 opacity-80">
-          <AppBreadcrumb :crumbs="[{ label: 'Careers', to: '/careers' }, { label: job.title }]" />
+          <AppBreadcrumb :crumbs="[{ label: t('careersPage.breadcrumb'), to: '/careers' }, { label: job.title }]" />
         </div>
 
         <div class="flex flex-col lg:flex-row lg:items-start gap-10">
@@ -170,7 +172,7 @@ const typeLabel: Record<string, string> = {
           <div class="flex-1">
             <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs font-bold uppercase tracking-widest mb-6">
               <Icon name="mdi:briefcase-outline" class="w-3.5 h-3.5" />
-              Open Position
+              {{ t('careerDetail.openPosition') }}
             </div>
 
             <h1 class="text-white leading-tight mb-4">{{ job.title }}</h1>
@@ -202,7 +204,7 @@ const typeLabel: Record<string, string> = {
               class="inline-flex items-center gap-2 px-6 py-3 bg-white text-brand-purple font-semibold text-sm rounded-btn shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200"
               @click="showForm = true; submitStatus = 'idle'"
             >
-              Apply Now
+              {{ t('careerDetail.applyNow') }}
               <Icon name="mdi:arrow-right" class="w-4 h-4" />
             </button>
           </div>
@@ -210,13 +212,13 @@ const typeLabel: Record<string, string> = {
           <!-- Right: meta card -->
           <div class="w-full lg:w-64 flex-shrink-0">
             <div class="bg-white/15 backdrop-blur-md rounded-2xl border border-white/25 p-5 space-y-4">
-              <p class="text-white/50 text-[10px] font-bold uppercase tracking-widest">Job Details</p>
+              <p class="text-white/50 text-[10px] font-bold uppercase tracking-widest">{{ t('careerDetail.jobDetails') }}</p>
               <div v-for="item in [
-                { icon: 'mdi:office-building-outline', label: 'Department', val: job.department },
-                { icon: 'mdi:map-marker-outline',      label: 'Location',   val: job.location },
-                { icon: 'mdi:clock-outline',           label: 'Type',       val: typeLabel[job.type] ?? job.type },
-                { icon: 'mdi:star-outline',            label: 'Experience', val: job.experience_level },
-                { icon: 'mdi:currency-usd',            label: 'Salary',     val: job.salary_range },
+                { icon: 'mdi:office-building-outline', label: t('careerDetail.department'), val: job.department },
+                { icon: 'mdi:map-marker-outline',      label: t('careerDetail.location'),   val: job.location },
+                { icon: 'mdi:clock-outline',           label: t('careerDetail.type'),       val: typeLabel[job.type] ?? job.type },
+                { icon: 'mdi:star-outline',            label: t('careerDetail.experience'), val: job.experience_level },
+                { icon: 'mdi:currency-usd',            label: t('careerDetail.salary'),     val: job.salary_range },
               ].filter(i => i.val)" :key="item.label" class="flex items-start gap-3">
                 <Icon :name="item.icon" class="w-4 h-4 text-white/60 mt-0.5 flex-shrink-0" />
                 <div>
@@ -225,7 +227,7 @@ const typeLabel: Record<string, string> = {
                 </div>
               </div>
               <div v-if="job.application_deadline" class="pt-3 border-t border-white/15">
-                <p class="text-white/50 text-[10px] uppercase tracking-wide mb-1">Deadline</p>
+                <p class="text-white/50 text-[10px] uppercase tracking-wide mb-1">{{ t('careerDetail.deadline') }}</p>
                 <p class="text-white text-sm font-semibold">
                   {{ new Date(job.application_deadline).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) }}
                 </p>
@@ -244,20 +246,20 @@ const typeLabel: Record<string, string> = {
         <div v-if="submitStatus === 'success'" class="mb-8 p-5 rounded-2xl bg-green-50 border border-green-200 flex items-start gap-3">
           <Icon name="mdi:check-circle-outline" class="w-6 h-6 text-green-600 flex-shrink-0 mt-0.5" />
           <div>
-            <p class="font-semibold text-green-800">Application submitted!</p>
-            <p class="text-sm text-green-700 mt-0.5">Thank you for applying. We'll review your application and reach out within 5–7 business days.</p>
+            <p class="font-semibold text-green-800">{{ t('careerDetail.applicationSubmitted') }}</p>
+            <p class="text-sm text-green-700 mt-0.5">{{ t('careerDetail.applicationSubmittedMessage') }}</p>
           </div>
         </div>
 
         <!-- Description -->
         <div class="mb-10">
-          <h2 class="text-brand-text-primary text-xl font-bold mb-4">About the Role</h2>
+          <h2 class="text-brand-text-primary text-xl font-bold mb-4">{{ t('careerDetail.aboutTheRole') }}</h2>
           <div class="prose prose-sm max-w-none text-brand-text-secondary leading-relaxed" v-html="job.description" />
         </div>
 
         <!-- Requirements -->
         <div v-if="job.requirements?.length" class="mb-10">
-          <h2 class="text-brand-text-primary text-xl font-bold mb-4">Requirements</h2>
+          <h2 class="text-brand-text-primary text-xl font-bold mb-4">{{ t('careerDetail.requirements') }}</h2>
           <ul class="space-y-2.5">
             <li v-for="req in job.requirements" :key="req" class="flex items-start gap-3">
               <div class="w-5 h-5 rounded-full bg-brand-purple/10 flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -270,7 +272,7 @@ const typeLabel: Record<string, string> = {
 
         <!-- Responsibilities -->
         <div v-if="job.responsibilities?.length" class="mb-10">
-          <h2 class="text-brand-text-primary text-xl font-bold mb-4">Responsibilities</h2>
+          <h2 class="text-brand-text-primary text-xl font-bold mb-4">{{ t('careerDetail.responsibilities') }}</h2>
           <ul class="space-y-2.5">
             <li v-for="res in job.responsibilities" :key="res" class="flex items-start gap-3">
               <div class="w-5 h-5 rounded-full bg-brand-orange/10 flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -283,7 +285,7 @@ const typeLabel: Record<string, string> = {
 
         <!-- Benefits -->
         <div v-if="job.benefits?.length" class="mb-10">
-          <h2 class="text-brand-text-primary text-xl font-bold mb-4">Benefits</h2>
+          <h2 class="text-brand-text-primary text-xl font-bold mb-4">{{ t('careerDetail.benefits') }}</h2>
           <div class="grid sm:grid-cols-2 gap-3">
             <div v-for="benefit in job.benefits" :key="benefit" class="flex items-center gap-3 p-3.5 rounded-xl bg-brand-surface border border-brand-border">
               <Icon name="mdi:gift-outline" class="w-4 h-4 text-brand-purple flex-shrink-0" />
@@ -298,7 +300,7 @@ const typeLabel: Record<string, string> = {
             class="inline-flex items-center gap-2 px-8 py-3.5 bg-brand-purple text-white font-semibold rounded-btn shadow-lg hover:bg-violet-700 hover:-translate-y-0.5 transition-all duration-200"
             @click="showForm = true; submitStatus = 'idle'"
           >
-            Apply for this Position
+            {{ t('careerDetail.applyForThisPosition') }}
             <Icon name="mdi:arrow-right" class="w-4 h-4" />
           </button>
         </div>
@@ -324,7 +326,7 @@ const typeLabel: Record<string, string> = {
           <!-- Header -->
           <div class="sticky top-0 bg-white border-b border-brand-border px-6 py-4 flex items-center justify-between z-10">
             <div>
-              <h3 class="font-bold text-brand-text-primary text-lg">Apply for this Position</h3>
+              <h3 class="font-bold text-brand-text-primary text-lg">{{ t('careerDetail.applyForThisPosition') }}</h3>
               <p class="text-sm text-brand-text-secondary">{{ job.title }}</p>
             </div>
             <button
@@ -346,22 +348,22 @@ const typeLabel: Record<string, string> = {
             <!-- Name row -->
             <div class="grid sm:grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-semibold text-brand-text-primary mb-1.5">First Name <span class="text-red-500">*</span></label>
+                <label class="block text-sm font-semibold text-brand-text-primary mb-1.5">{{ t('careerDetail.form.firstName') }} <span class="text-red-500">*</span></label>
                 <input
                   v-model="form.first_name"
                   type="text"
-                  placeholder="John"
+                  :placeholder="t('careerDetail.form.firstNamePlaceholder')"
                   class="w-full px-4 py-2.5 rounded-xl border text-sm outline-none transition-colors focus:border-brand-purple"
                   :class="errors.first_name ? 'border-red-400 bg-red-50' : 'border-brand-border bg-white'"
                 />
                 <p v-if="errors.first_name" class="text-xs text-red-500 mt-1">{{ errors.first_name }}</p>
               </div>
               <div>
-                <label class="block text-sm font-semibold text-brand-text-primary mb-1.5">Last Name <span class="text-red-500">*</span></label>
+                <label class="block text-sm font-semibold text-brand-text-primary mb-1.5">{{ t('careerDetail.form.lastName') }} <span class="text-red-500">*</span></label>
                 <input
                   v-model="form.last_name"
                   type="text"
-                  placeholder="Doe"
+                  :placeholder="t('careerDetail.form.lastNamePlaceholder')"
                   class="w-full px-4 py-2.5 rounded-xl border text-sm outline-none transition-colors focus:border-brand-purple"
                   :class="errors.last_name ? 'border-red-400 bg-red-50' : 'border-brand-border bg-white'"
                 />
@@ -372,7 +374,7 @@ const typeLabel: Record<string, string> = {
             <!-- Email + Phone -->
             <div class="grid sm:grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-semibold text-brand-text-primary mb-1.5">Email <span class="text-red-500">*</span></label>
+                <label class="block text-sm font-semibold text-brand-text-primary mb-1.5">{{ t('careerDetail.form.email') }} <span class="text-red-500">*</span></label>
                 <input
                   v-model="form.email"
                   type="email"
@@ -383,11 +385,11 @@ const typeLabel: Record<string, string> = {
                 <p v-if="errors.email" class="text-xs text-red-500 mt-1">{{ errors.email }}</p>
               </div>
               <div>
-                <label class="block text-sm font-semibold text-brand-text-primary mb-1.5">Phone <span class="text-brand-text-muted font-normal">(optional)</span></label>
+                <label class="block text-sm font-semibold text-brand-text-primary mb-1.5">{{ t('careerDetail.form.phone') }} <span class="text-brand-text-muted font-normal">{{ t('careerDetail.form.optional') }}</span></label>
                 <input
                   v-model="form.phone"
                   type="tel"
-                  placeholder="+880 1700-000000"
+                  :placeholder="t('careerDetail.form.phonePlaceholder')"
                   class="w-full px-4 py-2.5 rounded-xl border border-brand-border bg-white text-sm outline-none focus:border-brand-purple transition-colors"
                 />
               </div>
@@ -396,14 +398,14 @@ const typeLabel: Record<string, string> = {
             <!-- Resume upload -->
             <div>
               <label class="block text-sm font-semibold text-brand-text-primary mb-1.5">
-                Resume / CV <span class="text-brand-text-muted font-normal">(PDF, DOC, DOCX — max 5 MB)</span>
+                {{ t('careerDetail.form.resume') }} <span class="text-brand-text-muted font-normal">{{ t('careerDetail.form.resumeHint') }}</span>
               </label>
               <label
                 class="flex flex-col items-center justify-center gap-2 w-full h-28 rounded-xl border-2 border-dashed border-brand-border bg-brand-surface cursor-pointer hover:border-brand-purple/50 hover:bg-brand-purple/5 transition-all duration-200"
               >
                 <Icon name="mdi:upload-outline" class="w-6 h-6 text-brand-text-muted" />
                 <span class="text-sm text-brand-text-muted">
-                  {{ form.resume ? form.resume.name : 'Click to upload or drag & drop' }}
+                  {{ form.resume ? form.resume.name : t('careerDetail.form.uploadPrompt') }}
                 </span>
                 <input type="file" accept=".pdf,.doc,.docx" class="hidden" @change="onFileChange" />
               </label>
@@ -411,11 +413,11 @@ const typeLabel: Record<string, string> = {
 
             <!-- Cover letter -->
             <div>
-              <label class="block text-sm font-semibold text-brand-text-primary mb-1.5">Cover Letter <span class="text-brand-text-muted font-normal">(optional)</span></label>
+              <label class="block text-sm font-semibold text-brand-text-primary mb-1.5">{{ t('careerDetail.form.coverLetter') }} <span class="text-brand-text-muted font-normal">{{ t('careerDetail.form.optional') }}</span></label>
               <textarea
                 v-model="form.cover_letter"
                 rows="4"
-                placeholder="Tell us why you're a great fit for this role..."
+                :placeholder="t('careerDetail.form.coverLetterPlaceholder')"
                 class="w-full px-4 py-2.5 rounded-xl border border-brand-border bg-white text-sm outline-none focus:border-brand-purple transition-colors resize-none"
               />
             </div>
@@ -423,17 +425,17 @@ const typeLabel: Record<string, string> = {
             <!-- Links row -->
             <div class="grid sm:grid-cols-3 gap-4">
               <div>
-                <label class="block text-xs font-semibold text-brand-text-secondary mb-1.5">Portfolio URL</label>
+                <label class="block text-xs font-semibold text-brand-text-secondary mb-1.5">{{ t('careerDetail.form.portfolioUrl') }}</label>
                 <input v-model="form.portfolio_url" type="url" placeholder="https://..." class="w-full px-3 py-2 rounded-xl border border-brand-border bg-white text-sm outline-none focus:border-brand-purple transition-colors" />
                 <p v-if="errors.portfolio_url" class="text-xs text-red-500 mt-1">{{ errors.portfolio_url }}</p>
               </div>
               <div>
-                <label class="block text-xs font-semibold text-brand-text-secondary mb-1.5">LinkedIn URL</label>
+                <label class="block text-xs font-semibold text-brand-text-secondary mb-1.5">{{ t('careerDetail.form.linkedinUrl') }}</label>
                 <input v-model="form.linkedin_url" type="url" placeholder="https://linkedin.com/in/..." class="w-full px-3 py-2 rounded-xl border border-brand-border bg-white text-sm outline-none focus:border-brand-purple transition-colors" />
                 <p v-if="errors.linkedin_url" class="text-xs text-red-500 mt-1">{{ errors.linkedin_url }}</p>
               </div>
               <div>
-                <label class="block text-xs font-semibold text-brand-text-secondary mb-1.5">GitHub URL</label>
+                <label class="block text-xs font-semibold text-brand-text-secondary mb-1.5">{{ t('careerDetail.form.githubUrl') }}</label>
                 <input v-model="form.github_url" type="url" placeholder="https://github.com/..." class="w-full px-3 py-2 rounded-xl border border-brand-border bg-white text-sm outline-none focus:border-brand-purple transition-colors" />
                 <p v-if="errors.github_url" class="text-xs text-red-500 mt-1">{{ errors.github_url }}</p>
               </div>
@@ -441,11 +443,11 @@ const typeLabel: Record<string, string> = {
 
             <!-- Additional info -->
             <div>
-              <label class="block text-sm font-semibold text-brand-text-primary mb-1.5">Additional Info <span class="text-brand-text-muted font-normal">(optional)</span></label>
+              <label class="block text-sm font-semibold text-brand-text-primary mb-1.5">{{ t('careerDetail.form.additionalInfo') }} <span class="text-brand-text-muted font-normal">{{ t('careerDetail.form.optional') }}</span></label>
               <textarea
                 v-model="form.additional_info"
                 rows="2"
-                placeholder="Anything else you'd like us to know..."
+                :placeholder="t('careerDetail.form.additionalInfoPlaceholder')"
                 class="w-full px-4 py-2.5 rounded-xl border border-brand-border bg-white text-sm outline-none focus:border-brand-purple transition-colors resize-none"
               />
             </div>
@@ -457,7 +459,7 @@ const typeLabel: Record<string, string> = {
                 class="px-5 py-2.5 rounded-xl border border-brand-border text-sm font-semibold text-brand-text-secondary hover:bg-brand-surface transition-colors"
                 @click="showForm = false"
               >
-                Cancel
+                {{ t('careerDetail.form.cancel') }}
               </button>
               <button
                 type="submit"
@@ -466,7 +468,7 @@ const typeLabel: Record<string, string> = {
               >
                 <Icon v-if="isSubmitting" name="mdi:loading" class="w-4 h-4 animate-spin" />
                 <Icon v-else name="mdi:send-outline" class="w-4 h-4" />
-                {{ isSubmitting ? 'Submitting...' : 'Submit Application' }}
+                {{ isSubmitting ? t('careerDetail.form.submitting') : t('careerDetail.form.submit') }}
               </button>
             </div>
           </form>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const { t } = useI18n()
+
 interface Props {
   currentPage: number
   totalPages: number
@@ -26,11 +28,11 @@ function go(page: number | '...') {
 </script>
 
 <template>
-  <nav class="flex items-center justify-center gap-2" aria-label="Pagination">
+  <nav class="flex items-center justify-center gap-2" :aria-label="t('basePagination.ariaLabel')">
     <button
       class="w-9 h-9 flex items-center justify-center rounded-btn border border-brand-border text-brand-text-secondary hover:border-brand-orange hover:text-brand-orange transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
       :disabled="currentPage <= 1"
-      aria-label="Previous page"
+      :aria-label="t('basePagination.previousPage')"
       @click="go(currentPage - 1)"
     >
       <Icon name="mdi:chevron-left" class="w-5 h-5" aria-hidden="true" />
@@ -45,7 +47,7 @@ function go(page: number | '...') {
         : page === '...'
           ? 'border-transparent text-brand-text-muted cursor-default'
           : 'border-brand-border text-brand-text-secondary hover:border-brand-orange hover:text-brand-orange'"
-      :aria-label="page === '...' ? 'More pages' : `Page ${page}`"
+      :aria-label="page === '...' ? t('basePagination.morePages') : t('basePagination.page', { n: page })"
       :aria-current="page === currentPage ? 'page' : undefined"
       :disabled="page === '...'"
       @click="go(page)"
@@ -56,7 +58,7 @@ function go(page: number | '...') {
     <button
       class="w-9 h-9 flex items-center justify-center rounded-btn border border-brand-border text-brand-text-secondary hover:border-brand-orange hover:text-brand-orange transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
       :disabled="currentPage >= totalPages"
-      aria-label="Next page"
+      :aria-label="t('basePagination.nextPage')"
       @click="go(currentPage + 1)"
     >
       <Icon name="mdi:chevron-right" class="w-5 h-5" aria-hidden="true" />

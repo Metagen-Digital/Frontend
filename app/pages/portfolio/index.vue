@@ -12,7 +12,7 @@ useSeoMeta({
   ogDescription:
     "Web development, social media, photography, video and e-commerce projects that deliver real results.",
   // Absolute — Facebook/LinkedIn crawlers do not resolve relative OG paths.
-  ogImage: `${siteUrl}/og/home.jpg`,
+  ogImage: `${siteUrl}/og/portfolio.jpg`,
 });
 
 type TagColor = "orange" | "purple" | "cyan";
@@ -28,11 +28,50 @@ interface Item {
   year: number;
 }
 
-const activeCategory = ref<"All" | PortfolioCategory>("All");
+const route = useRoute();
+const router = useRouter();
+
+const activeCategory = computed<"All" | PortfolioCategory>(
+  () => ((route.query.category as PortfolioCategory) || "All"),
+);
+
+const currentPage = computed(() => {
+  const page = Number(route.query.page);
+  return Number.isInteger(page) && page > 0 ? page : 1;
+});
+
+// NOTE — deliberately requests the maximum page size rather than filtering
+// server-side, unlike /blog and /products.
+//
+// The category tabs here are DISPLAY BUCKETS: normalizeCategory() below folds
+// whatever the CMS stores into five fixed labels (Web Dev, Social Media,
+// Photography, Video, E-commerce). Those labels do not exist as values in the
+// database, so `?category=Web Dev` would match nothing. Loading a full page and
+// bucketing in the browser keeps the filter correct.
+//
+// This holds as long as the portfolio fits in one page of 50 — comfortably true
+// today (6 case studies). Past that, the buckets have to become a real column
+// on case_studies so the API can filter on them; the pagination control below
+// is already wired for it. See docs/ACTION_PLAN.md.
+const PER_PAGE = 50;
 
 const { get } = useApi();
-const { data: caseStudiesResponse } =
-  await get<CaseStudyApiItem[]>("/case-studies");
+const { data: caseStudiesResponse } = await get<CaseStudyApiItem[]>("/case-studies", {
+  page: currentPage,
+  per_page: PER_PAGE,
+});
+
+const meta = computed(() => caseStudiesResponse.value?.meta);
+const totalPages = computed(() => meta.value?.last_page ?? 1);
+const totalProjects = computed(() => meta.value?.total ?? 0);
+
+function goToPage(page: number) {
+  router.push({ query: { ...route.query, page: page > 1 ? String(page) : undefined } });
+}
+
+function selectCategory(category: "All" | PortfolioCategory) {
+  router.push({ query: { category: category === "All" ? undefined : category } });
+}
 
 function normalizeCategory(category?: string | null): PortfolioCategory {
   const normalized = (category || "").toLowerCase();
@@ -77,8 +116,14 @@ const items = computed<Item[]>(() => {
   });
 });
 
-// Every project, not just the filtered view — category filtering is a
-// client-side ref, so the crawler's URL always represents the full list.
+// An out-of-range page must not answer 200 with an empty grid — that is a soft
+// 404 to a crawler.
+if (currentPage.value > 1 && items.value.length === 0) {
+  throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
+}
+
+// Everything this URL renders. Category filtering is a client-side bucket, so
+// the crawler's URL always represents the full page of projects.
 useCollectionJsonLd({
   name: "Portfolio",
   description: "Web development, social media, photography and e-commerce case studies.",
@@ -167,7 +212,7 @@ const categoryCount = (cat: "All" | PortfolioCategory) =>
             "
             role="tab"
             :aria-selected="activeCategory === cat"
-            @click="activeCategory = cat"
+            @click="selectCategory(cat)"
           >
             {{ cat }}
             <span
@@ -226,6 +271,18 @@ const categoryCount = (cat: "All" | PortfolioCategory) =>
           </p>
           <p class="text-brand-text-muted text-sm">
             Check back soon — more work is being added.
+          </p>
+        </div>
+
+        <!-- Only appears once the portfolio outgrows a single page. -->
+        <div v-if="totalPages > 1" class="mt-14">
+          <BasePagination
+            :current-page="currentPage"
+            :total-pages="totalPages"
+            @update:current-page="goToPage"
+          />
+          <p class="mt-4 text-center text-sm text-brand-text-muted">
+            {{ meta?.from ?? 0 }}–{{ meta?.to ?? 0 }} of {{ totalProjects }}
           </p>
         </div>
       </div>

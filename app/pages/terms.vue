@@ -1,16 +1,25 @@
 <script setup lang="ts">
+const { t } = useI18n()
 definePageMeta({ layout: 'minimal' })
 useSeoMeta({
-  title: 'Terms of Use | MetaGenDigital',
-  description: 'Read the terms and conditions governing the use of MetaGenDigital services.',
+  title: computed(() => t('termsPage.title')),
+  description: computed(() => t('termsPage.description')),
 })
 </script>
 
 <template>
   <div class="section-padding">
     <div class="container-content max-w-3xl">
-      <AppBreadcrumb :crumbs="[{ label: 'Terms of Use' }]" class="mb-8" />
-      <h1 class="text-white mb-6">Terms of Use</h1>
+      <AppBreadcrumb :crumbs="[{ label: t('termsPage.breadcrumb') }]" class="mb-8" />
+      <h1 class="text-white mb-6">{{ t('termsPage.heading') }}</h1>
+      <!--
+        The body below is binding legal text (liability, refunds, governing
+        law, IP). It is deliberately left English-only rather than
+        auto-translated: an inaccurate rendering of a liability or refund
+        clause is a legal-exposure risk, not a copy-quality one, and this
+        needs a professional/legal translation review before it goes into
+        the bn locale — not a mechanical i18n pass. See docs/ACTION_PLAN.md §2.1.
+      -->
       <div class="prose-brand">
         <p>Last updated: June 2025</p>
 

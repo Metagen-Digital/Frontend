@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const { t } = useI18n()
+
 interface Props {
   modelValue: boolean
   title?: string
@@ -75,7 +77,7 @@ watch(() => props.modelValue, (open) => {
               </slot>
               <button
                 class="p-1.5 text-brand-text-muted hover:text-white transition-colors duration-150 rounded-md"
-                aria-label="Close modal"
+                :aria-label="t('baseModal.closeModal')"
                 @click="close"
               >
                 <Icon name="mdi:close" class="w-5 h-5" aria-hidden="true" />

@@ -7,42 +7,80 @@ interface CategoryItem {
   count: number
 }
 
+const { t } = useI18n()
 const siteUrl = (useRuntimeConfig().public.siteUrl as string) || 'https://metagendigital.com'
 
 useSeoMeta({
-  title: 'Products | MetaGenDigital',
-  description: 'Explore MetaGenDigital digital products — tools and solutions built to grow your business.',
-  ogTitle: 'Products | MetaGenDigital',
-  ogDescription: 'Digital products — tools and solutions built to grow your business.',
+  title: computed(() => t('productsPage.meta.title')),
+  description: computed(() => t('productsPage.meta.description')),
+  ogTitle: computed(() => t('productsPage.meta.title')),
+  ogDescription: computed(() => t('productsPage.meta.ogDescription')),
   // Absolute — Facebook/LinkedIn crawlers do not resolve relative OG paths.
-  ogImage: `${siteUrl}/og/home.jpg`,
+  ogImage: `${siteUrl}/og/products.jpg`,
 })
+
+const route = useRoute()
+const router = useRouter()
+
+const PER_PAGE = 12
+
+// Page and filter live in the URL. /products is paginated server-side now, so
+// filtering in the browser would only ever filter the page in front of you —
+// and each page needs to be its own crawlable URL anyway.
+const currentPage = computed(() => {
+  const page = Number(route.query.page)
+  return Number.isInteger(page) && page > 0 ? page : 1
+})
+
+const activeFilter = computed(() => (route.query.category as string) || 'All')
 
 const { get } = useApi()
 
-const { data: productsResponse } = await get<ProductApiItem[]>('/products')
-const { data: catsResponse }     = await get<CategoryItem[]>('/products/categories')
+const { data: productsResponse, status } = await get<ProductApiItem[]>('/products', {
+  page: currentPage,
+  per_page: PER_PAGE,
+  category: computed(() => (activeFilter.value === 'All' ? undefined : activeFilter.value)),
+})
+const { data: catsResponse } = await get<CategoryItem[]>('/products/categories')
 
 const allProducts = computed<ProductApiItem[]>(() => productsResponse.value?.data ?? [])
 
+const isLoading = computed(() => status.value === 'pending')
+const meta = computed(() => productsResponse.value?.meta)
+const totalPages = computed(() => meta.value?.last_page ?? 1)
+const totalProducts = computed(() => meta.value?.total ?? 0)
+
+function goToPage(page: number) {
+  router.push({ query: { ...route.query, page: page > 1 ? String(page) : undefined } })
+}
+
+function selectCategory(slug: string) {
+  // Always back to page 1 — page 3 of a filter with one page renders nothing.
+  router.push({ query: { category: slug === 'All' ? undefined : slug } })
+}
+
+// An out-of-range page must not answer 200 with an empty grid — to a crawler
+// that is a soft 404, and it lets ?page=9999 mint unlimited thin URLs.
+if (currentPage.value > 1 && allProducts.value.length === 0) {
+  throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
+}
+
 useCollectionJsonLd({
-  name: 'Products',
-  description: 'MetaGenDigital digital products — tools and solutions built to grow your business.',
+  name: computed(() => t('productsPage.breadcrumb')),
+  description: computed(() => t('productsPage.collectionDescription')),
   items: () => allProducts.value.map(product => ({ name: product.name, url: `/products/${product.slug}` })),
 })
 
 const categories = computed<CategoryItem[]>(() => [
-  { slug: 'All', name: 'All', count: 0 },
+  // slug stays 'All' — it's the internal filter value compared against
+  // route.query.category and written into the URL, not display text. Only
+  // `name` (what actually renders) needs to be localized.
+  { slug: 'All', name: t('productsPage.allCategory'), count: totalProducts.value },
   ...(catsResponse.value?.data ?? []),
 ])
 
-const activeFilter = ref('All')
-
-const filtered = computed(() =>
-  activeFilter.value === 'All'
-    ? allProducts.value
-    : allProducts.value.filter(p => p.categoryId === activeFilter.value),
-)
+// The API already applied the category filter, so this is just the page.
+const filtered = computed(() => allProducts.value)
 
 function categoryLabel(cat: string | null | undefined) {
   if (!cat || typeof cat !== 'string') return ''
@@ -59,14 +97,14 @@ function categoryLabel(cat: string | null | undefined) {
       <div class="absolute bottom-0 left-0 w-80 h-80 rounded-full bg-brand-purple/5 blur-3xl pointer-events-none" aria-hidden="true" />
 
       <div class="container-content relative z-10">
-        <AppBreadcrumb :crumbs="[{ label: 'Products' }]" class="mb-6" />
-        <SectionBadge icon="mdi:package-variant" class="mb-5">Digital Products</SectionBadge>
+        <AppBreadcrumb :crumbs="[{ label: t('productsPage.breadcrumb') }]" class="mb-6" />
+        <SectionBadge icon="mdi:package-variant" class="mb-5">{{ t('productsPage.badge') }}</SectionBadge>
 
         <h1 class="text-brand-text-primary mb-4 max-w-2xl">
-          Tools Built to <span class="gradient-text">Grow Your Business</span>
+          {{ t('productsPage.heading') }} <span class="gradient-text">{{ t('productsPage.headingHighlight') }}</span>
         </h1>
         <p class="text-brand-text-secondary text-lg max-w-2xl leading-relaxed">
-          Standalone digital products and SaaS tools crafted for modern businesses — ready to use, built to scale.
+          {{ t('productsPage.subheading') }}
         </p>
       </div>
     </section>
@@ -84,7 +122,7 @@ function categoryLabel(cat: string | null | undefined) {
             :class="activeFilter === cat.slug
               ? 'bg-brand-primary text-white border-brand-primary shadow-sm'
               : 'bg-white text-brand-text-secondary border-brand-border hover:border-brand-primary/40 hover:text-brand-primary'"
-            @click="activeFilter = cat.slug"
+            @click="selectCategory(cat.slug)"
           >
             {{ cat.name }}
             <span v-if="cat.slug !== 'All'" class="ml-1 opacity-60 text-[11px]">({{ cat.count }})</span>
@@ -92,9 +130,9 @@ function categoryLabel(cat: string | null | undefined) {
         </div>
 
         <!-- Empty state -->
-        <div v-if="filtered.length === 0" class="py-20 text-center text-brand-text-muted">
+        <div v-if="filtered.length === 0 && !isLoading" class="py-20 text-center text-brand-text-muted">
           <Icon name="mdi:package-variant" class="w-12 h-12 mx-auto mb-4 opacity-40" />
-          <p class="text-lg font-medium">No products in this category yet.</p>
+          <p class="text-lg font-medium">{{ t('productsPage.empty') }}</p>
         </div>
 
         <!-- Grid -->
@@ -171,6 +209,18 @@ function categoryLabel(cat: string | null | undefined) {
               </div>
             </div>
           </NuxtLink>
+        </div>
+
+        <!-- Server-side pagination — every page is its own URL. -->
+        <div v-if="totalPages > 1" class="mt-14">
+          <BasePagination
+            :current-page="currentPage"
+            :total-pages="totalPages"
+            @update:current-page="goToPage"
+          />
+          <p class="mt-4 text-center text-sm text-brand-text-muted">
+            {{ t('productsPage.showingOf', { from: meta?.from ?? 0, to: meta?.to ?? 0, total: totalProducts }) }}
+          </p>
         </div>
 
       </div>

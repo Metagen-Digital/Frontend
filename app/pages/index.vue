@@ -1,11 +1,12 @@
 <script setup lang="ts">
+const { t } = useI18n()
 const siteUrl = (useRuntimeConfig().public.siteUrl as string) || 'https://metagendigital.com'
 
 useSeoMeta({
-  title: 'MetaGenDigital — We Grow Your Business Online',
-  description: 'Bangladesh\'s leading digital marketing agency. Expert in web development, social media, photography & videography, and e-commerce solutions.',
-  ogTitle: 'MetaGenDigital — We Grow Your Business Online',
-  ogDescription: 'Bangladesh\'s leading digital marketing agency.',
+  title: computed(() => t('homePage.meta.title')),
+  description: computed(() => t('homePage.meta.description')),
+  ogTitle: computed(() => t('homePage.meta.title')),
+  ogDescription: computed(() => t('homePage.meta.ogDescription')),
   // Absolute — Facebook/LinkedIn crawlers do not resolve relative OG paths.
   ogImage: `${siteUrl}/og/home.jpg`,
   twitterImage: `${siteUrl}/og/home.jpg`,

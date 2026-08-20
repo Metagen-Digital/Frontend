@@ -12,7 +12,7 @@ useSeoMeta({
   ogDescription:
     "Digital marketing, web development, photography, social media and brand design — built for the Bangladesh market.",
   // Absolute — Facebook/LinkedIn crawlers do not resolve relative OG paths.
-  ogImage: `${siteUrl}/og/home.jpg`,
+  ogImage: `${siteUrl}/og/services.jpg`,
 });
 
 const { get } = useApi();

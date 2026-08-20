@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const { t } = useI18n()
+
 interface Feature {
   text: string
   included: boolean
@@ -35,7 +37,7 @@ const props = withDefaults(defineProps<Props>(), {
       v-if="featured"
       class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-brand rounded-full text-xs font-bold text-white whitespace-nowrap"
     >
-      Most Popular
+      {{ t('pricingCard.mostPopular') }}
     </div>
 
     <!-- Plan name -->

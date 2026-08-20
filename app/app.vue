@@ -66,9 +66,25 @@ const jsonLd = computed(() => JSON.stringify({
 }))
 
 // Locale-neutral path ("/services/seo"), the basis for both the hreflang pair
-// and the canonical URL. Query strings are deliberately dropped — ?page=2 and
-// ?ref=fb must not read as separate pages to a crawler.
+// and the canonical URL.
 const basePath = computed(() => route.path.replace(/^\/bn/, '') || '/')
+
+// Query string handling for the canonical URL.
+//
+// Almost everything is dropped — ?ref=fb and friends must not read as separate
+// pages. `page` is the one exception: Google retired rel=prev/next as an
+// indexing signal in 2019 and now expects each page of a series to canonicalise
+// to ITSELF. Folding /blog?page=2 into /blog told the crawler page 2 was a
+// duplicate of page 1, which is the opposite of what we want.
+//
+// A category facet is NOT canonical: /blog?category=seo is a filtered view of
+// the same collection, so it points at the unfiltered list rather than
+// multiplying indexable category x page combinations.
+const canonicalQuery = computed(() => {
+  if (route.query.category) return ''
+  const page = Number(route.query.page)
+  return Number.isInteger(page) && page > 1 ? `?page=${page}` : ''
+})
 
 useHead(computed(() => ({
   htmlAttrs: {
@@ -85,7 +101,7 @@ useHead(computed(() => ({
     // query params let the same content be indexed under several URLs.
     {
       rel: 'canonical',
-      href: `${siteUrl.value}${locale.value === 'bn' ? `/bn${basePath.value === '/' ? '' : basePath.value}` : basePath.value}`,
+      href: `${siteUrl.value}${locale.value === 'bn' ? `/bn${basePath.value === '/' ? '' : basePath.value}` : basePath.value}${canonicalQuery.value}`,
     },
     {
       rel: 'alternate',

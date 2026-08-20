@@ -65,7 +65,7 @@ const displaySecondaryLabel= computed(() => props.secondaryLabel || t(props.seco
         <!-- Badge -->
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 border border-white/25 text-white/90 text-xs font-semibold uppercase tracking-widest mb-5">
           <Icon name="mdi:rocket-launch-outline" class="w-3.5 h-3.5" aria-hidden="true" />
-          Ready to grow?
+          {{ t('cta.badge') }}
         </div>
 
         <h2 class="text-white font-display font-extrabold text-3xl md:text-4xl lg:text-5xl mb-4 drop-shadow">

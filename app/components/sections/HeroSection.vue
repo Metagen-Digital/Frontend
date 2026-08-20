@@ -251,11 +251,23 @@ const floatingBubbles = computed(() => [
 
           <!-- Main image -->
           <div class="relative rounded-3xl overflow-hidden shadow-card-hover ring-1 ring-brand-border w-full">
-            <img
+            <!-- The homepage LCP element. NuxtImg (not <img>) so it is served
+                 as WebP at the size the viewport actually needs: the source is
+                 a 109 KB PNG that every phone was downloading in full.
+                 `preload` puts it in the initial HTML head instead of waiting
+                 for the CSS to discover it, and width/height reserve the box
+                 so nothing below it shifts as it arrives. -->
+            <NuxtImg
               src="/images/HeroBg.png"
               alt="MetaGenDigital — Digital marketing and web development agency"
               class="w-full h-auto object-cover"
+              sizes="100vw md:50vw lg:640px"
+              format="webp"
+              width="1280"
+              height="960"
+              preload
               loading="eager"
+              fetchpriority="high"
             />
 
             <!-- Badge: Available -->

@@ -103,11 +103,15 @@ export interface ApiResponse<T> {
   meta?: PaginationMeta
 }
 
+// Mirrors App\Http\Controllers\Controller::paginatedResponse on the backend.
 export interface PaginationMeta {
   current_page: number
+  last_page: number
   per_page: number
   total: number
-  last_page: number
+  from: number | null
+  to: number | null
+  has_more: boolean
 }
 
 // ─── Service API Types ────────────────────────────────────

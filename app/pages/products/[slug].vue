@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { ProductApiDetail, ProductApiItem } from '~/types'
 
+const { t } = useI18n()
 const route = useRoute()
 const slug = route.params.slug as string
 
@@ -100,7 +101,7 @@ function categoryLabel(cat: string | null) {
 
       <div class="container-content relative z-10">
         <div class="mb-8 opacity-80">
-          <AppBreadcrumb :crumbs="[{ label: 'Products', to: '/products' }, { label: product.name }]" />
+          <AppBreadcrumb :crumbs="[{ label: t('productsPage.breadcrumb'), to: '/products' }, { label: product.name }]" />
         </div>
 
         <div class="flex flex-col lg:flex-row lg:items-start gap-10">
@@ -133,11 +134,11 @@ function categoryLabel(cat: string | null) {
                 rel="noopener"
                 class="inline-flex items-center gap-2 px-6 py-3 bg-white font-semibold text-sm rounded-btn shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 text-brand-primary"
               >
-                Get Started
+                {{ t('productDetail.getStarted') }}
                 <Icon name="mdi:arrow-right" class="w-4 h-4" />
               </a>
               <NuxtLink to="/contact" class="inline-flex items-center gap-2 px-6 py-3 border border-white/40 text-white font-semibold text-sm rounded-btn hover:bg-white/15 backdrop-blur-sm transition-all duration-200">
-                Talk to Sales
+                {{ t('productDetail.talkToSales') }}
               </NuxtLink>
             </div>
           </div>
@@ -148,7 +149,7 @@ function categoryLabel(cat: string | null) {
               <div class="px-6 pt-6 pb-5 space-y-4">
                 <!-- Price -->
                 <div>
-                  <p class="text-white/50 text-[10px] font-bold uppercase tracking-widest mb-1">Starting at</p>
+                  <p class="text-white/50 text-[10px] font-bold uppercase tracking-widest mb-1">{{ t('productDetail.startingAt') }}</p>
                   <div class="flex items-baseline gap-1">
                     <span class="text-white text-3xl font-black font-display">{{ product.price_display ?? 'Custom' }}</span>
                     <span v-if="product.price_period" class="text-white/55 text-sm">/ {{ product.price_period }}</span>
@@ -160,7 +161,7 @@ function categoryLabel(cat: string | null) {
                   <div class="flex gap-0.5">
                     <Icon v-for="n in 5" :key="n" name="mdi:star" class="w-4 h-4" :class="n <= Math.round(product.rating) ? 'text-amber-400' : 'text-white/20'" />
                   </div>
-                  <span class="text-white/60 text-xs">{{ product.rating }}/5 ({{ product.reviews_count }} reviews)</span>
+                  <span class="text-white/60 text-xs">{{ t('productDetail.ratingOutOf', { rating: product.rating, count: product.reviews_count }) }}</span>
                 </div>
 
                 <!-- Stats -->
@@ -174,7 +175,7 @@ function categoryLabel(cat: string | null) {
 
               <div v-if="product.purchase_link" class="px-6 py-4 bg-white/10 border-t border-white/15">
                 <a :href="product.purchase_link" target="_blank" rel="noopener" class="flex items-center justify-between text-white/80 hover:text-white transition-colors text-sm font-medium group/cta">
-                  <span>Get this product</span>
+                  <span>{{ t('productDetail.getThisProduct') }}</span>
                   <Icon name="mdi:arrow-right" class="w-4 h-4 group-hover/cta:translate-x-1 transition-transform duration-200" />
                 </a>
               </div>
@@ -188,8 +189,8 @@ function categoryLabel(cat: string | null) {
     <section v-if="product.features?.length" class="section-padding bg-white">
       <div class="container-content">
         <div class="text-center mb-10">
-          <h2 class="text-brand-text-primary mb-3">What's Included</h2>
-          <p class="text-brand-text-secondary text-lg max-w-xl mx-auto">Everything you need, built right in.</p>
+          <h2 class="text-brand-text-primary mb-3">{{ t('productDetail.whatsIncluded') }}</h2>
+          <p class="text-brand-text-secondary text-lg max-w-xl mx-auto">{{ t('productDetail.whatsIncludedSubheading') }}</p>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <div v-for="feature in product.features" :key="feature" class="flex items-center gap-3 p-4 rounded-xl border border-brand-border bg-brand-surface">
@@ -205,7 +206,7 @@ function categoryLabel(cat: string | null) {
     <!-- ── DESCRIPTION ────────────────────────────────────── -->
     <section v-if="product.description" class="section-padding bg-brand-surface">
       <div class="container-content max-w-3xl">
-        <h2 class="text-brand-text-primary mb-6">About This Product</h2>
+        <h2 class="text-brand-text-primary mb-6">{{ t('productDetail.aboutThisProduct') }}</h2>
         <div class="prose prose-sm max-w-none text-brand-text-secondary leading-relaxed" v-html="product.description" />
       </div>
     </section>
@@ -213,7 +214,7 @@ function categoryLabel(cat: string | null) {
     <!-- ── HIGHLIGHTS ─────────────────────────────────────── -->
     <section v-if="product.highlights?.length" class="section-padding bg-white">
       <div class="container-content max-w-3xl">
-        <h2 class="text-brand-text-primary mb-6">Why Choose This?</h2>
+        <h2 class="text-brand-text-primary mb-6">{{ t('productDetail.whyChooseThis') }}</h2>
         <ul class="space-y-3">
           <li v-for="highlight in product.highlights" :key="highlight" class="flex items-start gap-3">
             <Icon name="mdi:check-decagram" class="w-5 h-5 text-brand-primary flex-shrink-0 mt-0.5" />
@@ -227,7 +228,7 @@ function categoryLabel(cat: string | null) {
     <section v-if="product.plans?.length" class="section-padding bg-brand-surface">
       <div class="container-content">
         <div class="text-center mb-10">
-          <h2 class="text-brand-text-primary mb-3">Choose Your Plan</h2>
+          <h2 class="text-brand-text-primary mb-3">{{ t('productDetail.chooseYourPlan') }}</h2>
           <p v-if="product.pricing_note" class="text-brand-text-secondary text-sm">{{ product.pricing_note }}</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
@@ -238,7 +239,7 @@ function categoryLabel(cat: string | null) {
             :class="plan.is_popular ? 'border-brand-primary shadow-card-hover ring-2 ring-brand-primary/20' : 'border-brand-border shadow-card'"
           >
             <div v-if="plan.is_popular" class="absolute -top-3 left-1/2 -translate-x-1/2">
-              <span class="px-3 py-1 rounded-full bg-brand-primary text-white text-[10px] font-bold uppercase tracking-widest">Most Popular</span>
+              <span class="px-3 py-1 rounded-full bg-brand-primary text-white text-[10px] font-bold uppercase tracking-widest">{{ t('pricingCard.mostPopular') }}</span>
             </div>
             <h3 class="text-base font-bold text-brand-text-primary mb-1">{{ plan.name }}</h3>
             <div class="flex items-baseline gap-1 mb-2">
@@ -256,7 +257,7 @@ function categoryLabel(cat: string | null) {
               class="mt-5 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200"
               :class="plan.is_popular ? 'bg-brand-primary text-white hover:opacity-90' : 'border border-brand-border text-brand-text-secondary hover:bg-brand-surface'"
             >
-              Get Started <Icon name="mdi:arrow-right" class="w-3.5 h-3.5" />
+              {{ t('productDetail.getStarted') }} <Icon name="mdi:arrow-right" class="w-3.5 h-3.5" />
             </a>
           </div>
         </div>
@@ -266,7 +267,7 @@ function categoryLabel(cat: string | null) {
     <!-- ── RELATED ─────────────────────────────────────────── -->
     <section v-if="related.length" class="section-padding bg-white">
       <div class="container-content">
-        <h2 class="text-brand-text-primary mb-8 text-center">Related Products</h2>
+        <h2 class="text-brand-text-primary mb-8 text-center">{{ t('productDetail.relatedProducts') }}</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <NuxtLink
             v-for="item in related"

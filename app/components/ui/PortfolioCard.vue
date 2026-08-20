@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const { t } = useI18n()
+
 interface Props {
   title: string
   category: string
@@ -64,10 +66,15 @@ const arrowBg: Record<string, string> = {
   >
     <!-- Image wrapper -->
     <div class="relative aspect-[16/10] overflow-hidden bg-brand-surface">
-      <img
+      <!-- NuxtImg, not <img>: these render several to a grid, and the raw
+           tag downloaded whatever full-resolution file the CMS held for every
+           card. `sizes` emits a srcset so a phone fetches a phone-sized crop. -->
+      <NuxtImg
         :src="thumbnail"
         :alt="title"
         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+        sizes="100vw sm:50vw lg:33vw"
+        format="webp"
         loading="lazy"
       />
 
@@ -103,7 +110,7 @@ const arrowBg: Record<string, string> = {
       >
         <div class="flex items-center gap-2 px-5 py-2.5 bg-white rounded-xl text-sm font-semibold shadow-lg -translate-y-1 group-hover:translate-y-0 transition-transform duration-300" :class="resultText[tagColor]">
           <Icon name="mdi:eye-outline" class="w-4 h-4" aria-hidden="true" />
-          View Case Study
+          {{ t('portfolioCard.viewCaseStudy') }}
         </div>
       </div>
     </div>

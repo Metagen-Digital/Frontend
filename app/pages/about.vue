@@ -3,10 +3,15 @@ import type { TeamApiItem } from '~/types'
 
 const { t } = useI18n()
 const { get } = useApi()
+const siteUrl = (useRuntimeConfig().public.siteUrl as string) || 'https://metagendigital.com'
 
 useSeoMeta({
   title: computed(() => `${t('aboutPage.breadcrumb')} | MetaGenDigital`),
   description: computed(() => t('aboutPage.hero.description')),
+  ogTitle: computed(() => `${t('aboutPage.breadcrumb')} | MetaGenDigital`),
+  ogDescription: computed(() => t('aboutPage.hero.description')),
+  // Absolute — Facebook/LinkedIn crawlers do not resolve relative OG paths.
+  ogImage: `${siteUrl}/og/about.jpg`,
 })
 
 // testimonials/stats থেকে average_rating নিয়ে satisfaction % বের করা হয়
@@ -418,11 +423,13 @@ const iconContactBg: Record<string, string> = {
           >
             <!-- Photo -->
             <div class="relative aspect-square overflow-hidden bg-brand-surface">
-              <img
+              <NuxtImg
                 v-if="member.avatar_url"
                 :src="member.avatar_url"
                 :alt="member.name"
                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                sizes="50vw sm:33vw lg:280px"
+                format="webp"
                 loading="lazy"
               />
               <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-brand-primary/20 to-brand-purple/20">

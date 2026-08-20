@@ -61,22 +61,23 @@ const filtered = computed(() =>
 );
 
 const isEmpty = computed(() => !isLoading.value && items.value.length === 0);
+
+const { t } = useI18n();
 </script>
 
 <template>
-  <section class="section-padding bg-white" aria-label="Our Portfolio">
+  <section class="section-padding bg-white" :aria-label="t('portfolio.sectionAriaLabel')">
     <div class="container-content">
 
       <!-- Heading -->
       <div class="text-center mb-6">
-        <SectionBadge icon="mdi:briefcase-outline" color="primary" class="mb-4">Our Work</SectionBadge>
+        <SectionBadge icon="mdi:briefcase-outline" color="primary" class="mb-4">{{ t('portfolio.badge') }}</SectionBadge>
         <h2 class="text-brand-text-primary mt-4 mb-4">
-          Projects That
-          <span class="gradient-text"> Speak for Themselves</span>
+          {{ t('portfolio.heading') }}
+          <span class="gradient-text"> {{ t('portfolio.headingHighlight') }}</span>
         </h2>
         <p class="text-brand-text-secondary max-w-xl mx-auto">
-          A selection of our best work — web development, photography, social
-          media and digital campaigns.
+          {{ t('portfolio.subheading') }}
         </p>
       </div>
 
@@ -103,9 +104,9 @@ const isEmpty = computed(() => !isLoading.value && items.value.length === 0);
         <div class="w-20 h-20 rounded-2xl bg-brand-border/60 flex items-center justify-center mb-6 shadow-sm">
           <Icon name="mdi:folder-open-outline" class="w-10 h-10 text-brand-text-secondary" aria-hidden="true" />
         </div>
-        <h3 class="text-xl font-bold text-brand-text-primary mb-2">No Projects Available</h3>
+        <h3 class="text-xl font-bold text-brand-text-primary mb-2">{{ t('portfolio.emptyTitle') }}</h3>
         <p class="text-sm text-brand-text-secondary max-w-xs">
-          We're adding our latest work. Check back soon.
+          {{ t('portfolio.emptyMessage') }}
         </p>
       </div>
 
@@ -115,7 +116,7 @@ const isEmpty = computed(() => !isLoading.value && items.value.length === 0);
         <div
           class="flex flex-wrap justify-center gap-2 mb-6"
           role="tablist"
-          aria-label="Filter portfolio by category"
+          :aria-label="t('portfolio.filterAriaLabel')"
         >
           <button
             v-for="cat in categories"
@@ -161,7 +162,7 @@ const isEmpty = computed(() => !isLoading.value && items.value.length === 0);
       <!-- View all -->
       <div v-if="!isEmpty && !isLoading" class="flex justify-center mt-6">
         <GradientButton to="/portfolio" variant="outline" icon-right="mdi:arrow-right">
-          View Full Portfolio
+          {{ t('portfolio.viewAll') }}
         </GradientButton>
       </div>
 

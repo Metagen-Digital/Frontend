@@ -249,7 +249,15 @@ const categoryIcon: Record<string, string> = {
 
       <div class="container-content relative z-10">
         <div class="rounded-t-2xl overflow-hidden shadow-2xl aspect-[21/8] bg-brand-surface">
-          <img :src="post.thumbnail" :alt="post.title" class="w-full h-full object-cover" />
+          <NuxtImg
+            :src="post.thumbnail"
+            :alt="post.title"
+            class="w-full h-full object-cover"
+            sizes="100vw lg:800px"
+            format="webp"
+            loading="eager"
+            fetchpriority="high"
+          />
         </div>
       </div>
     </section>

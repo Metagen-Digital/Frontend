@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const { t } = useI18n()
 const { y: scrollY } = useWindowScroll()
 const visible = computed(() => scrollY.value > 300)
 
@@ -17,7 +18,7 @@ function scrollToTop() {
     <button
       v-if="visible"
       class="fixed bottom-6 left-6 z-[100] w-11 h-11 flex items-center justify-center bg-brand-orange rounded-btn shadow-glow-orange hover:scale-110 hover:shadow-glow-orange transition-all duration-250 ease-spring"
-      aria-label="Scroll back to top"
+      :aria-label="t('backToTop.ariaLabel')"
       @click="scrollToTop"
     >
       <Icon name="mdi:chevron-up" class="w-5 h-5 text-white" aria-hidden="true" />
