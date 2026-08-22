@@ -17,7 +17,6 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxtjs/sitemap',
     '@nuxtjs/robots',
-    '@nuxt/content',
     '@nuxtjs/i18n',
     'nuxt-gtag',
   ],
@@ -203,9 +202,20 @@ export default defineNuxtConfig({
     // imports Sentry on idle/first-interaction, it just fetches the chunk then
     // instead of racing the LCP for it. Error monitoring starts a few hundred
     // ms later; that is the whole cost.
+    // Also drop the i18n locale bundles from prefetch. @nuxtjs/i18n is set to
+    // `lazy`, but Vite still marks both compiled locale chunks as prefetchable,
+    // so an English visitor pulled the Bengali messages (128 KB raw) — and a
+    // Bengali visitor the English ones — on every page load, for a locale they
+    // have not selected. The active locale does not come from these chunks
+    // anyway; it is fetched from /_i18n/<hash>/<locale>/messages.json at
+    // runtime, which is the request that actually matters and is untouched.
     'build:manifest'(manifest) {
+      const NEVER_PREFETCH = [
+        '@sentry/',
+        'i18n/locales/',
+      ]
       for (const [id, entry] of Object.entries(manifest)) {
-        if (id.includes('@sentry/')) {
+        if (NEVER_PREFETCH.some(frag => id.includes(frag))) {
           entry.prefetch = false
           entry.preload = false
         }
@@ -240,6 +250,28 @@ export default defineNuxtConfig({
         ].join('; '),
       },
     },
+    // ── Static asset caching ───────────────────────────────────────────
+    // Vercel serves everything under /public with
+    // `cache-control: public, max-age=0, must-revalidate` — verified against
+    // production. Hashed build output in /_nuxt gets a year of `immutable`
+    // automatically, but the logo, the hero source, the favicons and the OG
+    // images do not, so every repeat visitor re-validates all of them on every
+    // single page load. That is a round-trip each, on a connection where
+    // round-trips are the expensive part.
+    //
+    // These filenames are NOT content-hashed, so `immutable` would be wrong —
+    // a re-exported logo could stay stale for a year. stale-while-revalidate
+    // is the right shape instead: serve from cache instantly, refresh in the
+    // background, so an updated asset propagates within a day without ever
+    // making a visitor wait.
+    //
+    // Note this improves REPEAT visits, not the first-load Lighthouse score
+    // (uses-long-cache-ttl is a weight-0 diagnostic).
+    '/images/**':  { headers: { 'cache-control': 'public, max-age=86400, stale-while-revalidate=2592000' } },
+    '/og/**':      { headers: { 'cache-control': 'public, max-age=86400, stale-while-revalidate=2592000' } },
+    // Favicons genuinely never change; a week of hard caching is safe.
+    '/favicon/**': { headers: { 'cache-control': 'public, max-age=604800, stale-while-revalidate=2592000' } },
+
     // Private dashboard — client-only, never indexed
     '/dashboard':    { ssr: false, robots: false },
     '/bn/dashboard': { ssr: false, robots: false },

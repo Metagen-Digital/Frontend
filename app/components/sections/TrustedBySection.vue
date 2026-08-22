@@ -120,6 +120,8 @@ const row2 = computed(() => {
               :src="logo.logo!"
               :alt="logo.name"
               class="h-6 w-auto max-w-[80px] object-contain"
+              width="80"
+              height="24"
               loading="lazy"
               @error="onLogoError(logo.name)"
             />
@@ -160,6 +162,8 @@ const row2 = computed(() => {
               :src="logo.logo!"
               :alt="logo.name"
               class="h-6 w-auto max-w-[80px] object-contain"
+              width="80"
+              height="24"
               loading="lazy"
               @error="onLogoError(logo.name)"
             />

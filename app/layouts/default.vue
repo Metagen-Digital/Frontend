@@ -17,10 +17,19 @@
       <slot />
     </main>
 
-    <NewsletterSection />
-    <AppFooter />
-    <BackToTop />
-    <ChatWidget />
+    <!-- Below the fold on every page: hydrate when scrolled to, not on load. -->
+    <LazyNewsletterSection hydrate-on-visible />
+    <LazyAppFooter hydrate-on-visible />
+
+    <!-- Floating widgets. These ARE in the initial viewport, so
+         hydrate-on-visible would fire immediately and buy nothing —
+         hydrate-on-idle keeps them off the hydration pass that LCP waits on
+         while still having them interactive long before a real user reaches
+         for them. ToastNotification stays eager on purpose: a toast can be
+         triggered by a form on the same page, and it has to be mounted and
+         listening when that happens. -->
+    <LazyBackToTop hydrate-on-idle />
+    <LazyChatWidget hydrate-on-idle />
     <ToastNotification />
   </div>
 </template>

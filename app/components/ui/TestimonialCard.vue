@@ -42,7 +42,7 @@ const props = withDefaults(defineProps<Props>(), {
           loading="lazy"
           format="webp"
         />
-        <div v-else class="w-full h-full flex items-center justify-center text-brand-orange font-bold text-sm bg-orange-50">
+        <div v-else class="w-full h-full flex items-center justify-center text-brand-orange-text font-bold text-sm bg-orange-50">
           {{ name.charAt(0) }}
         </div>
       </div>

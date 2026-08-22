@@ -50,7 +50,7 @@ useHead({
   <nav aria-label="Breadcrumb">
     <ol class="flex items-center gap-2 text-sm text-brand-text-muted flex-wrap">
       <li>
-        <NuxtLink to="/" class="hover:text-brand-orange transition-colors duration-150 flex items-center gap-1">
+        <NuxtLink to="/" class="hover:text-brand-orange-text transition-colors duration-150 flex items-center gap-1">
           <Icon name="mdi:home" class="w-4 h-4" aria-hidden="true" />
           <span>{{ t('nav.home') }}</span>
         </NuxtLink>
@@ -60,7 +60,7 @@ useHead({
         <NuxtLink
           v-if="crumb.to && i < crumbs.length - 1"
           :to="crumb.to"
-          class="hover:text-brand-orange transition-colors duration-150"
+          class="hover:text-brand-orange-text transition-colors duration-150"
         >
           {{ crumb.label }}
         </NuxtLink>

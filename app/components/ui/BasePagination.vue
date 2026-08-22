@@ -30,7 +30,7 @@ function go(page: number | '...') {
 <template>
   <nav class="flex items-center justify-center gap-2" :aria-label="t('basePagination.ariaLabel')">
     <button
-      class="w-9 h-9 flex items-center justify-center rounded-btn border border-brand-border text-brand-text-secondary hover:border-brand-orange hover:text-brand-orange transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
+      class="w-9 h-9 flex items-center justify-center rounded-btn border border-brand-border text-brand-text-secondary hover:border-brand-orange hover:text-brand-orange-text transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
       :disabled="currentPage <= 1"
       :aria-label="t('basePagination.previousPage')"
       @click="go(currentPage - 1)"
@@ -46,7 +46,7 @@ function go(page: number | '...') {
         ? 'bg-brand-orange border-brand-orange text-white'
         : page === '...'
           ? 'border-transparent text-brand-text-muted cursor-default'
-          : 'border-brand-border text-brand-text-secondary hover:border-brand-orange hover:text-brand-orange'"
+          : 'border-brand-border text-brand-text-secondary hover:border-brand-orange hover:text-brand-orange-text'"
       :aria-label="page === '...' ? t('basePagination.morePages') : t('basePagination.page', { n: page })"
       :aria-current="page === currentPage ? 'page' : undefined"
       :disabled="page === '...'"
@@ -56,7 +56,7 @@ function go(page: number | '...') {
     </button>
 
     <button
-      class="w-9 h-9 flex items-center justify-center rounded-btn border border-brand-border text-brand-text-secondary hover:border-brand-orange hover:text-brand-orange transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
+      class="w-9 h-9 flex items-center justify-center rounded-btn border border-brand-border text-brand-text-secondary hover:border-brand-orange hover:text-brand-orange-text transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
       :disabled="currentPage >= totalPages"
       :aria-label="t('basePagination.nextPage')"
       @click="go(currentPage + 1)"

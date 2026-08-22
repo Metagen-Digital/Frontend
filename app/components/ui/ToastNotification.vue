@@ -9,10 +9,10 @@ const iconMap = {
 }
 
 const colorMap = {
-  success: 'border-brand-success text-brand-success',
-  error:   'border-brand-error text-brand-error',
-  warning: 'border-brand-warning text-brand-warning',
-  info:    'border-brand-cyan text-brand-cyan',
+  success: 'border-brand-success text-brand-success-text',
+  error:   'border-brand-error text-brand-error-text',
+  warning: 'border-brand-warning text-brand-warning-text',
+  info:    'border-brand-cyan text-brand-cyan-text',
 }
 </script>
 
