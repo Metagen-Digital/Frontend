@@ -1,0 +1,23 @@
+# MetaGen Digital
+
+> Bangladesh's leading digital marketing agency — web development, social media, photography & videography, and e-commerce solutions.
+
+MetaGen Digital (metagendigital.com) helps businesses grow online through custom web/app development, digital marketing, branding, and creative production services. The site is available in English (default) and Bengali (`/bn/*` prefix).
+
+## Key pages
+
+- [Home](https://metagendigital.com/): Overview of services and the agency
+- [Services](https://metagendigital.com/services): Full service catalog
+- [Portfolio](https://metagendigital.com/portfolio): Case studies and past work
+- [Products](https://metagendigital.com/products): Productized offerings
+- [Pricing](https://metagendigital.com/pricing): Plans and pricing
+- [About](https://metagendigital.com/about): Company background and team
+- [Blog](https://metagendigital.com/blog): Articles and updates
+- [Careers](https://metagendigital.com/careers): Open positions
+- [Contact](https://metagendigital.com/contact): Get in touch
+
+## Notes for automated/agentic access
+
+- Full sitemap: https://metagendigital.com/sitemap_index.xml
+- robots.txt allows crawling of all public pages; `/dashboard`, `/auth/*` and `/api/*` are private and excluded
+- Structured data (JSON-LD) is present on pages for organization, breadcrumb, and FAQ content

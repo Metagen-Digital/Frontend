@@ -28,6 +28,13 @@ export default defineNuxtConfig({
   gtag: {
     id: process.env.NUXT_PUBLIC_GTAG_ID || 'G-L26L10C4V1',
     enabled: process.env.NODE_ENV === 'production',
+    // The dataLayer/gtag() queue is still created synchronously (module
+    // behavior, unaffected by this), so useTrackEvent() calls before the
+    // real script arrives are buffered, not lost. 'manual' only skips
+    // auto-injecting the gtag.js <script> — see app/plugins/analytics-defer.client.ts,
+    // which calls initialize() once idle/interaction, keeping it off the
+    // initial mobile-throttled load's critical path (Lighthouse Performance).
+    initMode: 'manual',
   },
 
   // Absolute site URL for sitemap, canonical and og tags.

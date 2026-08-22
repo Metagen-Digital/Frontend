@@ -25,15 +25,23 @@ export default defineNuxtPlugin(() => {
   w.fbq = fbq
   w._fbq ||= fbq
 
+  fbq('init', pixelId)
+  fbq('track', 'PageView')
+
   // Meta's copy-paste snippet also ships a <noscript> tracking pixel. It is
   // deliberately omitted: this plugin is client-only, so the tag would itself
   // be injected by JavaScript and could never fire for a JS-disabled visitor.
-  useHead({
-    script: [{ src: 'https://connect.facebook.net/en_US/fbevents.js', async: true }],
+  //
+  // The actual fbevents.js fetch is the expensive part (network + parse), so
+  // it's deferred to idle/first-interaction rather than fired on every page
+  // load — init/track calls above already queued on fbq.queue and replay once
+  // this arrives, so no events are lost, only the download timing moves off
+  // the initial mobile-throttled critical path.
+  useIdleOrInteraction(() => {
+    useHead({
+      script: [{ src: 'https://connect.facebook.net/en_US/fbevents.js', async: true }],
+    })
   })
-
-  fbq('init', pixelId)
-  fbq('track', 'PageView')
 
   // Nuxt navigates client-side, so fbevents.js never sees a second page load —
   // PageView has to be fired manually. Guard on path so the initial route
