@@ -225,7 +225,7 @@ const colorConfig = {
     badgeBg: "bg-orange-100 text-orange-700",
     featureIconBg: "bg-orange-50",
     featureIconText: "text-brand-orange",
-    stepBg: "bg-brand-orange text-white",
+    stepBg: "bg-brand-orange-text text-white",
     checkBg: "bg-orange-50",
     checkText: "text-brand-orange",
     borderAccent: "border-brand-orange/40",

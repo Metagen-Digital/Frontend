@@ -31,23 +31,33 @@ const isEmpty = computed(() => !isLoading.value && services.value.length === 0);
   <section class="section-padding bg-brand-surface" aria-label="Our Services">
     <div class="container-content">
 
-      <!-- Heading -->
+      <!-- Heading.
+           This block used to be wrapped in `<div v-if="isVisible">` inside a
+           <Transition>, with isVisible driven by an IntersectionObserver. That
+           meant the section's <h2> did not EXIST in the DOM until the user
+           scrolled it into view — so on load the page went straight from the
+           hero's <h1> to the ServiceCard <h3>s with nothing in between, which
+           is what Lighthouse's heading-order audit was failing on. It also kept
+           the section's real heading out of the server-rendered HTML entirely.
+
+           The entrance animation is preserved, but as a class toggle on an
+           element that is always mounted: the h2 is now in the SSR output and
+           in the accessibility tree from the first byte, and only its opacity
+           and transform are animated. -->
       <div ref="el" class="text-center mb-6">
-        <Transition
-          enter-active-class="transition-all duration-600 ease-spring"
-          enter-from-class="opacity-0 translate-y-6"
+        <div
+          class="transition-all duration-600 ease-spring"
+          :class="isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'"
         >
-          <div v-if="isVisible">
-            <SectionBadge icon="mdi:lightning-bolt" class="mb-4">{{ $t('services.badge') }}</SectionBadge>
-            <h2 class="text-brand-text-primary mt-4 mb-4">
-              {{ $t('services.heading') }}
-              <span class="gradient-text"> {{ $t('services.headingHighlight') }}</span>
-            </h2>
-            <p class="text-brand-text-secondary max-w-xl mx-auto">
-              {{ $t('services.subheading') }}
-            </p>
-          </div>
-        </Transition>
+          <SectionBadge icon="mdi:lightning-bolt" class="mb-4">{{ $t('services.badge') }}</SectionBadge>
+          <h2 class="text-brand-text-primary mt-4 mb-4">
+            {{ $t('services.heading') }}
+            <span class="gradient-text"> {{ $t('services.headingHighlight') }}</span>
+          </h2>
+          <p class="text-brand-text-secondary max-w-xl mx-auto">
+            {{ $t('services.subheading') }}
+          </p>
+        </div>
       </div>
 
       <!-- Skeleton loading — 6 placeholder cards -->
@@ -80,9 +90,17 @@ const isEmpty = computed(() => !isLoading.value && services.value.length === 0);
         <div class="w-20 h-20 rounded-2xl bg-brand-border/60 flex items-center justify-center mb-6 shadow-sm">
           <Icon name="mdi:briefcase-off-outline" class="w-10 h-10 text-brand-text-secondary" aria-hidden="true" />
         </div>
-        <h3 class="text-xl font-bold text-brand-text-primary mb-2">
+        <!-- Not a heading. This block replaces the section's whole body when
+             the API returns nothing, and because the section header is inside
+             the loaded branch, the <h3> that used to be here followed the
+             page's <h1> with no <h2> between them — Lighthouse's heading-order
+             audit fails on exactly that. It is also not document structure in
+             the first place: it is a transient status message, so role="status"
+             is what actually describes it, and that additionally announces the
+             empty state to screen readers instead of leaving it silent. -->
+        <p role="status" class="text-xl font-bold text-brand-text-primary mb-2">
           No Services Available
-        </h3>
+        </p>
         <p class="text-sm text-brand-text-secondary max-w-xs">
           We're updating our service offerings. Check back soon.
         </p>

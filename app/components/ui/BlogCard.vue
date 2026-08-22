@@ -36,7 +36,7 @@ const cardConfig = {
   orange: {
     glow:    'hover:shadow-[0_20px_60px_-10px_rgba(255,107,53,0.35)]',
     border:  'hover:border-brand-orange/40',
-    badge:   'bg-brand-orange',
+    badge:   'bg-brand-orange-text',
     text:    'text-brand-orange',
     arrow:   'bg-brand-orange',
     overlay: 'bg-brand-orange/80',
@@ -44,7 +44,7 @@ const cardConfig = {
   purple: {
     glow:    'hover:shadow-[0_20px_60px_-10px_rgba(124,58,237,0.35)]',
     border:  'hover:border-brand-purple/40',
-    badge:   'bg-brand-purple',
+    badge:   'bg-brand-purple-text',
     text:    'text-brand-purple',
     arrow:   'bg-brand-purple',
     overlay: 'bg-brand-purple/80',
@@ -52,7 +52,7 @@ const cardConfig = {
   cyan: {
     glow:    'hover:shadow-[0_20px_60px_-10px_rgba(14,165,233,0.35)]',
     border:  'hover:border-brand-cyan/40',
-    badge:   'bg-brand-cyan',
+    badge:   'bg-brand-cyan-text',
     text:    'text-brand-cyan',
     arrow:   'bg-brand-cyan',
     overlay: 'bg-brand-cyan/80',

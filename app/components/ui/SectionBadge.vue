@@ -8,10 +8,15 @@ const props = withDefaults(defineProps<Props>(), {
   color: 'orange',
 })
 
+// The badge label is real text, so the text colour has to be the AA-safe
+// accent variant — the vivid accents are 2.8:1 here and fail WCAG. Borders
+// and the 10% background keep the vivid accent: contrast rules do not apply
+// to them, and they are what carries the colour visually.
+// purple/primary need no variant; they already clear 4.5:1 (see tailwind.config.js).
 const colorClasses = {
-  orange:  'border-brand-orange/30 text-brand-orange bg-brand-orange/10',
-  purple:  'border-brand-purple/30 text-brand-purple bg-brand-purple/10',
-  cyan:    'border-brand-cyan/30 text-brand-cyan bg-brand-cyan/10',
+  orange:  'border-brand-orange/30 text-brand-orange-text bg-brand-orange/10',
+  purple:  'border-brand-purple/30 text-brand-purple-text bg-brand-purple/10',
+  cyan:    'border-brand-cyan/30 text-brand-cyan-text bg-brand-cyan/10',
   primary: 'border-brand-primary/30 text-brand-primary bg-brand-primary/10',
 }
 </script>

@@ -27,10 +27,13 @@ const categoryIcon: Record<string, string> = {
   'E-commerce':   'mdi:shopping-outline',
 }
 
+// White text sits on these, so they use the AA-safe accent values:
+// white on #FF6B35 is 2.83:1 and on #0EA5E9 is 2.77:1, both WCAG failures at
+// the 11px bold the pill renders at. The -text variants take white to ~6.3:1.
 const categoryBg: Record<string, string> = {
-  orange: 'bg-brand-orange',
-  purple: 'bg-brand-purple',
-  cyan:   'bg-brand-cyan',
+  orange: 'bg-brand-orange-text',
+  purple: 'bg-brand-purple-text',
+  cyan:   'bg-brand-cyan-text',
 }
 
 const hoverShadow: Record<string, string> = {
@@ -45,10 +48,11 @@ const overlayBg: Record<string, string> = {
   cyan:   'bg-brand-cyan/80',
 }
 
+// Text, not iconography — needs the AA-safe variants.
 const resultText: Record<string, string> = {
-  orange: 'text-brand-orange',
-  purple: 'text-brand-purple',
-  cyan:   'text-brand-cyan',
+  orange: 'text-brand-orange-text',
+  purple: 'text-brand-purple-text',
+  cyan:   'text-brand-cyan-text',
 }
 
 const arrowBg: Record<string, string> = {

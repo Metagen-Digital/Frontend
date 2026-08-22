@@ -52,7 +52,7 @@ async function handleSubmit() {
       <div class="bg-white rounded-2xl shadow-card border border-brand-border p-8">
         <!-- Success state -->
         <div v-if="sent" class="text-center py-4 space-y-3">
-          <Icon name="mdi:email-check-outline" class="w-12 h-12 text-green-500 mx-auto" />
+          <Icon name="mdi:email-check-outline" class="w-12 h-12 text-brand-success-text mx-auto" />
           <p class="text-sm font-semibold text-brand-text-primary">{{ t('auth.forgotPassword.checkInbox') }}</p>
           <p class="text-xs text-brand-text-secondary">
             {{ t('auth.forgotPassword.sentMessage', { email }) }}
@@ -79,7 +79,7 @@ async function handleSubmit() {
               class="w-full px-4 py-2.5 rounded-lg border text-sm transition-colors outline-none focus:ring-2 focus:ring-brand-primary/20"
               :class="error ? 'border-red-400 bg-red-50' : 'border-brand-border focus:border-brand-primary'"
             />
-            <p v-if="error" class="mt-1 text-xs text-red-500">{{ error }}</p>
+            <p v-if="error" class="mt-1 text-xs text-brand-error-text">{{ error }}</p>
           </div>
 
           <button

@@ -49,15 +49,15 @@ const iconGradient: Record<string, string> = {
 }
 
 const numberColor: Record<string, string> = {
-  orange: 'text-brand-orange',
-  purple: 'text-brand-purple',
-  cyan:   'text-brand-cyan',
+  orange: 'text-brand-orange-text',
+  purple: 'text-brand-purple-text',
+  cyan:   'text-brand-cyan-text',
 }
 
 const tagPill: Record<string, string> = {
-  orange: 'bg-brand-orange/10 text-brand-orange',
-  purple: 'bg-brand-purple/10 text-brand-purple',
-  cyan:   'bg-brand-cyan/10   text-brand-cyan',
+  orange: 'bg-brand-orange/10 text-brand-orange-text',
+  purple: 'bg-brand-purple/10 text-brand-purple-text',
+  cyan:   'bg-brand-cyan/10   text-brand-cyan-text',
 }
 
 const connectorColor: Record<string, string> = {

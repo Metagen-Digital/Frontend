@@ -1,6 +1,42 @@
 <script setup lang="ts">
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const localePath = useLocalePath()
+
+// Desktop-only preload for the hero image.
+//
+// The <NuxtImg> below is inside a `hidden lg:flex` column, so phones never
+// paint it. Its old `preload` prop emitted an unconditional <link rel=preload>
+// into every response's head, which meant every mobile visitor fetched it at
+// top priority against the fonts and CSS the mobile LCP genuinely waits on.
+// A rel=preload accepts `media`, so gating it on the same breakpoint as the
+// column keeps the desktop benefit and costs mobile nothing.
+//
+// useImage() (rather than a hand-written /_ipx/ path) guarantees this URL is
+// byte-identical to the one NuxtImg renders — if the two drifted, the preload
+// would be a second, wasted download instead of a head start on the first.
+// `quality` must be passed explicitly even though nuxt.config sets it
+// globally: <NuxtImg> folds the configured default into its own URL (…&q_85&…)
+// but useImage() does not, so omitting it here produced a preload href that
+// differed from the rendered src by one modifier — which is a whole second
+// download of the same image, the exact opposite of what a preload is for.
+// Keep this in step with `image.quality` in nuxt.config.ts.
+const img = useImage()
+const heroImageUrl = img('/images/HeroBg.png', {
+  format: 'webp',
+  quality: 85,
+  width: 500,
+  height: 400,
+})
+
+useHead({
+  link: [{
+    rel: 'preload',
+    as: 'image',
+    href: heroImageUrl,
+    media: '(min-width: 1024px)',
+    fetchpriority: 'high',
+  }],
+})
 
 const stats = computed(() => [
   { icon: "mdi:account-group-outline", value: "100+", labelKey: "hero.stats.clients",    color: "text-brand-orange" },
@@ -55,32 +91,33 @@ const floatingBubbles = computed(() => [
 </script>
 
 <template>
+  <!--
+    The three background orbs used to be three absolutely-positioned 400-600px
+    divs with `blur-3xl` on them. Each `filter: blur()` forces its own
+    composited layer that the GPU has to allocate and blur at full size —
+    ~800k blurred pixels between them, on the largest paint area of the page,
+    during the exact window LCP is measured in. On a throttled mobile CPU that
+    is one of the most expensive things on the homepage, for decoration nobody
+    consciously sees.
+
+    They are now radial-gradients painted straight into the section's own
+    background. A radial-gradient with a transparent stop IS a soft-edged orb,
+    so the look is preserved, but it costs one background paint and zero extra
+    layers. Positions/sizes below are the old divs' box centres converted to
+    percentages of the section.
+  -->
   <section
     class="relative min-h-[100svh] flex items-center overflow-hidden"
-    style="background: linear-gradient(155deg, #eef3ff 0%, #f3f6ff 45%, #edf6ff 100%)"
+    style="background:
+      radial-gradient(600px 600px at 8% 55%, rgba(48, 60, 142, 0.10), transparent 70%),
+      radial-gradient(500px 500px at 92% 78%, rgba(14, 165, 233, 0.08), transparent 70%),
+      radial-gradient(400px 400px at 64% 10%, rgba(45, 60, 147, 0.06), transparent 70%),
+      linear-gradient(155deg, #eef3ff 0%, #f3f6ff 45%, #edf6ff 100%)"
     aria-label="Hero"
   >
     <!-- Background grid -->
     <div
       class="absolute inset-0 bg-grid-pattern bg-grid opacity-30 pointer-events-none"
-      aria-hidden="true"
-    />
-    <!-- Orb left — indigo tint matching #2d3c93 -->
-    <div
-      class="absolute -left-40 top-1/4 w-[600px] h-[600px] rounded-full blur-3xl pointer-events-none"
-      style="background: rgba(48, 60, 142, 0.10)"
-      aria-hidden="true"
-    />
-    <!-- Orb right — sky-blue tint matching logo icon gradient -->
-    <div
-      class="absolute -right-20 bottom-0 w-[500px] h-[500px] rounded-full blur-3xl pointer-events-none"
-      style="background: rgba(14, 165, 233, 0.08)"
-      aria-hidden="true"
-    />
-    <!-- Orb top-right accent -->
-    <div
-      class="absolute right-1/4 -top-20 w-[400px] h-[400px] rounded-full blur-3xl pointer-events-none"
-      style="background: rgba(45, 60, 147, 0.06)"
       aria-hidden="true"
     />
 
@@ -90,13 +127,25 @@ const floatingBubbles = computed(() => [
       >
         <!-- ── LEFT: Content ──────────────────────────── -->
         <div class="flex flex-col">
+          <!--
+            Everything down to the CTA row renders at full opacity immediately,
+            with no entrance animation at all. This is not a style preference:
+            the badge, the <h1> and the subheadline are the LCP candidates on
+            mobile (the image column beside them is `hidden lg:flex`, so on a
+            phone the headline IS the largest contentful paint). Fading them in
+            from opacity 0 meant the browser could not record a contentful
+            paint until the fade finished — the <h1> alone was held back by its
+            180ms delay plus a 700ms fade, so the hero was *animating away*
+            close to a second of mobile LCP for decoration.
+
+            The rows below the fold-critical text keep their stagger, but as
+            CSS `animate-fade-up` + an animation-delay rather than v-motion.
+            Same look, and it drops nine @vueuse/motion directives — nine
+            hydration-time style writes on the heaviest above-the-fold
+            component — down to zero.
+          -->
           <!-- Eyebrow badge -->
-          <div
-            v-motion
-            :initial="{ opacity: 0, y: -10 }"
-            :enter="{ opacity: 1, y: 0, transition: { delay: 80, duration: 600 } }"
-            class="mb-6"
-          >
+          <div class="mb-6">
             <div
               class="inline-flex items-center gap-2.5 pl-2 pr-4 py-1.5 rounded-full border border-brand-primary/20 bg-brand-primary/5 text-brand-primary text-xs font-semibold uppercase tracking-widest"
             >
@@ -111,16 +160,23 @@ const floatingBubbles = computed(() => [
             </div>
           </div>
 
-          <!-- Headline -->
-          <div
-            v-motion
-            :initial="{ opacity: 0, x: -28 }"
-            :enter="{ opacity: 1, x: 0, transition: { delay: 180, duration: 700 } }"
-          >
+          <!-- Headline — the mobile LCP element. Deliberately un-animated. -->
+          <div>
             <h1 class="font-display font-extrabold leading-[1.08] text-brand-text-primary mb-5">
-              <template v-if="$t('hero.headlineGrow') === 'Grow'">
+              <!-- Branch on the locale, not on the value of a translation.
+                   This used to read `v-if="$t('hero.headlineGrow') === 'Grow'"`,
+                   so editing the English copy for that key — a perfectly normal
+                   content change — would have silently swapped the whole
+                   headline into the Bengali layout. -->
+              <template v-if="locale === 'en'">
                 We <span class="gradient-text">{{ $t('hero.headlineGrow') }}</span> Your<br />
-                Business<br class="hidden sm:block" />
+                <!-- The explicit {{ ' ' }} matters. Below `sm` the <br /> is
+                     display:none and Vue collapses the whitespace around it, so
+                     the headline rendered as "BusinessOnline" — one run-on word
+                     in the <h1>, i.e. on the LCP element of every phone visit.
+                     At sm and up the space sits at a line break and collapses
+                     away, so the desktop wrap is unchanged. -->
+                Business{{ ' ' }}<br class="hidden sm:block" />
                 <span class="gradient-text">{{ $t('hero.headlineOnline') }}</span>
               </template>
               <template v-else>
@@ -131,11 +187,7 @@ const floatingBubbles = computed(() => [
           </div>
 
           <!-- Subheadline -->
-          <div
-            v-motion
-            :initial="{ opacity: 0, x: -20 }"
-            :enter="{ opacity: 1, x: 0, transition: { delay: 300, duration: 600 } }"
-          >
+          <div>
             <p class="text-lg text-brand-text-secondary leading-relaxed mb-8 max-w-lg">
               {{ $t('hero.subheadline') }}
             </p>
@@ -143,10 +195,8 @@ const floatingBubbles = computed(() => [
 
           <!-- CTA buttons -->
           <div
-            v-motion
-            :initial="{ opacity: 0, y: 16 }"
-            :enter="{ opacity: 1, y: 0, transition: { delay: 420, duration: 600 } }"
-            class="flex flex-col sm:flex-row gap-3 mb-4"
+            class="flex flex-col sm:flex-row gap-3 mb-4 animate-fade-up"
+            style="animation-delay: 120ms"
           >
             <GradientButton :to="localePath('/services')" size="lg" icon-right="mdi:arrow-right">
               {{ $t('hero.ctaServices') }}
@@ -157,12 +207,7 @@ const floatingBubbles = computed(() => [
           </div>
 
           <!-- WhatsApp quick CTA -->
-          <div
-            v-motion
-            :initial="{ opacity: 0, y: 10 }"
-            :enter="{ opacity: 1, y: 0, transition: { delay: 520, duration: 500 } }"
-            class="mb-8"
-          >
+          <div class="mb-8 animate-fade-up" style="animation-delay: 200ms">
             <a
               href="https://wa.me/8801970222573"
               target="_blank"
@@ -177,10 +222,8 @@ const floatingBubbles = computed(() => [
 
           <!-- Service chips -->
           <div
-            v-motion
-            :initial="{ opacity: 0, y: 12 }"
-            :enter="{ opacity: 1, y: 0, transition: { delay: 600, duration: 500 } }"
-            class="flex flex-wrap gap-2 mb-8"
+            class="flex flex-wrap gap-2 mb-8 animate-fade-up"
+            style="animation-delay: 280ms"
           >
             <div
               v-for="svc in services"
@@ -196,10 +239,8 @@ const floatingBubbles = computed(() => [
 
           <!-- Stats row -->
           <div
-            v-motion
-            :initial="{ opacity: 0, y: 12 }"
-            :enter="{ opacity: 1, y: 0, transition: { delay: 700, duration: 500 } }"
-            class="grid grid-cols-2 sm:grid-cols-4 gap-5 pt-6 border-t border-brand-border"
+            class="grid grid-cols-2 sm:grid-cols-4 gap-5 pt-6 border-t border-brand-border animate-fade-up"
+            style="animation-delay: 360ms"
           >
             <div v-for="stat in stats" :key="stat.labelKey" class="flex flex-col items-start gap-1">
               <div class="flex items-center gap-1.5">
@@ -214,12 +255,11 @@ const floatingBubbles = computed(() => [
         </div>
 
         <!-- ── RIGHT: Image ──────────────────────────── -->
-        <div
-          v-motion
-          :initial="{ opacity: 0, x: 40, scale: 0.96 }"
-          :enter="{ opacity: 1, x: 0, scale: 1, transition: { delay: 280, duration: 800 } }"
-          class="relative hidden lg:flex items-center justify-center py-8 px-8"
-        >
+        <!-- The desktop LCP element lives in here, so this column is
+             un-animated for the same reason the headline is: a 280ms delay
+             plus an 800ms fade from opacity 0 postponed the largest
+             contentful paint on desktop by up to a second. -->
+        <div class="relative hidden lg:flex items-center justify-center py-8 px-8">
           <!-- Glow behind image -->
           <div
             class="absolute inset-0 rounded-3xl blur-2xl opacity-25 pointer-events-none"
@@ -251,21 +291,44 @@ const floatingBubbles = computed(() => [
 
           <!-- Main image -->
           <div class="relative rounded-3xl overflow-hidden shadow-card-hover ring-1 ring-brand-border w-full">
-            <!-- The homepage LCP element. NuxtImg (not <img>) so it is served
-                 as WebP at the size the viewport actually needs: the source is
-                 a 109 KB PNG that every phone was downloading in full.
-                 `preload` puts it in the initial HTML head instead of waiting
-                 for the CSS to discover it, and width/height reserve the box
-                 so nothing below it shifts as it arrives. -->
+            <!-- The DESKTOP LCP element — note this whole column is
+                 `hidden lg:flex`, so on a phone this image is never painted.
+
+                 It used to carry `preload` + fetchpriority="high" anyway.
+                 Those are not media-aware: NuxtImg's `preload` emits a
+                 <link rel=preload> into the head of every response, so every
+                 mobile visitor fetched this image at the highest possible
+                 priority, competing with the fonts and CSS that the mobile
+                 LCP actually depends on, to paint something `display:none`.
+                 The preload now lives in useHead() behind
+                 media="(min-width: 1024px)" so only viewports that render it
+                 pay for it. loading="eager" is kept — for desktop it must not
+                 be lazy — but without the head-level preload a hidden element
+                 no longer wins the priority queue.
+
+                 width/height are the source's REAL intrinsic size. They were
+                 1280x960, which was wrong twice over: HeroBg.png is 500x400,
+                 so IPX was upscaling a 500px source to 1280 (soft on every
+                 screen), and 4:3 vs the true 5:4 meant the reserved box had
+                 the wrong aspect ratio and shifted when the image landed.
+                 `sizes` is gone for the same reason — a srcset asking for
+                 640px+ from a 500px source only generates upscales.
+                 densities="1x" for the same reason: NuxtImg defaults to
+                 emitting a 2x candidate, and on a retina display the browser
+                 preferred that one — a 1000px upscale of a 500px source, i.e.
+                 a bigger file that is no sharper, and not the URL the preload
+                 above warmed. There is no real 2x here to offer.
+                 If a higher-resolution HeroBg is ever exported (1200px wide
+                 or more), restore sizes="lg:536px", drop densities, and bump
+                 these numbers. -->
             <NuxtImg
               src="/images/HeroBg.png"
               alt="MetaGenDigital — Digital marketing and web development agency"
               class="w-full h-auto object-cover"
-              sizes="100vw md:50vw lg:640px"
               format="webp"
-              width="1280"
-              height="960"
-              preload
+              width="500"
+              height="400"
+              densities="1x"
               loading="eager"
               fetchpriority="high"
             />
@@ -338,10 +401,8 @@ const floatingBubbles = computed(() => [
 
       <!-- Scroll indicator -->
       <div
-        v-motion
-        :initial="{ opacity: 0 }"
-        :enter="{ opacity: 1, transition: { delay: 1100, duration: 600 } }"
-        class="flex flex-col items-center gap-2 mt-14"
+        class="flex flex-col items-center gap-2 mt-14 animate-fade-in"
+        style="animation-delay: 500ms"
         aria-hidden="true"
       >
         <span class="text-[11px] text-brand-text-muted tracking-widest uppercase">{{ $t('hero.scroll') }}</span>

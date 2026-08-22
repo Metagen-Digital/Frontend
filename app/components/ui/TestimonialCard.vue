@@ -15,7 +15,7 @@ const props = withDefaults(defineProps<Props>(), {
 <template>
   <div class="card-base p-6 flex flex-col gap-4 min-w-72 max-w-sm flex-shrink-0">
     <!-- Stars -->
-    <div class="flex items-center gap-0.5" :aria-label="`${rating} out of 5 stars`">
+    <div class="flex items-center gap-0.5" role="img" :aria-label="`${rating} out of 5 stars`">
       <Icon
         v-for="i in 5"
         :key="i"

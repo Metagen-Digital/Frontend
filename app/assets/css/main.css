@@ -135,5 +135,11 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    /* Delays have to be zeroed too. The hero staggers its entrance with
+       animation-delay on fill-mode:both animations, so leaving the delay
+       intact here would hold that content at its 0% keyframe — invisible —
+       for up to 900ms for exactly the users who asked for less motion. */
+    animation-delay: 0ms !important;
+    transition-delay: 0ms !important;
   }
 }

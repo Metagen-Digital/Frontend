@@ -68,11 +68,16 @@ const currentYear = new Date().getFullYear()
           class="inline-block mb-5"
           aria-label="MetaGenDigital home"
         >
+          <!-- WebP for the same reason as the header logo: the -w SVG is the
+               same raster-traced 105 KB artwork. See AppHeader.vue. -->
           <img
-            src="/images/MetaGen-Logo-w.svg"
+            src="/images/MetaGen-Logo-w.webp"
             alt="MetaGenDigital"
             class="h-10 w-auto"
+            width="336"
+            height="120"
             loading="lazy"
+            decoding="async"
           />
         </NuxtLink>
 

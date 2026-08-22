@@ -348,7 +348,7 @@ const typeLabel = computed<Record<string, string>>(() => ({
             <!-- Name row -->
             <div class="grid sm:grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-semibold text-brand-text-primary mb-1.5">{{ t('careerDetail.form.firstName') }} <span class="text-red-500">*</span></label>
+                <label class="block text-sm font-semibold text-brand-text-primary mb-1.5">{{ t('careerDetail.form.firstName') }} <span class="text-brand-error-text">*</span></label>
                 <input
                   v-model="form.first_name"
                   type="text"
@@ -356,10 +356,10 @@ const typeLabel = computed<Record<string, string>>(() => ({
                   class="w-full px-4 py-2.5 rounded-xl border text-sm outline-none transition-colors focus:border-brand-purple"
                   :class="errors.first_name ? 'border-red-400 bg-red-50' : 'border-brand-border bg-white'"
                 />
-                <p v-if="errors.first_name" class="text-xs text-red-500 mt-1">{{ errors.first_name }}</p>
+                <p v-if="errors.first_name" class="text-xs text-brand-error-text mt-1">{{ errors.first_name }}</p>
               </div>
               <div>
-                <label class="block text-sm font-semibold text-brand-text-primary mb-1.5">{{ t('careerDetail.form.lastName') }} <span class="text-red-500">*</span></label>
+                <label class="block text-sm font-semibold text-brand-text-primary mb-1.5">{{ t('careerDetail.form.lastName') }} <span class="text-brand-error-text">*</span></label>
                 <input
                   v-model="form.last_name"
                   type="text"
@@ -367,14 +367,14 @@ const typeLabel = computed<Record<string, string>>(() => ({
                   class="w-full px-4 py-2.5 rounded-xl border text-sm outline-none transition-colors focus:border-brand-purple"
                   :class="errors.last_name ? 'border-red-400 bg-red-50' : 'border-brand-border bg-white'"
                 />
-                <p v-if="errors.last_name" class="text-xs text-red-500 mt-1">{{ errors.last_name }}</p>
+                <p v-if="errors.last_name" class="text-xs text-brand-error-text mt-1">{{ errors.last_name }}</p>
               </div>
             </div>
 
             <!-- Email + Phone -->
             <div class="grid sm:grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-semibold text-brand-text-primary mb-1.5">{{ t('careerDetail.form.email') }} <span class="text-red-500">*</span></label>
+                <label class="block text-sm font-semibold text-brand-text-primary mb-1.5">{{ t('careerDetail.form.email') }} <span class="text-brand-error-text">*</span></label>
                 <input
                   v-model="form.email"
                   type="email"
@@ -382,7 +382,7 @@ const typeLabel = computed<Record<string, string>>(() => ({
                   class="w-full px-4 py-2.5 rounded-xl border text-sm outline-none transition-colors focus:border-brand-purple"
                   :class="errors.email ? 'border-red-400 bg-red-50' : 'border-brand-border bg-white'"
                 />
-                <p v-if="errors.email" class="text-xs text-red-500 mt-1">{{ errors.email }}</p>
+                <p v-if="errors.email" class="text-xs text-brand-error-text mt-1">{{ errors.email }}</p>
               </div>
               <div>
                 <label class="block text-sm font-semibold text-brand-text-primary mb-1.5">{{ t('careerDetail.form.phone') }} <span class="text-brand-text-muted font-normal">{{ t('careerDetail.form.optional') }}</span></label>
@@ -427,17 +427,17 @@ const typeLabel = computed<Record<string, string>>(() => ({
               <div>
                 <label class="block text-xs font-semibold text-brand-text-secondary mb-1.5">{{ t('careerDetail.form.portfolioUrl') }}</label>
                 <input v-model="form.portfolio_url" type="url" placeholder="https://..." class="w-full px-3 py-2 rounded-xl border border-brand-border bg-white text-sm outline-none focus:border-brand-purple transition-colors" />
-                <p v-if="errors.portfolio_url" class="text-xs text-red-500 mt-1">{{ errors.portfolio_url }}</p>
+                <p v-if="errors.portfolio_url" class="text-xs text-brand-error-text mt-1">{{ errors.portfolio_url }}</p>
               </div>
               <div>
                 <label class="block text-xs font-semibold text-brand-text-secondary mb-1.5">{{ t('careerDetail.form.linkedinUrl') }}</label>
                 <input v-model="form.linkedin_url" type="url" placeholder="https://linkedin.com/in/..." class="w-full px-3 py-2 rounded-xl border border-brand-border bg-white text-sm outline-none focus:border-brand-purple transition-colors" />
-                <p v-if="errors.linkedin_url" class="text-xs text-red-500 mt-1">{{ errors.linkedin_url }}</p>
+                <p v-if="errors.linkedin_url" class="text-xs text-brand-error-text mt-1">{{ errors.linkedin_url }}</p>
               </div>
               <div>
                 <label class="block text-xs font-semibold text-brand-text-secondary mb-1.5">{{ t('careerDetail.form.githubUrl') }}</label>
                 <input v-model="form.github_url" type="url" placeholder="https://github.com/..." class="w-full px-3 py-2 rounded-xl border border-brand-border bg-white text-sm outline-none focus:border-brand-purple transition-colors" />
-                <p v-if="errors.github_url" class="text-xs text-red-500 mt-1">{{ errors.github_url }}</p>
+                <p v-if="errors.github_url" class="text-xs text-brand-error-text mt-1">{{ errors.github_url }}</p>
               </div>
             </div>
 

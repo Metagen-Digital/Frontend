@@ -35,12 +35,28 @@ function toggleMenu() {
       : 'bg-white/80 backdrop-blur-sm'"
   >
     <div class="container-content flex items-center justify-between h-16 md:h-20">
-      <!-- Logo — dark version for light bg -->
+      <!-- Logo — dark version for light bg.
+           WebP, not the SVG. MetaGen-Logo.svg is 105 KB because its gradient
+           was traced from a raster: the mark is drawn as ~30,000 hairline
+           0.1px scanline slivers inside two <path>s (one is 29 KB on its own).
+           SVGO cannot touch it — that is real geometry, not float precision —
+           so every page paid 105 KB of parse plus a genuinely expensive
+           rasterize on a throttled mobile CPU, for a mark that renders at
+           36 CSS px. The WebP below is the same artwork at 3x that size and
+           is 7 KB. Regenerate with scripts/build-logos.mjs if the source
+           SVG changes; swap back to the SVG only once it is re-exported with
+           a real <linearGradient>.
+           width/height are the intrinsic 3x pixels — they only supply the
+           aspect ratio so the header reserves the box (the SVG had none, so
+           the logo slot collapsed and shifted on first paint). -->
       <NuxtLink :to="localePath('/')" class="flex items-center" aria-label="MetaGenDigital home">
         <img
-          src="/images/MetaGen-Logo.svg"
+          src="/images/MetaGen-Logo.webp"
           alt="MetaGenDigital"
           class="h-8 md:h-9 w-auto"
+          width="302"
+          height="108"
+          decoding="async"
         />
       </NuxtLink>
 
@@ -73,13 +89,18 @@ function toggleMenu() {
 
       <!-- CTA + Language Toggle + UserMenu + Mobile toggle -->
       <div class="flex items-center gap-2">
-        <!-- Language Toggle -->
+        <!-- Language Toggle.
+             The aria-label must START with the visible label. It used to read
+             "Switch to Bangla" while the button visibly says "EN" — that is a
+             WCAG 2.5.3 (Label in Name) failure: a speech-input user saying
+             "click EN" could not activate it, and Lighthouse reports it as
+             label-content-name-mismatch. -->
         <button
           class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-full border transition-all duration-200"
           :class="locale === 'bn'
             ? 'bg-brand-primary text-white border-brand-primary'
             : 'bg-transparent text-brand-text-secondary border-brand-border hover:border-brand-primary hover:text-brand-primary'"
-          :aria-label="`Switch to ${locale === 'en' ? 'Bangla' : 'English'}`"
+          :aria-label="`${localeLabel} — switch to ${locale === 'en' ? 'Bangla' : 'English'}`"
           @click="toggleLocale"
         >
           <Icon name="mdi:translate" class="w-3.5 h-3.5" aria-hidden="true" />

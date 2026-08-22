@@ -32,7 +32,7 @@ const status = computed<Status>(() => {
 const COPY: Record<Status, { icon: string; tone: string; title: string; body: string }> = {
   success: {
     icon: 'mdi:email-check-outline',
-    tone: 'text-green-500',
+    tone: 'text-brand-success-text',
     title: 'Email confirmed',
     body: 'Your address is verified. Your invoices and hosting orders are now available in your dashboard.',
   },
@@ -44,7 +44,7 @@ const COPY: Record<Status, { icon: string; tone: string; title: string; body: st
   },
   invalid: {
     icon: 'mdi:link-variant-off',
-    tone: 'text-red-500',
+    tone: 'text-brand-error-text',
     title: 'This link is no longer valid',
     body: 'Confirmation links expire after an hour and can only be used once. Request a fresh one below.',
   },
@@ -110,7 +110,7 @@ async function resend() {
             Sent. Check your inbox — and your spam folder.
           </p>
         </div>
-        <p v-else-if="resendError" class="text-xs text-red-500">{{ resendError }}</p>
+        <p v-else-if="resendError" class="text-xs text-brand-error-text">{{ resendError }}</p>
 
         <button
           v-if="canResend && !resent"

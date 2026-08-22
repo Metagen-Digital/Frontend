@@ -64,7 +64,7 @@ async function handleSubmit() {
               class="w-full px-4 py-2.5 rounded-lg border text-sm transition-colors outline-none focus:ring-2 focus:ring-brand-primary/20"
               :class="errors.name ? 'border-red-400 bg-red-50' : 'border-brand-border focus:border-brand-primary'"
             />
-            <p v-if="errors.name" class="mt-1 text-xs text-red-500">{{ errors.name[0] }}</p>
+            <p v-if="errors.name" class="mt-1 text-xs text-brand-error-text">{{ errors.name[0] }}</p>
           </div>
 
           <div>
@@ -78,7 +78,7 @@ async function handleSubmit() {
               class="w-full px-4 py-2.5 rounded-lg border text-sm transition-colors outline-none focus:ring-2 focus:ring-brand-primary/20"
               :class="errors.email ? 'border-red-400 bg-red-50' : 'border-brand-border focus:border-brand-primary'"
             />
-            <p v-if="errors.email" class="mt-1 text-xs text-red-500">{{ errors.email[0] }}</p>
+            <p v-if="errors.email" class="mt-1 text-xs text-brand-error-text">{{ errors.email[0] }}</p>
           </div>
 
           <div>
@@ -102,7 +102,7 @@ async function handleSubmit() {
                 <Icon :name="showPassword ? 'mdi:eye-off' : 'mdi:eye'" class="w-4 h-4" />
               </button>
             </div>
-            <p v-if="errors.password" class="mt-1 text-xs text-red-500">{{ errors.password[0] }}</p>
+            <p v-if="errors.password" class="mt-1 text-xs text-brand-error-text">{{ errors.password[0] }}</p>
           </div>
 
           <div>
@@ -116,7 +116,7 @@ async function handleSubmit() {
               class="w-full px-4 py-2.5 rounded-lg border text-sm transition-colors outline-none focus:ring-2 focus:ring-brand-primary/20"
               :class="errors.password_confirmation ? 'border-red-400 bg-red-50' : 'border-brand-border focus:border-brand-primary'"
             />
-            <p v-if="errors.password_confirmation" class="mt-1 text-xs text-red-500">{{ errors.password_confirmation[0] }}</p>
+            <p v-if="errors.password_confirmation" class="mt-1 text-xs text-brand-error-text">{{ errors.password_confirmation[0] }}</p>
           </div>
 
           <button

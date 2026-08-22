@@ -55,7 +55,7 @@ onClickOutside(menuRef, () => { open.value = false })
           <button
             role="menuitem"
             :disabled="loading"
-            class="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-red-500 hover:bg-red-50 transition-colors disabled:opacity-50"
+            class="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-brand-error-text hover:bg-red-50 transition-colors disabled:opacity-50"
             @click="logout(); open = false"
           >
             <Icon name="mdi:logout" class="w-4 h-4 shrink-0" />

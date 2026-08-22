@@ -210,7 +210,7 @@ const statusStyle: Record<string, string> = {
         <h1 class="text-xl font-bold text-brand-text-primary font-display">{{ t('dashboard.title') }}</h1>
         <button
           :disabled="loading"
-          class="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-btn text-xs font-semibold text-red-500 border border-red-200 hover:bg-red-50 transition-colors disabled:opacity-50"
+          class="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-btn text-xs font-semibold text-brand-error-text border border-red-200 hover:bg-red-50 transition-colors disabled:opacity-50"
           @click="logout"
         >
           <Icon name="mdi:logout" class="w-3.5 h-3.5" />
@@ -256,7 +256,7 @@ const statusStyle: Record<string, string> = {
             <div class="p-2 border-t border-brand-border">
               <button
                 :disabled="loading"
-                class="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-semibold text-red-500 hover:bg-red-50 transition-colors disabled:opacity-50"
+                class="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-semibold text-brand-error-text hover:bg-red-50 transition-colors disabled:opacity-50"
                 @click="logout"
               >
                 <Icon name="mdi:logout" class="w-4 h-4 shrink-0" />
@@ -295,7 +295,7 @@ const statusStyle: Record<string, string> = {
                     class="w-full px-4 py-2.5 rounded-lg border text-sm outline-none focus:ring-2 focus:ring-brand-primary/20 transition-colors"
                     :class="profileErrors.name ? 'border-red-400 bg-red-50' : 'border-brand-border focus:border-brand-primary'"
                   />
-                  <p v-if="profileErrors.name" class="mt-1 text-xs text-red-500">{{ profileErrors.name[0] }}</p>
+                  <p v-if="profileErrors.name" class="mt-1 text-xs text-brand-error-text">{{ profileErrors.name[0] }}</p>
                 </div>
 
                 <div>
@@ -318,7 +318,7 @@ const statusStyle: Record<string, string> = {
                     class="w-full px-4 py-2.5 rounded-lg border text-sm outline-none focus:ring-2 focus:ring-brand-primary/20 transition-colors"
                     :class="profileErrors.phone ? 'border-red-400 bg-red-50' : 'border-brand-border focus:border-brand-primary'"
                   />
-                  <p v-if="profileErrors.phone" class="mt-1 text-xs text-red-500">{{ profileErrors.phone[0] }}</p>
+                  <p v-if="profileErrors.phone" class="mt-1 text-xs text-brand-error-text">{{ profileErrors.phone[0] }}</p>
                 </div>
 
                 <button
@@ -360,7 +360,7 @@ const statusStyle: Record<string, string> = {
                       <Icon :name="showCurrentPw ? 'mdi:eye-off' : 'mdi:eye'" class="w-4 h-4" />
                     </button>
                   </div>
-                  <p v-if="passwordErrors.current_password" class="mt-1 text-xs text-red-500">{{ passwordErrors.current_password[0] }}</p>
+                  <p v-if="passwordErrors.current_password" class="mt-1 text-xs text-brand-error-text">{{ passwordErrors.current_password[0] }}</p>
                 </div>
 
                 <div>
@@ -379,7 +379,7 @@ const statusStyle: Record<string, string> = {
                       <Icon :name="showNewPw ? 'mdi:eye-off' : 'mdi:eye'" class="w-4 h-4" />
                     </button>
                   </div>
-                  <p v-if="passwordErrors.password" class="mt-1 text-xs text-red-500">{{ passwordErrors.password[0] }}</p>
+                  <p v-if="passwordErrors.password" class="mt-1 text-xs text-brand-error-text">{{ passwordErrors.password[0] }}</p>
                 </div>
 
                 <div>
@@ -392,7 +392,7 @@ const statusStyle: Record<string, string> = {
                     class="w-full px-4 py-2.5 rounded-lg border text-sm outline-none focus:ring-2 focus:ring-brand-primary/20 transition-colors"
                     :class="passwordErrors.password_confirmation ? 'border-red-400 bg-red-50' : 'border-brand-border focus:border-brand-primary'"
                   />
-                  <p v-if="passwordErrors.password_confirmation" class="mt-1 text-xs text-red-500">{{ passwordErrors.password_confirmation[0] }}</p>
+                  <p v-if="passwordErrors.password_confirmation" class="mt-1 text-xs text-brand-error-text">{{ passwordErrors.password_confirmation[0] }}</p>
                 </div>
 
                 <button
@@ -552,7 +552,7 @@ const statusStyle: Record<string, string> = {
               </button>
             </div>
 
-            <p v-if="trackError" class="text-xs text-red-500 flex items-center gap-1.5">
+            <p v-if="trackError" class="text-xs text-brand-error-text flex items-center gap-1.5">
               <Icon name="mdi:alert-circle-outline" class="w-3.5 h-3.5 shrink-0" />
               {{ trackError }}
             </p>

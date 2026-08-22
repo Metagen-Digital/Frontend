@@ -188,6 +188,31 @@ export default defineNuxtConfig({
     sources: ['/api/__sitemap__/urls'],
   },
 
+  hooks: {
+    // Stop Nuxt prefetching the Sentry chunk on every page load.
+    //
+    // sentry.client.ts imports @sentry/browser dynamically and only when a DSN
+    // is configured, which keeps it out of the entry bundle — but Vite still
+    // registers the resulting chunk as a dynamic entry, and Nuxt emits a
+    // <link rel="prefetch"> for it in the head of EVERY response. That is
+    // 445 KB (~130 KB gzipped) — by a wide margin the largest asset on the
+    // site — pulled down on first paint for every visitor, including when
+    // NUXT_PUBLIC_SENTRY_DSN is empty and the code can never run at all.
+    //
+    // Dropping the prefetch does not change behaviour: the plugin still
+    // imports Sentry on idle/first-interaction, it just fetches the chunk then
+    // instead of racing the LCP for it. Error monitoring starts a few hundred
+    // ms later; that is the whole cost.
+    'build:manifest'(manifest) {
+      for (const [id, entry] of Object.entries(manifest)) {
+        if (id.includes('@sentry/')) {
+          entry.prefetch = false
+          entry.preload = false
+        }
+      }
+    },
+  },
+
   routeRules: {
     // Global security headers on every route
     '/**': {

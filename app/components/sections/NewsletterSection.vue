@@ -70,7 +70,7 @@ async function subscribe() {
         </div>
 
         <!-- Center: trust pills — hidden on small screens -->
-        <div class="hidden xl:flex items-center gap-5 text-xs text-white/50 flex-shrink-0">
+        <div class="hidden xl:flex items-center gap-5 text-xs text-white/70 flex-shrink-0">
           <span class="flex items-center gap-1.5">
             <Icon name="mdi:shield-check-outline" class="w-3.5 h-3.5 text-brand-success" aria-hidden="true" />
             {{ $t('newsletterSection.noSpam') }}
@@ -119,7 +119,7 @@ async function subscribe() {
                 <button
                   type="submit"
                   :disabled="status === 'loading'"
-                  class="px-5 py-2.5 rounded-btn bg-brand-orange text-white text-sm font-bold hover:bg-brand-orange/90 active:scale-95 transition-all duration-150 disabled:opacity-60 whitespace-nowrap flex items-center gap-1.5"
+                  class="px-5 py-2.5 rounded-btn bg-brand-orange-text text-white text-sm font-bold hover:bg-brand-orange-text/90 active:scale-95 transition-all duration-150 disabled:opacity-60 whitespace-nowrap flex items-center gap-1.5"
                 >
                   <Icon v-if="status === 'loading'" name="mdi:loading" class="w-4 h-4 animate-spin" aria-hidden="true" />
                   <template v-else>
@@ -133,7 +133,7 @@ async function subscribe() {
                 <Icon name="mdi:alert-circle-outline" class="w-3 h-3 flex-shrink-0" aria-hidden="true" />
                 {{ message }}
               </p>
-              <p v-else class="mt-1.5 text-[11px] text-white/35">
+              <p v-else class="mt-1.5 text-[11px] text-white/70">
                 {{ $t('newsletterSection.privacyNote') }}
               </p>
             </div>

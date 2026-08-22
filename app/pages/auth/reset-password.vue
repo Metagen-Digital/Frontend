@@ -68,7 +68,7 @@ async function handleSubmit() {
       <div class="bg-white rounded-2xl shadow-card border border-brand-border p-8">
         <!-- Invalid link -->
         <div v-if="invalidLink" class="text-center py-4 space-y-3">
-          <Icon name="mdi:link-off" class="w-12 h-12 text-red-400 mx-auto" />
+          <Icon name="mdi:link-off" class="w-12 h-12 text-brand-error-text mx-auto" />
           <p class="text-sm font-semibold text-brand-text-primary">{{ t('auth.resetPassword.invalidLinkTitle') }}</p>
           <p class="text-xs text-brand-text-secondary">{{ t('auth.resetPassword.invalidLinkMessage') }}</p>
           <NuxtLink :to="localePath('/auth/forgot-password')" class="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-primary hover:underline mt-2">
@@ -78,7 +78,7 @@ async function handleSubmit() {
 
         <!-- Success -->
         <div v-else-if="done" class="text-center py-4 space-y-3">
-          <Icon name="mdi:check-circle-outline" class="w-12 h-12 text-green-500 mx-auto" />
+          <Icon name="mdi:check-circle-outline" class="w-12 h-12 text-brand-success-text mx-auto" />
           <p class="text-sm font-semibold text-brand-text-primary">{{ t('auth.resetPassword.successTitle') }}</p>
           <p class="text-xs text-brand-text-secondary">{{ t('auth.resetPassword.successMessage') }}</p>
           <NuxtLink :to="localePath('/auth/login')" class="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-primary hover:underline mt-2">
@@ -94,7 +94,7 @@ async function handleSubmit() {
               v-model="email" type="email" required autocomplete="email"
               class="w-full px-4 py-2.5 rounded-lg border border-brand-border focus:border-brand-primary text-sm outline-none focus:ring-2 focus:ring-brand-primary/20"
             />
-            <p v-if="errors.email" class="mt-1 text-xs text-red-500">{{ errors.email[0] }}</p>
+            <p v-if="errors.email" class="mt-1 text-xs text-brand-error-text">{{ errors.email[0] }}</p>
           </div>
 
           <div>
@@ -110,7 +110,7 @@ async function handleSubmit() {
                 <Icon :name="showPw ? 'mdi:eye-off-outline' : 'mdi:eye-outline'" class="w-4 h-4" />
               </button>
             </div>
-            <p v-if="errors.password" class="mt-1 text-xs text-red-500">{{ errors.password[0] }}</p>
+            <p v-if="errors.password" class="mt-1 text-xs text-brand-error-text">{{ errors.password[0] }}</p>
           </div>
 
           <div>
@@ -122,7 +122,7 @@ async function handleSubmit() {
             />
           </div>
 
-          <p v-if="generalError" class="text-xs text-red-500">{{ generalError }}</p>
+          <p v-if="generalError" class="text-xs text-brand-error-text">{{ generalError }}</p>
 
           <button
             type="submit" :disabled="loading"

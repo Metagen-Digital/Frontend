@@ -389,7 +389,7 @@ const accentBar: Record<string, string> = {
                       for="contact-name"
                       class="block text-sm font-semibold text-brand-text-primary mb-1.5"
                     >
-                      {{ $t('contactPage.labelName') }} <span class="text-brand-orange">*</span>
+                      {{ $t('contactPage.labelName') }} <span class="text-brand-orange-text">*</span>
                     </label>
                     <div class="relative">
                       <Icon
@@ -399,6 +399,9 @@ const accentBar: Record<string, string> = {
                       />
                       <input
                         id="contact-name"
+                        aria-required="true"
+                        :aria-invalid="!!name.errorMessage.value"
+                        :aria-describedby="name.errorMessage.value ? 'contact-name-error' : undefined"
                         v-model="name.value.value"
                         type="text"
                         :placeholder="$t('contactPage.placeholderName')"
@@ -413,11 +416,14 @@ const accentBar: Record<string, string> = {
                     </div>
                     <p
                       v-if="name.errorMessage.value"
-                      class="mt-1 text-xs text-red-500 flex items-center gap-1"
+                      id="contact-name-error"
+                      role="alert"
+                      class="mt-1 text-xs text-brand-error-text flex items-center gap-1"
                     >
                       <Icon
                         name="mdi:alert-circle-outline"
                         class="w-3.5 h-3.5 flex-shrink-0"
+                        aria-hidden="true"
                       />
                       {{ name.errorMessage.value }}
                     </p>
@@ -455,7 +461,7 @@ const accentBar: Record<string, string> = {
                     for="contact-email"
                     class="block text-sm font-semibold text-brand-text-primary mb-1.5"
                   >
-                    {{ $t('contactPage.labelEmail') }} <span class="text-brand-orange">*</span>
+                    {{ $t('contactPage.labelEmail') }} <span class="text-brand-orange-text">*</span>
                   </label>
                   <div class="relative">
                     <Icon
@@ -465,6 +471,9 @@ const accentBar: Record<string, string> = {
                     />
                     <input
                       id="contact-email"
+                      aria-required="true"
+                      :aria-invalid="!!email.errorMessage.value"
+                      :aria-describedby="email.errorMessage.value ? 'contact-email-error' : undefined"
                       v-model="email.value.value"
                       type="email"
                       :placeholder="$t('contactPage.placeholderEmail')"
@@ -479,11 +488,14 @@ const accentBar: Record<string, string> = {
                   </div>
                   <p
                     v-if="email.errorMessage.value"
-                    class="mt-1 text-xs text-red-500 flex items-center gap-1"
+                    id="contact-email-error"
+                    role="alert"
+                    class="mt-1 text-xs text-brand-error-text flex items-center gap-1"
                   >
                     <Icon
                       name="mdi:alert-circle-outline"
                       class="w-3.5 h-3.5 flex-shrink-0"
+                      aria-hidden="true"
                     />
                     {{ email.errorMessage.value }}
                   </p>
@@ -496,7 +508,7 @@ const accentBar: Record<string, string> = {
                     class="block text-sm font-semibold text-brand-text-primary mb-1.5"
                   >
                     {{ $t('contactPage.labelService') }}
-                    <span class="text-brand-orange">*</span>
+                    <span class="text-brand-orange-text">*</span>
                   </label>
                   <div class="relative">
                     <Icon
@@ -506,6 +518,9 @@ const accentBar: Record<string, string> = {
                     />
                     <select
                       id="contact-service"
+                      aria-required="true"
+                      :aria-invalid="!!service.errorMessage.value"
+                      :aria-describedby="service.errorMessage.value ? 'contact-service-error' : undefined"
                       v-model="service.value.value"
                       class="w-full pl-10 pr-10 py-2.5 rounded-xl border text-sm text-brand-text-primary bg-white transition-all duration-150 outline-none appearance-none"
                       :class="
@@ -529,11 +544,14 @@ const accentBar: Record<string, string> = {
                   </div>
                   <p
                     v-if="service.errorMessage.value"
-                    class="mt-1 text-xs text-red-500 flex items-center gap-1"
+                    id="contact-service-error"
+                    role="alert"
+                    class="mt-1 text-xs text-brand-error-text flex items-center gap-1"
                   >
                     <Icon
                       name="mdi:alert-circle-outline"
                       class="w-3.5 h-3.5 flex-shrink-0"
+                      aria-hidden="true"
                     />
                     {{ service.errorMessage.value }}
                   </p>
@@ -545,10 +563,13 @@ const accentBar: Record<string, string> = {
                     for="contact-message"
                     class="block text-sm font-semibold text-brand-text-primary mb-1.5"
                   >
-                    {{ $t('contactPage.labelMessage') }} <span class="text-brand-orange">*</span>
+                    {{ $t('contactPage.labelMessage') }} <span class="text-brand-orange-text">*</span>
                   </label>
                   <textarea
                     id="contact-message"
+                    aria-required="true"
+                    :aria-invalid="!!message.errorMessage.value"
+                    :aria-describedby="message.errorMessage.value ? 'contact-message-error' : undefined"
                     v-model="message.value.value"
                     rows="5"
                     :placeholder="$t('contactPage.placeholderMessage')"
@@ -561,11 +582,14 @@ const accentBar: Record<string, string> = {
                   />
                   <p
                     v-if="message.errorMessage.value"
-                    class="mt-1 text-xs text-red-500 flex items-center gap-1"
+                    id="contact-message-error"
+                    role="alert"
+                    class="mt-1 text-xs text-brand-error-text flex items-center gap-1"
                   >
                     <Icon
                       name="mdi:alert-circle-outline"
                       class="w-3.5 h-3.5 flex-shrink-0"
+                      aria-hidden="true"
                     />
                     {{ message.errorMessage.value }}
                   </p>
