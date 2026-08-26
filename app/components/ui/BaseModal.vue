@@ -73,10 +73,10 @@ watch(() => props.modelValue, (open) => {
             <!-- Header -->
             <div v-if="title || $slots.header" class="flex items-center justify-between px-6 py-4 border-b border-brand-border">
               <slot name="header">
-                <h2 class="text-lg font-semibold text-white">{{ title }}</h2>
+                <h2 class="text-lg font-semibold text-brand-text-primary">{{ title }}</h2>
               </slot>
               <button
-                class="p-1.5 text-brand-text-muted hover:text-white transition-colors duration-150 rounded-md"
+                class="p-1.5 text-brand-text-muted hover:text-brand-text-primary transition-colors duration-150 rounded-md"
                 :aria-label="t('baseModal.closeModal')"
                 @click="close"
               >

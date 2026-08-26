@@ -243,6 +243,10 @@ export default defineNuxtConfig({
           // *.ingest.*.sentry.io covers Sentry's regional ingest hosts (us/de/
           // default) — only used once NUXT_PUBLIC_SENTRY_DSN is actually set.
           "connect-src 'self' https://api.metagendigital.com https://api.bytestacklab.com https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.facebook.com https://connect.facebook.net https://*.ingest.us.sentry.io https://*.ingest.de.sentry.io https://*.ingest.sentry.io",
+          // Hero's intro-video modal embeds a YouTube iframe. Without this,
+          // frame-src falls back to default-src 'self' and the browser
+          // blocks the embed outright ("This content is blocked").
+          "frame-src https://www.youtube.com https://www.youtube-nocookie.com",
           "frame-ancestors 'self'",
           "base-uri 'self'",
           "form-action 'self'",

@@ -54,6 +54,10 @@ const services = computed(() => [
   { icon: "mdi:palette-outline",    labelKey: "hero.serviceChips.graphicDesign",    color: "text-brand-purple",  bg: "bg-brand-purple/10" },
 ])
 
+const isVideoModalOpen = ref(false)
+const youtubeVideoId = "aoYwK-1rl5I"
+const youtubeEmbedUrl = computed(() => `https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1&rel=0`)
+
 const floatingBubbles = computed(() => [
   {
     icon: "mdi:google-ads",
@@ -333,6 +337,18 @@ const floatingBubbles = computed(() => [
               fetchpriority="high"
             />
 
+            <!-- Play button — opens the intro video in a modal -->
+            <div class="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
+              <button
+                type="button"
+                class="pointer-events-auto flex items-center justify-center w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/90 backdrop-blur-sm shadow-card-hover ring-1 ring-brand-border hover:scale-105 hover:bg-white transition-all duration-200"
+                :aria-label="t('hero.playVideo')"
+                @click="isVideoModalOpen = true"
+              >
+                <Icon name="mdi:play" class="w-8 h-8 md:w-9 md:h-9 text-brand-primary ml-1" aria-hidden="true" />
+              </button>
+            </div>
+
             <!-- Badge: Available -->
             <div
               class="absolute top-5 left-5 flex items-center gap-2 px-3.5 py-2 bg-white/95 backdrop-blur-sm rounded-xl shadow-card border border-brand-border animate-float"
@@ -409,5 +425,20 @@ const floatingBubbles = computed(() => [
         <div class="w-px h-10 bg-gradient-to-b from-brand-primary to-transparent animate-bounce-y" />
       </div>
     </div>
+
+    <!-- Intro video modal -->
+    <BaseModal v-model="isVideoModalOpen" :title="t('hero.videoTitle')" size="xl">
+      <div class="aspect-video rounded-lg overflow-hidden bg-black">
+        <iframe
+          v-if="isVideoModalOpen"
+          :src="youtubeEmbedUrl"
+          class="w-full h-full"
+          title="Intro video"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        />
+      </div>
+    </BaseModal>
   </section>
 </template>

@@ -54,7 +54,9 @@
     "trafficGrowth": "গড় ট্রাফিক গ্রোথ",
     "clientsCount": "১০০+ ক্লায়েন্ট",
     "clientsRegion": "সারা বাংলাদেশে",
-    "scroll": "স্ক্রল করুন"
+    "scroll": "স্ক্রল করুন",
+    "playVideo": "ভিডিও চালান",
+    "videoTitle": "আমাদের ইন্ট্রো ভিডিও দেখুন"
   },
   "services": {
     "badge": "আমাদের সার্ভিস",

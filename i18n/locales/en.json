@@ -54,7 +54,9 @@
     "trafficGrowth": "Avg. Traffic Growth",
     "clientsCount": "100+ Clients",
     "clientsRegion": "Across Bangladesh",
-    "scroll": "Scroll"
+    "scroll": "Scroll",
+    "playVideo": "Play video",
+    "videoTitle": "Watch our intro video"
   },
   "services": {
     "badge": "Our Services",
