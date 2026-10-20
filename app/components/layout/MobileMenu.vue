@@ -10,6 +10,7 @@ const navLinks = computed(() => [
   { labelKey: "nav.portfolio", to: "/portfolio",                           icon: "mdi:folder-star-outline",   external: false },
   { labelKey: "nav.blog",      to: "/blog",                                icon: "mdi:notebook-outline",      external: false },
   { labelKey: "nav.hosting",   to: "https://hosting.metagendigital.com",   icon: "mdi:server-outline",        external: true  },
+  { labelKey: "nav.shop",      to: "https://shop.metagendigital.com",      icon: "mdi:storefront-outline",    external: true  },
 ]);
 
 const socialLinks = [

@@ -14,6 +14,7 @@ const navLinks = computed(() => [
   { labelKey: 'nav.portfolio', to: '/portfolio',                               external: false },
   { labelKey: 'nav.blog',      to: '/blog',                                    external: false },
   { labelKey: 'nav.hosting',   to: 'https://hosting.metagendigital.com',       external: true  },
+  { labelKey: 'nav.shop',      to: 'https://shop.metagendigital.com',          external: true  },
 ])
 
 const route = useRoute()
